@@ -2,26 +2,63 @@
 function ToolSettings() {
 	this.shape = "rect";
 	this.fill = "#FFFFFF";
-	this.lineWidth = "5";
+	this.lineWidth = "1";
 	this.stroke = "#000000"
 }
 
 // Constructor for rectangle object
-function Rectangle(x, y, w, h, fill, stroke) {
+function Rectangle(x, y, w, h, fill, stroke, lineWidth) {
 	this.x = x;
 	this.y = y;
 	this.w = w;
 	this.h = h;
 	this.fill = fill;
 	this.stroke = stroke;
+	this.lineWidth = lineWidth;
+}
+
+function Line(x, y, x2, y2, fill) {
+	this.x = x;
+	this.y = y;
+	this.x2 = x2;
+	this.y2 = y2;
+	this.fill = fill;
+}
+
+function Pen(x, y, fill){
+	this.x = x;
+	this.y = y;
+	this.fill = fill;
+}
+
+Pen.prototype.draw = function(ctx) {
+	for(var i = 0; i < this.x.length - 1; i++) {
+		console.log("i is " + i);
+		ctx.beginPath(); 
+		ctx.fillStyle = this.fill;
+		ctx.moveTo(this.x[i], this.y[i]);
+		ctx.lineTo(this.x[i + 1], this.y[i + 1]);
+		ctx.closePath();
+		ctx.stroke();
+	}
+}
+
+
+Line.prototype.draw = function(ctx) {
+	ctx.beginPath();
+	ctx.fillStyle = this.fill;
+	ctx.moveTo(this.x, this.y);
+	ctx.lineTo(this.x2, this.y2);
+	ctx.stroke();
 }
 
 // Draw the rectangle
 Rectangle.prototype.draw = function(ctx) {
   ctx.fillStyle = this.fill;
-  strokeStyle = this.stroke
-  ctx.fillRect(this.x, this.y, this.w, this.h);
-  ctx.strokeRect(this.x, this.y, this.w, this.h);
+  ctx.strokeStyle = this.stroke;
+  ctx.lineWidth = this.lineWidth;
+  ctx.fillRect(this.w, this.h, this.x - this.w, this.y - this.h);
+  ctx.strokeRect(this.w, this.h, this.x - this.w, this.y - this.h);
 }
 
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
@@ -109,27 +146,41 @@ $(document).ready(function() {
 		y = currentState.startY;
 
 		if(tools.shape === "rect") {
-			currentState.shapes.push(new Rectangle(x, y, 0, 0, tools.fill, tools.stroke));
+			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth));
 		} else if (tools.shape === "circle") {
 			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke));
-		};
+		} else if(tools.shape === "line") {
+			currentState.startX = e.pageX - this.offsetLeft;
+			currentState.startY = e.pageY - this.offsetTop;
+			currentState.shapes.push(new Line(x, y, x, y, tools.color));
+		} else if(tools.shape === "pen") {
+			var a = new Array();
+			var b = new Array();
+			a.push(e.pageX - this.offsetLeft);
+			b.push(e.pageY - this.offsetTop);
+			currentState.shapes.push(new Pen(a, b, tools.color));
+		}
+
 	});
 
 	$("#myCanvas").mousemove(function(e) {
 		if (currentState.isDrawing) {
-			var currentShape;
+			var currentShape = currentState.shapes.pop();;
 			var x = e.pageX - this.offsetLeft;
 			var y = e.pageY - this.offsetTop;
 
 			if(tools.shape === "rect") {				
-				currentShape = currentState.shapes.pop();
-				currentShape.w = Math.abs(currentState.startX - x);
-				currentShape.h = Math.abs(currentState.startY - y);
+				currentShape.w = x;
+				currentShape.h = y;
 			} else if (tools.shape === "circle") {
-				currentShape = currentState.shapes.pop();
 				currentShape.x2 = x;
 				currentShape.y2 = y;
-
+			} else if(tools.shape === "line") {
+				currentShape.x2 = e.pageX - this.offsetLeft;
+				currentShape.y2 = e.pageY - this.offsetTop;
+			} else if(tools.shape === "pen") {
+				currentShape.x.push(e.pageX - this.offsetLeft);
+				currentShape.y.push(e.pageY - this.offsetTop);
 			} else {
 				return;
 			}
