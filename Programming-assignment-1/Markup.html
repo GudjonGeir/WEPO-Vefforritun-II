@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Whiteboard</title>
+	<meta charset="UTF-8">
+	<title>Whiteboard</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-  <h1>Whiteboard</h1>
-  <canvas id="myCanvas" width="500" height="350"></canvas>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
-  <script src="js/script.js"></script>
+	<h1>Whiteboard</h1>
+	<canvas id="myCanvas" width="500" height="350"></canvas>
+	<p>Tool</p>
+	<ul class="toolSelector">
+		<li><button class="tool" data-tool="rect">Rectangle</button></li>
+		<li><button class="tool" data-tool="circle">Circle</button></li>
+		<li><button class="tool" data-tool="line">Line</button></li>
+		<li><button class="tool" data-tool="pen">Pen</button></li>
+	</ul>
+	<p>Stroke color</p>
+	<ul class="toolSelector">
+		<li><button class="strokeColor" data-strokecolor="black">Black</button></li>
+		<li><button class="strokeColor" data-strokecolor="blue">Blue</button></li>
+		<li><button class="strokeColor" data-strokecolor="red">Red</button></li>
+		<li><button class="strokeColor" data-strokecolor="green">Green</button></li>
+		<li><button class="strokeColor" data-strokecolor="yellow">Yellow</button></li>
+		<li><button class="strokeColor" data-strokecolor="white">White</button></li>
+	</ul>
+	<p>Fill color</p>
+	<ul class="toolSelector">
+		<li><button class="fillColor" data-fillcolor="black">Black</button></li>
+		<li><button class="fillColor" data-fillcolor="blue">Blue</button></li>
+		<li><button class="fillColor" data-fillcolor="red">Red</button></li>
+		<li><button class="fillColor" data-fillcolor="green">Green</button></li>
+		<li><button class="fillColor" data-fillcolor="yellow">Yellow</button></li>
+		<li><button class="fillColor" data-fillcolor="white">White</button></li>
+	</ul>
+	<p>Stroke width</p>
+	<ul class="toolSelector">
+		<li><button class="line" data-strokewidth="5">5</button></li>
+		<li><button class="line" data-strokewidth="10">10</button></li>
+		<li><button class="line" data-strokewidth="20">20</button></li>
+		<li><button class="line" data-strokewidth="50">50</button></li>
+		<li><button class="line" data-strokewidth="100">100</button></li>
+	</ul>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+	<script src="js/script.js"></script>
 </body>
 </html>
