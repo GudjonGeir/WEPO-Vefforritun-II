@@ -3,7 +3,9 @@ function ToolSettings() {
 	this.shape = "rect";
 	this.fill = "#FFFFFF";
 	this.lineWidth = "1";
-	this.stroke = "#000000"
+	this.stroke = "#000000";
+	this.font = "Georgia";
+	this.fontsize = 15;
 }
 
 // Constructor for rectangle object
@@ -61,6 +63,21 @@ Rectangle.prototype.draw = function(ctx) {
   ctx.strokeRect(this.w, this.h, this.x - this.w, this.y - this.h);
 }
 
+
+function Text(textString, x, y, color, font) {
+	this.textString = textString;
+	this.x = x;
+	this.y = y;
+	this.color = color;
+	this.font = font;
+}
+
+Text.prototype.draw = function(ctx) {
+	ctx.font = this.font;
+	ctx.fillStyle = this.color;
+	ctx.fillText(this.textString, this.x, this.y);
+}
+
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
 	this.x1 = x1;
 	this.y1 = y1;
@@ -99,6 +116,7 @@ function CanvasState(canvas) {
 	this.startX;
 	this.startY;
 	this.isDrawing = false;
+
 
 	this.isValid = true;
 	this.shapes = [];
@@ -159,6 +177,8 @@ $(document).ready(function() {
 			a.push(e.pageX - this.offsetLeft);
 			b.push(e.pageY - this.offsetTop);
 			currentState.shapes.push(new Pen(a, b, tools.color));
+		} else if (tools.shape === "text") {
+
 		}
 
 	});
@@ -181,9 +201,7 @@ $(document).ready(function() {
 			} else if(tools.shape === "pen") {
 				currentShape.x.push(e.pageX - this.offsetLeft);
 				currentShape.y.push(e.pageY - this.offsetTop);
-			} else {
-				return;
-			}
+			} 
 			currentState.shapes.push(currentShape);
 			currentState.isValid = false;
 		};
@@ -191,6 +209,33 @@ $(document).ready(function() {
 
 	$("#myCanvas").mouseup(function(e) {
 		currentState.isDrawing = false;
+
+
+		if (tools.shape === "text") {
+
+			if ($("#textArea").length !== 0) {
+				$("#textArea").remove();
+			}
+			var x = e.pageX - this.offsetLeft;
+			var y = e.pageY - this.offsetTop + tools.fontsize;
+
+			var textBox = '<div id="textArea" style="position:absolute;top:' + e.pageY + 
+				'px;left:' + e.pageX + 'px;z-index:30;"><textArea id="textBox"></textArea></div>';
+
+			$("#canvasArea").append(textBox);
+			$("#textBox").focus();
+
+			$("#textBox").bind("keydown", function(e) {
+				if (e.keyCode === 13) {
+					var textString = $(this).val();
+					currentState.shapes.push(new Text(textString, x, y, tools.fill, tools.fontsize + "px " + tools.font));
+					currentState.isValid = false;
+					$("#textArea").remove();
+				} else if (e.keyCode === 27) {
+					$("#textArea").remove();
+				}
+			});
+		}
 	});
 
 
