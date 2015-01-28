@@ -6,6 +6,8 @@ function ToolSettings() {
 	this.stroke = "#000000";
 	this.font = "Georgia";
 	this.fontsize = 15;
+	this.fillActive = false;
+	this.strokeActive = true;
 }
 
 
@@ -258,19 +260,45 @@ $(document).ready(function() {
 	$(".tool").click(function(e) {
 		var activeTool = $(this).data("tool");
 		initToolbars(activeTool);
+		tools.shape = activeTool;
 	});
 
-	$(".strokeColor").click(function(e) {
+	$(".fill-stroke-toggle button").click(function(e) {
+		$(this).toggleClass("btn-primary");
+		$(this).toggleClass("btn-default");
+		if ($(this).html() === "Fill") {
+			tools.fillActive = !tools.fillActive;
+		} else if ($(this).html() === "Stroke") {
+			tools.strokeActive = !tools.strokeActive;
+		};
+	});
+
+	$(".stroke-width div ul li a").click(function(e) {
+		tools.lineWidth = $(this).data("strokewidth");
+	});
+
+	$(".stroke-color div ul li a").click(function(e) {
 		tools.stroke = $(this).data("strokecolor");
 	});
 
-	$(".fillColor").click(function(e) {
+	$(".fill-color div ul li a").click(function(e) {
 		tools.fill = $(this).data("fillcolor");
 	});
 
-	$(".line").click(function(e) {
-		tools.lineWidth = $(this).data("strokewidth");
+	$(".fonts div ul li a").click(function(e) {
+		tools.font = $(this).data("fonts");
 	});
+
+	$(".font-size div ul li a").click(function(e) {
+		tools.fontsize = $(this).data("fontsize");
+	});
+
+	$("#clear-canvas").click(function(e) {
+		currentState.shapes = [];
+		currentState.isValid = false;
+	});
+
+
 });
 
 function initToolbars(activeTool) {
@@ -278,15 +306,12 @@ function initToolbars(activeTool) {
 	$(".tool").attr("class", "tool btn btn-default");
 	$("#" + activeTool).attr("class", "tool btn btn-primary");
 
-	console.log(activeTool);
-
 	if (activeTool === "rect" || activeTool === "circle") {
 		$(".fill-stroke-toggle").show();
 		$(".stroke-width").show();
 		$(".stroke-color").show();
 		$(".fill-color").show();
 	} else if (activeTool === "line" || activeTool === "pen") {
-		console.log("bla");
 		$(".stroke-width").show();
 		$(".stroke-color").show();
 	} else if (activeTool === "text") {

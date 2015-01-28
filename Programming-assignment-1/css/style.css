@@ -1,16 +1,3 @@
-/*.tool {
-	display: block;
-	margin: 2px;
-}
-*/
-
-#toolheader {
-	text-align: center;
-}
-.toolSettings li {
-	display: inline;
-}
-
 #myCanvas {
 	border: 1px solid;
 }
