@@ -3,49 +3,256 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Whiteboard</title>
+
+	<!-- Bootstrap -->
+		<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-	<h1>Whiteboard</h1>
-	<div id="canvasArea">
-		<canvas id="myCanvas" width="500" height="350"></canvas>
-	</div>
+	<div class="container">
+
+		<!-- Nav header -->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Whiteboard</a>
+				</div>
+			</div><!-- /.container-fluid -->
+		</nav>
+
+		<!-- Main content -->
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-11">
+				<div class="btn-toolbar" role="toolbar" aria-label="...">
+					<div class="fill-stroke-toggle tool-settings btn-group" role="group" aria-label="...">
+						<button type="button" class="btn btn-default">Stroke</button>
+						<button type="button" class="btn btn-default">Fill</button>
+					</div>
+
+					<!-- Stroke Width -->
+					<div class="stroke-width tool-settings btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								Stroke Width
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">6</a></li>
+								<li><a href="#">7</a></li>
+								<li><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li><a href="#">10</a></li>
+							</ul>
+						</div>
+					</div> <!-- Stroke width button -->
+					
+					<!-- Stroke color -->
+					<div class="stroke-color tool-settings btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								Stroke color
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#000000"></span>
+									Black
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#0433ff"></span>
+									Blue
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#aa7942"></span>
+									Brown
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#00fdff"></span>
+									Cyan
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#00f900"></span>
+									Green
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ff40ff"></span>
+									Magenta
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ff9300"></span>
+									Orange
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#942192"></span>
+									Purple
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ff2600"></span>
+									Red
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#fffb00"></span>
+									Yellow
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ffffff"></span>
+									White
+								</a></li>
+							</ul>
+						</div>
+					</div> <!-- Stroke color button -->
+
+					<!-- Fill color -->
+					<div class="fill-color tool-settings btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								Fill color
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#000000"></span>
+									Black
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#0433ff"></span>
+									Blue
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#aa7942"></span>
+									Brown
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#00fdff"></span>
+									Cyan
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#00f900"></span>
+									Green
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ff40ff"></span>
+									Magenta
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ff9300"></span>
+									Orange
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#942192"></span>
+									Purple
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ff2600"></span>
+									Red
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#fffb00"></span>
+									Yellow
+								</a></li>
+								<li><a href="#">
+									<span class="glyphicon glyphicon-stop" style="color:#ffffff"></span>
+									White
+								</a></li>
+							</ul>
+						</div>
+					</div> <!-- Fill color button -->
+					
+					<!-- Fonts -->
+					<div class="fonts tool-settings btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								Font
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#" style="font-family:'Times New Roman'">Times New Roman</a></li>
+								<li><a href="#" style="font-family:Georgia">Georgia</a></li>
+								<li><a href="#" style="font-family:Arial">Arial</a></li>
+								<li><a href="#" style="font-family:Verdana">Verdana</a></li>
+								<li><a href="#" style="font-family:'Courier New'">Courier New</a></li>
+								<li><a href="#" style="font-family:'Lucida Console">Lucida Console</a></li>
+							</ul>
+						</div>
+					</div> <!-- Fonts button -->
+
+					<!-- Font size -->
+					<div class="font-size tool-settings btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								Font size
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">8</a></li>
+								<li><a href="#">9</a></li>
+								<li><a href="#">10</a></li>
+								<li><a href="#">11</a></li>
+								<li><a href="#">12</a></li>
+								<li><a href="#">14</a></li>
+								<li><a href="#">18</a></li>
+								<li><a href="#">24</a></li>
+								<li><a href="#">30</a></li>
+								<li><a href="#">36</a></li>
+								<li><a href="#">48</a></li>
+								<li><a href="#">60</a></li>
+								<li><a href="#">72</a></li>
+								<li><a href="#">96</a></li>
+							</ul>
+						</div>
+					</div> <!-- Font size button -->
+
+				</div> <!-- toolbar -->
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-1">
+				<p id="toolheader">Tool</p>
+				<div class="btn-group-vertical" role="group" aria-label="...">
+					<button id="rect" class="tool btn btn-primary" data-tool="rect">Rectangle</button>
+					<button id="circle" class="tool btn btn-default" data-tool="circle">Circle</button>
+					<button id="line" class="tool btn btn-default" data-tool="line">Line</button>
+					<button id="pen" class="tool btn btn-default" data-tool="pen">Pen</button>
+					<button id="text" class="tool btn btn-default" data-tool="text">Text</button>
+				</div>
+			</div>
+			<div id="canvasArea" class="col-md-11">
+				<canvas id="myCanvas" width="500" height="350"></canvas>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-11">
+				<div class="btn-toolbar" role="toolbar" aria-label="...">
+					<div class="btn-group" role="group" aria-label="...">
+						<button type="button" class="btn btn-default">Undo</button>
+						<button type="button" class="btn btn-default">Redo</button>
+					</div>
+					<div class="btn-group" role="group" aria-label="...">
+						<button type="button" class="btn btn-default">Clear</button>
+					</div>
+				</div>
+		</div>
+	</div> <!-- ./container -->
 	
-	<p>Tool</p>
-	<ul class="toolSelector">
-		<li><button class="tool" data-tool="rect">Rectangle</button></li>
-		<li><button class="tool" data-tool="circle">Circle</button></li>
-		<li><button class="tool" data-tool="line">Line</button></li>
-		<li><button class="tool" data-tool="pen">Pen</button></li>
-		<li><button class="tool" data-tool="text">Text</button></li>
-	</ul>
-	<p>Stroke color</p>
-	<ul class="toolSelector">
-		<li><button class="strokeColor" data-strokecolor="black">Black</button></li>
-		<li><button class="strokeColor" data-strokecolor="blue">Blue</button></li>
-		<li><button class="strokeColor" data-strokecolor="red">Red</button></li>
-		<li><button class="strokeColor" data-strokecolor="green">Green</button></li>
-		<li><button class="strokeColor" data-strokecolor="yellow">Yellow</button></li>
-		<li><button class="strokeColor" data-strokecolor="white">White</button></li>
-	</ul>
-	<p>Fill color</p>
-	<ul class="toolSelector">
-		<li><button class="fillColor" data-fillcolor="black">Black</button></li>
-		<li><button class="fillColor" data-fillcolor="blue">Blue</button></li>
-		<li><button class="fillColor" data-fillcolor="red">Red</button></li>
-		<li><button class="fillColor" data-fillcolor="green">Green</button></li>
-		<li><button class="fillColor" data-fillcolor="yellow">Yellow</button></li>
-		<li><button class="fillColor" data-fillcolor="white">White</button></li>
-	</ul>
-	<p>Stroke width</p>
-	<ul class="toolSelector">
-		<li><button class="line" data-strokewidth="5">5</button></li>
-		<li><button class="line" data-strokewidth="10">10</button></li>
-		<li><button class="line" data-strokewidth="20">20</button></li>
-		<li><button class="line" data-strokewidth="50">50</button></li>
-		<li><button class="line" data-strokewidth="100">100</button></li>
-	</ul>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
 	<script src="js/script.js"></script>
 </body>
 </html>

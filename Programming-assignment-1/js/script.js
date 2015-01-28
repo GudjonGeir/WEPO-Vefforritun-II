@@ -8,7 +8,8 @@ function ToolSettings() {
 	this.fontsize = 15;
 }
 
-// Constructor for rectangle object
+
+
 function Rectangle(x, y, w, h, fill, stroke, lineWidth) {
 	this.x = x;
 	this.y = y;
@@ -19,6 +20,16 @@ function Rectangle(x, y, w, h, fill, stroke, lineWidth) {
 	this.lineWidth = lineWidth;
 }
 
+Rectangle.prototype.draw = function(ctx) {
+  ctx.fillStyle = this.fill;
+  ctx.strokeStyle = this.stroke;
+  ctx.lineWidth = this.lineWidth;
+  ctx.fillRect(this.w, this.h, this.x - this.w, this.y - this.h);
+  ctx.strokeRect(this.w, this.h, this.x - this.w, this.y - this.h);
+}
+
+
+
 function Line(x, y, x2, y2, fill) {
 	this.x = x;
 	this.y = y;
@@ -26,25 +37,6 @@ function Line(x, y, x2, y2, fill) {
 	this.y2 = y2;
 	this.fill = fill;
 }
-
-function Pen(x, y, fill){
-	this.x = x;
-	this.y = y;
-	this.fill = fill;
-}
-
-Pen.prototype.draw = function(ctx) {
-	for(var i = 0; i < this.x.length - 1; i++) {
-		console.log("i is " + i);
-		ctx.beginPath(); 
-		ctx.fillStyle = this.fill;
-		ctx.moveTo(this.x[i], this.y[i]);
-		ctx.lineTo(this.x[i + 1], this.y[i + 1]);
-		ctx.closePath();
-		ctx.stroke();
-	}
-}
-
 
 Line.prototype.draw = function(ctx) {
 	ctx.beginPath();
@@ -54,14 +46,25 @@ Line.prototype.draw = function(ctx) {
 	ctx.stroke();
 }
 
-// Draw the rectangle
-Rectangle.prototype.draw = function(ctx) {
-  ctx.fillStyle = this.fill;
-  ctx.strokeStyle = this.stroke;
-  ctx.lineWidth = this.lineWidth;
-  ctx.fillRect(this.w, this.h, this.x - this.w, this.y - this.h);
-  ctx.strokeRect(this.w, this.h, this.x - this.w, this.y - this.h);
+
+
+function Pen(x, y, fill){
+	this.x = x;
+	this.y = y;
+	this.fill = fill;
 }
+
+Pen.prototype.draw = function(ctx) {
+	for(var i = 0; i < this.x.length - 1; i++) {
+		ctx.beginPath(); 
+		ctx.fillStyle = this.fill;
+		ctx.moveTo(this.x[i], this.y[i]);
+		ctx.lineTo(this.x[i + 1], this.y[i + 1]);
+		ctx.closePath();
+		ctx.stroke();
+	}
+}
+
 
 
 function Text(textString, x, y, color, font) {
@@ -77,6 +80,8 @@ Text.prototype.draw = function(ctx) {
 	ctx.fillStyle = this.color;
 	ctx.fillText(this.textString, this.x, this.y);
 }
+
+
 
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
 	this.x1 = x1;
@@ -106,6 +111,8 @@ Circle.prototype.draw = function(ctx) {
 	ctx.strokeStyle = this.stroke;
 	ctx.stroke()
 }
+
+
 
 function CanvasState(canvas) {
 	this.canvas = canvas;
@@ -142,10 +149,19 @@ CanvasState.prototype.draw = function() {
 }
 
 
+
+
 $(document).ready(function() {
 	var canvas = document.getElementById("myCanvas");
 	var tools = new ToolSettings();
 	var currentState = new CanvasState(canvas);
+
+	initToolbars("rect");
+
+	canvas.style.width='100%';
+	canvas.style.height='100%';
+	canvas.width  = canvas.offsetWidth;
+	canvas.height = canvas.offsetHeight;
 
 	setInterval(function() {
 		currentState.draw();
@@ -170,7 +186,7 @@ $(document).ready(function() {
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
-			currentState.shapes.push(new Line(x, y, x, y, tools.color));
+			currentState.shapes.push(new Line(x, y, x, y, tools.stoke));
 		} else if(tools.shape === "pen") {
 			var a = new Array();
 			var b = new Array();
@@ -240,7 +256,8 @@ $(document).ready(function() {
 
 
 	$(".tool").click(function(e) {
-		tools.shape = $(this).data("tool");
+		var activeTool = $(this).data("tool");
+		initToolbars(activeTool);
 	});
 
 	$(".strokeColor").click(function(e) {
@@ -255,3 +272,26 @@ $(document).ready(function() {
 		tools.lineWidth = $(this).data("strokewidth");
 	});
 });
+
+function initToolbars(activeTool) {
+	$(".tool-settings").hide();
+	$(".tool").attr("class", "tool btn btn-default");
+	$("#" + activeTool).attr("class", "tool btn btn-primary");
+
+	console.log(activeTool);
+
+	if (activeTool === "rect" || activeTool === "circle") {
+		$(".fill-stroke-toggle").show();
+		$(".stroke-width").show();
+		$(".stroke-color").show();
+		$(".fill-color").show();
+	} else if (activeTool === "line" || activeTool === "pen") {
+		console.log("bla");
+		$(".stroke-width").show();
+		$(".stroke-color").show();
+	} else if (activeTool === "text") {
+		$(".font-size").show();
+		$(".fonts").show();
+		$(".fill-color").show();
+	}
+}
