@@ -33,7 +33,7 @@ Rectangle.prototype.draw = function(ctx) {
 Rectangle.prototype.contains = function(mx, my, ctx) {
 	var ctx2 = ctx;
 	ctx2.rect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
-	if(ctx2.isPointInPath){
+	if(ctx2.isPointInPath(mx, my)){
 		return true;
 	} else{ return false; }
 }
@@ -175,15 +175,15 @@ function Pen(x, y, stroke, lineWidth){
 }
 
 Pen.prototype.contains = function(mx, my, ctx) {
-	var allDots = true;
+	var isDotOn = false;
 	for(var i = 0; i < this.x.length; i++) {
 		var difx = mx - this.x[i];
 		var dify = my - this.y[i];
-		if(!(2 > difx > -2 && 2 > dify > -2)) {
-			allDots = false;
+		if((difx >= -2 && difx <= 2 ) && (dify >= -2 && dify <= 2 )) {
+			return true;
 		}
 	}
-	return allDots;
+	return isDotOn;
 }
 
 Pen.prototype.draw = function(ctx) {
@@ -221,13 +221,40 @@ Text.prototype.draw = function(ctx) {
 	ctx.fillText(this.textString, this.x, this.y);
 }
 
+
 Text.prototype.contains = function(mx, my, ctx) {
-	var ctx2 = ctx;
-	ctx2.font = this.font;
-	ctx2.fill = ctx2.fillText(this.textString, this.x, this.y);
-	if(ctx2.isPointInPath(mx, my)){
-		return true;
-	} else { return false; }
+
+	var font = ctx.font;
+	ctx.font = this.font;
+	var widthOfTxt = ctx.measureText(this.textString).width;
+
+	ctx.font = font;
+
+	var height = this.font.substring(0,2);
+	if(height.charAt(1) === "p"){
+		height = height.substring(0,1);
+	}
+
+
+	var difOfX = mx - this.x;
+	var difOfY = this.y - my;
+	if(difOfX > widthOfTxt){
+		return false;
+	} else if(difOfX < -2) {
+		return false;
+	} else if(difOfY > height) {
+		return false;
+	} else if(difOfY <  -2) {
+		return false;
+	} else { return true; }
+}
+
+Text.prototype.move = function(x, y, x2, y2) {
+	var difOfX = x - x2;
+	var difOfY = y - y2;
+
+	this.x -= difOfX;
+	this.y -= difOfY;
 }
 
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
