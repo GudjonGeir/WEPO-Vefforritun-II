@@ -1,6 +1,6 @@
 // Constructor for tool settings
 function ToolSettings() {
-	this.shape = "rect";
+	this.shape = "pen";
 	this.fill = "#FFFFFF";
 	this.lineWidth = "1";
 	this.stroke = "#000000";
@@ -389,7 +389,8 @@ $(document).ready(function() {
 	var tools = new ToolSettings();
 
 	
-	initToolbars("rect");
+	initToolbars(tools.shape);
+
 
 	canvas.style.width='100%';
 	canvas.style.height='100%';
