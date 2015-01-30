@@ -19,6 +19,8 @@ function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActi
 	this.fill = fill;
 	this.stroke = stroke;
 	this.lineWidth = lineWidth;
+	this.strokeActive = strokeActive;
+	this.fillActive = fillActive;
 }
 
 // Draw the rectangle
@@ -27,8 +29,12 @@ Rectangle.prototype.draw = function(ctx) {
   ctx.fillStyle = this.fill;
   ctx.strokeStyle = this.stroke;
   ctx.lineWidth = this.lineWidth;
-  ctx.fillRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
-  ctx.strokeRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
+  if (this.fillActive) {
+	  ctx.fillRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
+  };
+  if (this.strokeActive) {
+	  ctx.strokeRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
+  };
 }
 
 Rectangle.prototype.contains = function(mx, my, ctx) {
@@ -49,7 +55,7 @@ Rectangle.prototype.move = function(x, y, x2, y2){
 	this.y2 = this.y2 + difOfY;
 }
 
-function Ellipse(x, y, x2, y2, fill, stroke, lineWidth) {
+function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
 	this.className = "ellip";
 	this.x = x;
 	this.y = y;
@@ -58,57 +64,65 @@ function Ellipse(x, y, x2, y2, fill, stroke, lineWidth) {
 	this.fill = fill;
 	this.lineWidth = lineWidth;
 	this.stroke = stroke;
+	this.strokeActive = strokeActive;
+	this.fillActive = fillActive;
 }
 
 
 Ellipse.prototype.draw = function(ctx) {
-  var kappa = .5522848,
-  	  w = this.x - this.x2,
-  	  h = this.y - this.y2,
-  	  x = this.x - w/2.0,
-  	  y = this.y - h/2.0,
-      ox = (w / 2) * kappa, // control point offset horizontal
-      oy = (h / 2) * kappa, // control point offset vertical
-      xe = x + w,           // x-end
-      ye = y + h,           // y-end
-      xm = x + w / 2,       // x-middle
-      ym = y + h / 2;       // y-middle
+	var kappa = .5522848,
+		w = this.x - this.x2,
+		h = this.y - this.y2,
+		x = this.x - w/2.0,
+		y = this.y - h/2.0,
+		ox = (w / 2) * kappa, // control point offset horizontal
+		oy = (h / 2) * kappa, // control point offset vertical
+		xe = x + w,           // x-end
+		ye = y + h,           // y-end
+		xm = x + w / 2,       // x-middle
+		ym = y + h / 2;       // y-middle
 
-  ctx.beginPath();
-  ctx.moveTo(x, ym);
-  ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
-  ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
-  ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-  ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-  ctx.closePath(); // not used correctly, see comments (use to close off open path)
-  ctx.stroke();
-
+	ctx.beginPath();
+	ctx.moveTo(x, ym);
+	ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+	ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+	ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+	ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+	if (this.strokeActive) {
+		ctx.strokeStyle = this.stroke;
+		ctx.lineWidth = this.lineWidth;
+		ctx.stroke();
+	};
+	if (this.fillActive) {
+		ctx.fillStyle = this.fill;
+		ctx.fill()
+	};
 }
 
 Ellipse.prototype.contains = function(mx, my, ctx) {
-	  var kappa = .5522848,
-  	  w = this.x - this.x2,
-  	  h = this.y - this.y2,
-  	  x = this.x - w/2.0,
-  	  y = this.y - h/2.0,
-      ox = (w / 2) * kappa, // control point offset horizontal
-      oy = (h / 2) * kappa, // control point offset vertical
-      xe = x + w,           // x-end
-      ye = y + h,           // y-end
-      xm = x + w / 2,       // x-middle
-      ym = y + h / 2;       // y-middle
-      ctx2 = ctx;
+	var kappa = .5522848,
+		w = this.x - this.x2,
+		h = this.y - this.y2,
+		x = this.x - w/2.0,
+		y = this.y - h/2.0,
+		ox = (w / 2) * kappa, // control point offset horizontal
+		oy = (h / 2) * kappa, // control point offset vertical
+		xe = x + w,           // x-end
+		ye = y + h,           // y-end
+		xm = x + w / 2,       // x-middle
+		ym = y + h / 2;       // y-middle
+		ctx2 = ctx;
 
-  ctx2.beginPath();
-  ctx2.moveTo(x, ym);
-  ctx2.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
-  ctx2.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
-  ctx2.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-  ctx2.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-  ctx2.fill();
-  if(ctx2.isPointInPath(mx,my)){
-  	return true;
-  } else {return false;}
+	ctx2.beginPath();
+	ctx2.moveTo(x, ym);
+	ctx2.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+	ctx2.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+	ctx2.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+	ctx2.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+	ctx2.fill();
+	if(ctx2.isPointInPath(mx,my)){
+		return true;
+	} else {return false;}
 }
 
 Ellipse.prototype.move = function(x, y, x2, y2){
@@ -220,7 +234,7 @@ Text.prototype.draw = function(ctx) {
 }
 
 
-function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
+function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive) {
 	this.className = "circle";
 	this.x1 = x1;
 	this.y1 = y1;
@@ -229,6 +243,8 @@ function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
 	this.fill = fill;
 	this.lineWidth = lineWidth;
 	this.stroke = stroke;
+	this.strokeActive = strokeActive;
+	this.fillActive = fillActive;
 }
 
 Circle.prototype.contains = function(mx, my, ctx) {
@@ -260,11 +276,16 @@ Circle.prototype.draw = function(ctx) {
 
 	ctx.beginPath()
 	ctx.arc(x, y, rad, 0, 2 * Math.PI, false);
-	ctx.fillStyle = this.fill;
-	ctx.fill();
-	ctx.lineWidth = this.lineWidth;
-	ctx.strokeStyle = this.stroke;
-	ctx.stroke();
+	if (this.fillActive) {
+		ctx.fillStyle = this.fill;
+		ctx.fill();
+	};
+	if (this.strokeActive) {
+		ctx.lineWidth = this.lineWidth;
+		ctx.strokeStyle = this.stroke;
+		ctx.stroke();
+	};
+
 }
 
 Circle.prototype.move = function(x, y, x2, y2){
@@ -356,19 +377,19 @@ $(document).ready(function() {
 		y = currentState.startY;
 
 		if(tools.shape === "rect") {
-			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth));
+			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
 		} else if (tools.shape === "circle") {
-			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke));
+			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive));
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
-			currentState.shapes.push(new Line(x, y, x, y, tools.stoke));
+			currentState.shapes.push(new Line(x, y, x, y, tools.stroke, tools.lineWidth));
 		} else if(tools.shape === "pen") {
 			var a = new Array();
 			var b = new Array();
 			a.push(x);
 			b.push(y);
-			currentState.shapes.push(new Pen(a, b, tools.color));
+			currentState.shapes.push(new Pen(a, b, tools.stroke, tools.lineWidth));
 		} else if(tools.shape === "move"){
 			//Each shape needs a contains function
 			var shapes = currentState.shapes;
@@ -385,7 +406,7 @@ $(document).ready(function() {
 			}
 			isDrawing = false;
 		}else if(tools.shape === "ellip"){
-			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth));
+			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
 		} else if (tools.shape === "text") {
 
 		}
