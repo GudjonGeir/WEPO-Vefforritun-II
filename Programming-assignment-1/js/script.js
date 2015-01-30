@@ -271,7 +271,6 @@ Text.prototype.move = function(x, y, x2, y2) {
 	this.y -= difOfY;
 }
 
-<<<<<<< HEAD
 function Img (x, y, width, height, img){
 	this.x = x;
 	this.y = y;
@@ -300,10 +299,8 @@ Img.prototype.move = function(x, y, x2, y2) {
 	this.y = this.y - difOfY;
 }
 
-function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
-=======
+
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive) {
->>>>>>> 31b9577793f7893e29c942dd3ea9cf80324eda26
 	this.x1 = x1;
 	this.y1 = y1;
 	this.x2 = x2;
