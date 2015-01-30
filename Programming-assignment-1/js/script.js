@@ -19,28 +19,21 @@ function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActi
 	this.fill = fill;
 	this.stroke = stroke;
 	this.lineWidth = lineWidth;
-	this.strokeActive = strokeActive;
-	this.fillActive = fillActive;
 }
 
 // Draw the rectangle
 Rectangle.prototype.draw = function(ctx) {
-  console.log(this.toString);
   ctx.fillStyle = this.fill;
   ctx.strokeStyle = this.stroke;
   ctx.lineWidth = this.lineWidth;
-  if (this.fillActive) {
-	  ctx.fillRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
-  };
-  if (this.strokeActive) {
-	  ctx.strokeRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
-  };
+  ctx.fillRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
+  ctx.strokeRect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
 }
 
 Rectangle.prototype.contains = function(mx, my, ctx) {
 	var ctx2 = ctx;
 	ctx2.rect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
-	if(ctx2.isPointInPath){
+	if(ctx2.isPointInPath(mx, my)){
 		return true;
 	} else{ return false; }
 }
@@ -49,14 +42,13 @@ Rectangle.prototype.move = function(x, y, x2, y2){
 	var difOfX = x - x2;
 	var difOfY = y - y2;
 
-	this.x = this.x + difOfX;
-	this.x2 = this.x2 + difOfX;
-	this.y = this.y + difOfY;
-	this.y2 = this.y2 + difOfY;
+	this.x = this.x - difOfX;
+	this.x2 = this.x2 - difOfX;
+	this.y = this.y - difOfY;
+	this.y2 = this.y2 - difOfY;
 }
 
-function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
-	this.className = "ellip";
+function Ellipse(x, y, x2, y2, fill, stroke, lineWidth) {
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -64,65 +56,57 @@ function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive
 	this.fill = fill;
 	this.lineWidth = lineWidth;
 	this.stroke = stroke;
-	this.strokeActive = strokeActive;
-	this.fillActive = fillActive;
 }
 
 
 Ellipse.prototype.draw = function(ctx) {
-	var kappa = .5522848,
-		w = this.x - this.x2,
-		h = this.y - this.y2,
-		x = this.x - w/2.0,
-		y = this.y - h/2.0,
-		ox = (w / 2) * kappa, // control point offset horizontal
-		oy = (h / 2) * kappa, // control point offset vertical
-		xe = x + w,           // x-end
-		ye = y + h,           // y-end
-		xm = x + w / 2,       // x-middle
-		ym = y + h / 2;       // y-middle
+  var kappa = .5522848,
+  	  w = this.x - this.x2,
+  	  h = this.y - this.y2,
+  	  x = this.x - w/2.0,
+  	  y = this.y - h/2.0,
+      ox = (w / 2) * kappa, // control point offset horizontal
+      oy = (h / 2) * kappa, // control point offset vertical
+      xe = x + w,           // x-end
+      ye = y + h,           // y-end
+      xm = x + w / 2,       // x-middle
+      ym = y + h / 2;       // y-middle
 
-	ctx.beginPath();
-	ctx.moveTo(x, ym);
-	ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
-	ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
-	ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-	ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-	if (this.strokeActive) {
-		ctx.strokeStyle = this.stroke;
-		ctx.lineWidth = this.lineWidth;
-		ctx.stroke();
-	};
-	if (this.fillActive) {
-		ctx.fillStyle = this.fill;
-		ctx.fill()
-	};
+  ctx.beginPath();
+  ctx.moveTo(x, ym);
+  ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+  ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+  ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+  ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  ctx.closePath(); // not used correctly, see comments (use to close off open path)
+  ctx.stroke();
+
 }
 
 Ellipse.prototype.contains = function(mx, my, ctx) {
-	var kappa = .5522848,
-		w = this.x - this.x2,
-		h = this.y - this.y2,
-		x = this.x - w/2.0,
-		y = this.y - h/2.0,
-		ox = (w / 2) * kappa, // control point offset horizontal
-		oy = (h / 2) * kappa, // control point offset vertical
-		xe = x + w,           // x-end
-		ye = y + h,           // y-end
-		xm = x + w / 2,       // x-middle
-		ym = y + h / 2;       // y-middle
-		ctx2 = ctx;
+	  var kappa = .5522848,
+  	  w = this.x - this.x2,
+  	  h = this.y - this.y2,
+  	  x = this.x - w/2.0,
+  	  y = this.y - h/2.0,
+      ox = (w / 2) * kappa, // control point offset horizontal
+      oy = (h / 2) * kappa, // control point offset vertical
+      xe = x + w,           // x-end
+      ye = y + h,           // y-end
+      xm = x + w / 2,       // x-middle
+      ym = y + h / 2;       // y-middle
+      ctx2 = ctx;
 
-	ctx2.beginPath();
-	ctx2.moveTo(x, ym);
-	ctx2.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
-	ctx2.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
-	ctx2.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-	ctx2.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-	ctx2.fill();
-	if(ctx2.isPointInPath(mx,my)){
-		return true;
-	} else {return false;}
+  ctx2.beginPath();
+  ctx2.moveTo(x, ym);
+  ctx2.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+  ctx2.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+  ctx2.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+  ctx2.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  ctx2.fill();
+  if(ctx2.isPointInPath(mx,my)){
+  	return true;
+  } else {return false;}
 }
 
 Ellipse.prototype.move = function(x, y, x2, y2){
@@ -137,7 +121,6 @@ Ellipse.prototype.move = function(x, y, x2, y2){
 
 
 function Line(x, y, x2, y2, stroke, lineWidth) {
-	this.className = "line";
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -156,12 +139,18 @@ Line.prototype.draw = function(ctx) {
 }
 
 Line.prototype.contains = function(mx, my, ctx){
+	if((mx > this.x + 5 && mx > this.x2 + 5) || (my > this.y + 5 && my > this.y2 + 5)){
+		return false;
+	}
+	if((mx + 5 < this.x && mx + 5 < this.x2) || (my + 5 < this.y && my + 5 < this.y2)){
+		return false;
+	}
 	var slopem1 = (my - this.y)/(mx - this.x);
 	var slopem2 = (this.y2 - my)/(this.x2 - mx);
 
 	var dif = slopem1 - slopem2;
 
-	if(dif < 1 && dif > -1) {
+	if(dif <= 1 && dif >= -1) {
 		return true;
 	} else return false;
 
@@ -179,7 +168,6 @@ Line.prototype.move = function(x, y, x2, y2){
 
 
 function Pen(x, y, stroke, lineWidth){
-	this.className = "pen";
 	this.x = x;
 	this.y = y;
 	this.stroke = stroke;
@@ -187,15 +175,15 @@ function Pen(x, y, stroke, lineWidth){
 }
 
 Pen.prototype.contains = function(mx, my, ctx) {
-	var allDots = true;
+	var isDotOn = false;
 	for(var i = 0; i < this.x.length; i++) {
 		var difx = mx - this.x[i];
 		var dify = my - this.y[i];
-		if(!(2 > difx > -2 && 2 > dify > -2)) {
-			allDots = false;
+		if((difx >= -2 && difx <= 2 ) && (dify >= -2 && dify <= 2 )) {
+			return true;
 		}
 	}
-	return allDots;
+	return isDotOn;
 }
 
 Pen.prototype.draw = function(ctx) {
@@ -234,30 +222,62 @@ Text.prototype.draw = function(ctx) {
 }
 
 
-function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive) {
-	this.className = "circle";
+Text.prototype.contains = function(mx, my, ctx) {
+
+	var font = ctx.font;
+	ctx.font = this.font;
+	var widthOfTxt = ctx.measureText(this.textString).width;
+
+	ctx.font = font;
+
+	var height = this.font.substring(0,2);
+	if(height.charAt(1) === "p"){
+		height = height.substring(0,1);
+	}
+
+
+	var difOfX = mx - this.x;
+	var difOfY = this.y - my;
+	if(difOfX > widthOfTxt){
+		return false;
+	} else if(difOfX < -2) {
+		return false;
+	} else if(difOfY > height) {
+		return false;
+	} else if(difOfY <  -2) {
+		return false;
+	} else { return true; }
+}
+
+Text.prototype.move = function(x, y, x2, y2) {
+	var difOfX = x - x2;
+	var difOfY = y - y2;
+
+	this.x -= difOfX;
+	this.y -= difOfY;
+}
+
+function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
 	this.x1 = x1;
 	this.y1 = y1;
 	this.x2 = x2;
 	this.y2 = y2;
+	this.midx = (this.x1 + this.x2) / 2;
+	this.midy = (this.y1 + this.y2) / 2;
 	this.fill = fill;
 	this.lineWidth = lineWidth;
 	this.stroke = stroke;
-	this.strokeActive = strokeActive;
-	this.fillActive = fillActive;
 }
 
 Circle.prototype.contains = function(mx, my, ctx) {
 	var x, y, rad, a, b, ctx2;
-	x = (this.x1 + this.x2) / 2;
-	y = (this.y1 + this.y2) / 2;
 
 	a = (Math.abs(this.x1 - this.x2));
 	b = (Math.abs(this.y1 - this.y2));
 	rad = Math.sqrt((a * a) + (b * b)) / 2;
 	ctx2 = ctx;
 
-	ctx2.arc(x, y, rad, 0, 2 * Math.PI, false);
+	ctx2.arc(this.midx, this.midy, rad, 0, 2 * Math.PI, false);
 
 	if(ctx2.isPointInPath(mx, my)){
 		return true;
@@ -266,8 +286,7 @@ Circle.prototype.contains = function(mx, my, ctx) {
 
 Circle.prototype.draw = function(ctx) {
 	var x, y, rad, a, b;
-	x = (this.x1 + this.x2) / 2;
-	y = (this.y1 + this.y2) / 2;
+
 
 	a = (Math.abs(this.x1 - this.x2));
 	b = (Math.abs(this.y1 - this.y2));
@@ -275,25 +294,20 @@ Circle.prototype.draw = function(ctx) {
 
 
 	ctx.beginPath()
-	ctx.arc(x, y, rad, 0, 2 * Math.PI, false);
-	if (this.fillActive) {
-		ctx.fillStyle = this.fill;
-		ctx.fill();
-	};
-	if (this.strokeActive) {
-		ctx.lineWidth = this.lineWidth;
-		ctx.strokeStyle = this.stroke;
-		ctx.stroke();
-	};
-
+	ctx.arc(this.midx, this.midy, rad, 0, 2 * Math.PI, false);
+	ctx.fillStyle = this.fill;
+	ctx.fill();
+	ctx.lineWidth = this.lineWidth;
+	ctx.strokeStyle = this.stroke;
+	ctx.stroke();
 }
 
 Circle.prototype.move = function(x, y, x2, y2){
 	var difOfX = x - x2;
 	var difOfY = y - y2;
 
-	this.x = this.x + difOfX;
-	this.y = this.y + difOfY;
+	this.midx = this.midx - difOfX;
+	this.midy = this.midy - difOfY;
 }
 
 function CanvasState(canvas) {
@@ -402,19 +416,19 @@ $(document).ready(function() {
 		y = currentState.startY;
 
 		if(tools.shape === "rect") {
-			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth));
 		} else if (tools.shape === "circle") {
-			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke));
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
-			currentState.shapes.push(new Line(x, y, x, y, tools.stroke, tools.lineWidth));
+			currentState.shapes.push(new Line(x, y, x, y, tools.stoke));
 		} else if(tools.shape === "pen") {
 			var a = new Array();
 			var b = new Array();
 			a.push(x);
 			b.push(y);
-			currentState.shapes.push(new Pen(a, b, tools.stroke, tools.lineWidth));
+			currentState.shapes.push(new Pen(a, b, tools.color));
 		} else if(tools.shape === "move"){
 			//Each shape needs a contains function
 			var shapes = currentState.shapes;
@@ -431,7 +445,7 @@ $(document).ready(function() {
 			}
 			isDrawing = false;
 		}else if(tools.shape === "ellip"){
-			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth));
 		} else if (tools.shape === "text") {
 
 		}
@@ -440,7 +454,7 @@ $(document).ready(function() {
 
 	$("#myCanvas").mousemove(function(e) {
 		if (currentState.isDrawing) {
-			if(tools.shape !== "move") {
+			if(tools.shape !== "move" && tools.shape !== "text") {
 				var currentShape = currentState.shapes.pop();
 			}
 
@@ -477,7 +491,7 @@ $(document).ready(function() {
 				currentState.startY = y;
 				currentState.shapes[i] = currentState.selection;
 			}
-			if(tools.shape !== "move") {
+			if(tools.shape !== "move" && tools.shape !== "text") {
 				currentState.shapes.push(currentShape);
 			}
 
