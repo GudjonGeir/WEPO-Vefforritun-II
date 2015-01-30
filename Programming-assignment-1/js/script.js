@@ -5,7 +5,7 @@ function ToolSettings() {
 	this.lineWidth = "1";
 	this.stroke = "#000000";
 	this.font = "Georgia";
-	this.fontsize = 15;
+	this.fontsize = 14;
 	this.fillActive = false;
 	this.strokeActive = true;
 }
@@ -526,23 +526,34 @@ $(document).ready(function() {
 	});
 
 	$(".stroke-width div ul li a").click(function(e) {
-		tools.lineWidth = $(this).data("strokewidth");
+		var strokewidth = $(this).data("strokewidth");
+		tools.lineWidth = strokewidth;
+		$("#stroke-width-indicator").html(strokewidth);
 	});
 
 	$(".stroke-color div ul li a").click(function(e) {
-		tools.stroke = $(this).data("strokecolor");
+		var strokecolor = $(this).data("strokecolor");
+		tools.stroke = strokecolor;
+		$("#stroke-color-indicator").css("color", strokecolor);
 	});
 
 	$(".fill-color div ul li a").click(function(e) {
-		tools.fill = $(this).data("fillcolor");
+		var fillcolor = $(this).data("fillcolor");
+		tools.fill = fillcolor 
+		$("#fill-color-indicator").css("color", fillcolor);
 	});
 
 	$(".fonts div ul li a").click(function(e) {
-		tools.font = $(this).data("fonts");
+		var font = $(this).data("fonts");
+		tools.font = font;
+		$("#font-indicator").css("font-family", font).html(font);
+
 	});
 
 	$(".font-size div ul li a").click(function(e) {
-		tools.fontsize = $(this).data("fontsize");
+		var fontsize = $(this).data("fontsize");
+		tools.fontsize = fontsize;
+		$("#font-size-indicator").html(fontsize);
 	});
 
 	$("#clear-canvas").click(function(e) {
