@@ -11,7 +11,7 @@ function ToolSettings() {
 }
 
 
-function Rectangle(x, y, x2, y2, fill, stroke, lineWidth) {
+function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -523,7 +523,7 @@ function initToolbars(activeTool) {
 	$(".tool").attr("class", "tool btn btn-default");
 	$("#" + activeTool).attr("class", "tool btn btn-primary");
 
-	if (activeTool === "rect" || activeTool === "circle") {
+	if (activeTool === "rect" || activeTool === "circle" || activeTool === "ellip") {
 		$(".fill-stroke-toggle").show();
 		$(".stroke-width").show();
 		$(".stroke-color").show();
