@@ -156,7 +156,6 @@ CanvasState.prototype.draw = function() {
 $(document).ready(function() {
 	var canvas = document.getElementById("myCanvas");
 	var tools = new ToolSettings();
-	var currentState = new CanvasState(canvas);
 
 	initToolbars("rect");
 
@@ -164,6 +163,8 @@ $(document).ready(function() {
 	canvas.style.height='100%';
 	canvas.width  = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
+
+	var currentState = new CanvasState(canvas);
 
 	setInterval(function() {
 		currentState.draw();
@@ -176,8 +177,18 @@ $(document).ready(function() {
 
 		currentState.isValid = false;
 		currentState.isDrawing = true;
-		currentState.startX = e.pageX - this.offsetLeft;
-		currentState.startY = e.pageY - this.offsetTop;
+
+
+		var offsetX = 0, offsetY = 0, element = currentState.canvas;
+		if (element.offsetParent !== undefined) {
+			do {
+				offsetX += element.offsetLeft;
+				offsetY += element.offsetTop;
+			} while ((element = element.offsetParent));
+		}
+
+		currentState.startX = e.pageX - offsetX;
+		currentState.startY = e.pageY - offsetY;
 		x = currentState.startX;
 		y = currentState.startY;
 
@@ -192,8 +203,8 @@ $(document).ready(function() {
 		} else if(tools.shape === "pen") {
 			var a = new Array();
 			var b = new Array();
-			a.push(e.pageX - this.offsetLeft);
-			b.push(e.pageY - this.offsetTop);
+			a.push(x);
+			b.push(y);
 			currentState.shapes.push(new Pen(a, b, tools.color));
 		} else if (tools.shape === "text") {
 
@@ -204,8 +215,17 @@ $(document).ready(function() {
 	$("#myCanvas").mousemove(function(e) {
 		if (currentState.isDrawing) {
 			var currentShape = currentState.shapes.pop();;
-			var x = e.pageX - this.offsetLeft;
-			var y = e.pageY - this.offsetTop;
+
+
+			var offsetX = 0, offsetY = 0, element = currentState.canvas;
+			if (element.offsetParent !== undefined) {
+				do {
+					offsetX += element.offsetLeft;
+					offsetY += element.offsetTop;
+				} while ((element = element.offsetParent));
+			}
+			var x = e.pageX - offsetX;
+			var y = e.pageY - offsetY;
 
 			if(tools.shape === "rect") {				
 				currentShape.w = x;
@@ -214,11 +234,11 @@ $(document).ready(function() {
 				currentShape.x2 = x;
 				currentShape.y2 = y;
 			} else if(tools.shape === "line") {
-				currentShape.x2 = e.pageX - this.offsetLeft;
-				currentShape.y2 = e.pageY - this.offsetTop;
+				currentShape.x2 = x;
+				currentShape.y2 = y;
 			} else if(tools.shape === "pen") {
-				currentShape.x.push(e.pageX - this.offsetLeft);
-				currentShape.y.push(e.pageY - this.offsetTop);
+				currentShape.x.push(x);
+				currentShape.y.push(y);
 			} 
 			currentState.shapes.push(currentShape);
 			currentState.isValid = false;
@@ -234,11 +254,11 @@ $(document).ready(function() {
 			if ($("#textArea").length !== 0) {
 				$("#textArea").remove();
 			}
-			var x = e.pageX - this.offsetLeft;
-			var y = e.pageY - this.offsetTop + tools.fontsize;
+			var x = currentState.startX;
+			var y = currentState.startY + tools.fontsize;
 
-			var textBox = '<div id="textArea" style="position:absolute;top:' + e.pageY + 
-				'px;left:' + e.pageX + 'px;z-index:30;"><textArea id="textBox"></textArea></div>';
+			var textBox = '<div id="textArea" style="position:absolute;top:' + (y - tools.fontsize) + 
+				'px;left:' + (x + this.offsetLeft)+ 'px;z-index:30;"><textArea id="textBox"></textArea></div>';
 
 			$("#canvasArea").append(textBox);
 			$("#textBox").focus();
