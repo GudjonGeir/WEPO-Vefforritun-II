@@ -11,7 +11,7 @@ function ToolSettings() {
 }
 
 
-function Rectangle(x, y, x2, y2, fill, stroke, lineWidth) {
+function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -23,7 +23,6 @@ function Rectangle(x, y, x2, y2, fill, stroke, lineWidth) {
 
 // Draw the rectangle
 Rectangle.prototype.draw = function(ctx) {
-  console.log(this.toString);
   ctx.fillStyle = this.fill;
   ctx.strokeStyle = this.stroke;
   ctx.lineWidth = this.lineWidth;
@@ -43,14 +42,13 @@ Rectangle.prototype.move = function(x, y, x2, y2){
 	var difOfX = x - x2;
 	var difOfY = y - y2;
 
-	this.x = this.x + difOfX;
-	this.x2 = this.x2 + difOfX;
-	this.y = this.y + difOfY;
-	this.y2 = this.y2 + difOfY;
+	this.x = this.x - difOfX;
+	this.x2 = this.x2 - difOfX;
+	this.y = this.y - difOfY;
+	this.y2 = this.y2 - difOfY;
 }
 
 function Ellipse(x, y, x2, y2, fill, stroke, lineWidth) {
-	this.className = "ellip";
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -123,7 +121,6 @@ Ellipse.prototype.move = function(x, y, x2, y2){
 
 
 function Line(x, y, x2, y2, stroke, lineWidth) {
-	this.className = "line";
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -142,12 +139,18 @@ Line.prototype.draw = function(ctx) {
 }
 
 Line.prototype.contains = function(mx, my, ctx){
+	if((mx > this.x + 5 && mx > this.x2 + 5) || (my > this.y + 5 && my > this.y2 + 5)){
+		return false;
+	}
+	if((mx + 5 < this.x && mx + 5 < this.x2) || (my + 5 < this.y && my + 5 < this.y2)){
+		return false;
+	}
 	var slopem1 = (my - this.y)/(mx - this.x);
 	var slopem2 = (this.y2 - my)/(this.x2 - mx);
 
 	var dif = slopem1 - slopem2;
 
-	if(dif < 1 && dif > -1) {
+	if(dif <= 1 && dif >= -1) {
 		return true;
 	} else return false;
 
@@ -165,7 +168,6 @@ Line.prototype.move = function(x, y, x2, y2){
 
 
 function Pen(x, y, stroke, lineWidth){
-	this.className = "pen";
 	this.x = x;
 	this.y = y;
 	this.stroke = stroke;
@@ -219,13 +221,22 @@ Text.prototype.draw = function(ctx) {
 	ctx.fillText(this.textString, this.x, this.y);
 }
 
+Text.prototype.contains = function(mx, my, ctx) {
+	var ctx2 = ctx;
+	ctx2.font = this.font;
+	ctx2.fill = ctx2.fillText(this.textString, this.x, this.y);
+	if(ctx2.isPointInPath(mx, my)){
+		return true;
+	} else { return false; }
+}
 
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
-	this.className = "circle";
 	this.x1 = x1;
 	this.y1 = y1;
 	this.x2 = x2;
 	this.y2 = y2;
+	this.midx = (this.x1 + this.x2) / 2;
+	this.midy = (this.y1 + this.y2) / 2;
 	this.fill = fill;
 	this.lineWidth = lineWidth;
 	this.stroke = stroke;
@@ -233,15 +244,13 @@ function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
 
 Circle.prototype.contains = function(mx, my, ctx) {
 	var x, y, rad, a, b, ctx2;
-	x = (this.x1 + this.x2) / 2;
-	y = (this.y1 + this.y2) / 2;
 
 	a = (Math.abs(this.x1 - this.x2));
 	b = (Math.abs(this.y1 - this.y2));
 	rad = Math.sqrt((a * a) + (b * b)) / 2;
 	ctx2 = ctx;
 
-	ctx2.arc(x, y, rad, 0, 2 * Math.PI, false);
+	ctx2.arc(this.midx, this.midy, rad, 0, 2 * Math.PI, false);
 
 	if(ctx2.isPointInPath(mx, my)){
 		return true;
@@ -250,8 +259,7 @@ Circle.prototype.contains = function(mx, my, ctx) {
 
 Circle.prototype.draw = function(ctx) {
 	var x, y, rad, a, b;
-	x = (this.x1 + this.x2) / 2;
-	y = (this.y1 + this.y2) / 2;
+
 
 	a = (Math.abs(this.x1 - this.x2));
 	b = (Math.abs(this.y1 - this.y2));
@@ -259,7 +267,7 @@ Circle.prototype.draw = function(ctx) {
 
 
 	ctx.beginPath()
-	ctx.arc(x, y, rad, 0, 2 * Math.PI, false);
+	ctx.arc(this.midx, this.midy, rad, 0, 2 * Math.PI, false);
 	ctx.fillStyle = this.fill;
 	ctx.fill();
 	ctx.lineWidth = this.lineWidth;
@@ -271,8 +279,8 @@ Circle.prototype.move = function(x, y, x2, y2){
 	var difOfX = x - x2;
 	var difOfY = y - y2;
 
-	this.x = this.x + difOfX;
-	this.y = this.y + difOfY;
+	this.midx = this.midx - difOfX;
+	this.midy = this.midy - difOfY;
 }
 
 function CanvasState(canvas) {
@@ -394,7 +402,7 @@ $(document).ready(function() {
 
 	$("#myCanvas").mousemove(function(e) {
 		if (currentState.isDrawing) {
-			if(tools.shape !== "move") {
+			if(tools.shape !== "move" && tools.shape !== "text") {
 				var currentShape = currentState.shapes.pop();
 			}
 
@@ -431,7 +439,7 @@ $(document).ready(function() {
 				currentState.startY = y;
 				currentState.shapes[i] = currentState.selection;
 			}
-			if(tools.shape !== "move") {
+			if(tools.shape !== "move" && tools.shape !== "text") {
 				currentState.shapes.push(currentShape);
 			}
 
@@ -523,7 +531,7 @@ function initToolbars(activeTool) {
 	$(".tool").attr("class", "tool btn btn-default");
 	$("#" + activeTool).attr("class", "tool btn btn-primary");
 
-	if (activeTool === "rect" || activeTool === "circle") {
+	if (activeTool === "rect" || activeTool === "circle" || activeTool === "ellip") {
 		$(".fill-stroke-toggle").show();
 		$(".stroke-width").show();
 		$(".stroke-color").show();
