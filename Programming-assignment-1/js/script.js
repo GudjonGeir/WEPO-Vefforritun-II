@@ -311,6 +311,9 @@ function CanvasState(canvas) {
 	this.isValid = true;
 	this.shapes = [];
 
+	this.undoStack = [];
+	this.redoStack = [];
+
 	this.idInArr = null;
 	this.selection = null;
 	var drawInterval = 30;
@@ -333,8 +336,26 @@ CanvasState.prototype.draw = function() {
 	};
 }
 
+CanvasState.prototype.saveState = function() {
+	var newArray = this.shapes.slice();
+	this.undoStack.push(newArray);
+}
 
+CanvasState.prototype.undo = function(){
+	console.log("undostack: " + this.undoStack);
+	console.log("redostack: " + this.redoStack);
+	var newArray = this.shapes.slice();
+	this.redoStack.push(newArray);
+	this.shapes = this.undoStack.pop();
+	this.isValid = false;
+}
 
+CanvasState.prototype.redo = function() {
+	var newArray = this.shapes.slice();
+	this.undoStack.push(newArray);
+	this.shapes = this.redoStack.pop();
+	this.isValid = false;
+}
 
 
 $(document).ready(function() {
@@ -358,6 +379,10 @@ $(document).ready(function() {
 	$("#myCanvas").mousedown(function(e) {
 		// TODO: implement move
 		var x, y;
+
+		// currentState.saveState();
+		var newArray = currentState.shapes.slice();
+		currentState.undoStack.push(newArray);
 
 		currentState.isValid = false;
 		currentState.isDrawing = true;
@@ -494,6 +519,20 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#undo-btn").click(function(e) {
+		currentState.undo();
+		// console.log(undoRedo);
+		// undoRedo.redoStack.push(currentState);
+		// currentState = undoRedo.undoStack.pop();
+		// currentState.isValid = false;
+	});
+
+	$("#redo-btn").click(function(e) {
+		currentState.redo();
+		// undoRedo.undoStack.push(currentState);
+		// currentState = undoRedo.redoStack.pop();
+		// currentState.isValid = false;
+	});
 
 	$(".tool").click(function(e) {
 		var activeTool = $(this).data("tool");
