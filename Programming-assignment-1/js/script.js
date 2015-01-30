@@ -1,14 +1,17 @@
 // Constructor for tool settings
 function ToolSettings() {
-	this.shape = "ellip";
+	this.shape = "rect";
 	this.fill = "#FFFFFF";
 	this.lineWidth = "1";
-	this.stroke = "#000000"
+	this.stroke = "#000000";
+	this.font = "Georgia";
+	this.fontsize = 15;
+	this.fillActive = false;
+	this.strokeActive = true;
 }
 
-// Constructor for rectangle object
+
 function Rectangle(x, y, x2, y2, fill, stroke, lineWidth) {
-	this.className = "rect";
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -118,18 +121,21 @@ Ellipse.prototype.move = function(x, y, x2, y2){
 	this.y2 = this.y2 - difOfY;
 }
 
-function Line(x, y, x2, y2, fill) {
+
+function Line(x, y, x2, y2, stroke, lineWidth) {
 	this.className = "line";
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
 	this.y2 = y2;
-	this.fill = fill;
+	this.stroke = stroke;
+	this.lineWidth = lineWidth;
 }
 
 Line.prototype.draw = function(ctx) {
 	ctx.beginPath();
-	ctx.fillStyle = this.fill;
+	ctx.strokeStyle = this.stroke;
+	ctx.lineWidth = this.lineWidth;
 	ctx.moveTo(this.x, this.y);
 	ctx.lineTo(this.x2, this.y2);
 	ctx.stroke();
@@ -145,7 +151,6 @@ Line.prototype.contains = function(mx, my, ctx){
 		return true;
 	} else return false;
 
-
 }
 
 Line.prototype.move = function(x, y, x2, y2){
@@ -158,11 +163,13 @@ Line.prototype.move = function(x, y, x2, y2){
 	this.y2 = this.y2 - difOfY;
 }
 
-function Pen(x, y, fill){
+
+function Pen(x, y, stroke, lineWidth){
 	this.className = "pen";
 	this.x = x;
 	this.y = y;
-	this.fill = fill;
+	this.stroke = stroke;
+	this.lineWidth = lineWidth;
 }
 
 Pen.prototype.contains = function(mx, my, ctx) {
@@ -178,9 +185,10 @@ Pen.prototype.contains = function(mx, my, ctx) {
 }
 
 Pen.prototype.draw = function(ctx) {
-	for(var i = 0; i < this.x.length - 1; i++) { //the human eye will not notice this changed
+	for(var i = 0; i < this.x.length - 1; i++) {
 		ctx.beginPath(); 
-		ctx.fillStyle = this.fill;
+		ctx.strokeStyle = this.stroke;
+		ctx.lineWidth = this.lineWidth;
 		ctx.moveTo(this.x[i], this.y[i]);
 		ctx.lineTo(this.x[i + 1], this.y[i + 1]);
 		ctx.closePath();
@@ -197,6 +205,19 @@ Pen.prototype.move = function(x, y , x2, y2) {
 	}
 }
 
+function Text(textString, x, y, color, font) {
+	this.textString = textString;
+	this.x = x;
+	this.y = y;
+	this.color = color;
+	this.font = font;
+}
+
+Text.prototype.draw = function(ctx) {
+	ctx.font = this.font;
+	ctx.fillStyle = this.color;
+	ctx.fillText(this.textString, this.x, this.y);
+}
 
 
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
@@ -243,7 +264,7 @@ Circle.prototype.draw = function(ctx) {
 	ctx.fill();
 	ctx.lineWidth = this.lineWidth;
 	ctx.strokeStyle = this.stroke;
-	ctx.stroke()
+	ctx.stroke();
 }
 
 Circle.prototype.move = function(x, y, x2, y2){
@@ -264,6 +285,7 @@ function CanvasState(canvas) {
 	this.startY;
 	this.isDrawing = false;
 	
+
 
 	this.isValid = true;
 	this.shapes = [];
@@ -291,9 +313,20 @@ CanvasState.prototype.draw = function() {
 }
 
 
-$(document).ready(function() 
-{	var canvas = document.getElementById("myCanvas");
+
+
+
+$(document).ready(function() {
+	var canvas = document.getElementById("myCanvas");
 	var tools = new ToolSettings();
+
+	initToolbars("rect");
+
+	canvas.style.width='100%';
+	canvas.style.height='100%';
+	canvas.width  = canvas.offsetWidth;
+	canvas.height = canvas.offsetHeight;
+
 	var currentState = new CanvasState(canvas);
 
 	setInterval(function() {
@@ -307,8 +340,18 @@ $(document).ready(function()
 
 		currentState.isValid = false;
 		currentState.isDrawing = true;
-		currentState.startX = e.pageX - this.offsetLeft;
-		currentState.startY = e.pageY - this.offsetTop;
+
+
+		var offsetX = 0, offsetY = 0, element = currentState.canvas;
+		if (element.offsetParent !== undefined) {
+			do {
+				offsetX += element.offsetLeft;
+				offsetY += element.offsetTop;
+			} while ((element = element.offsetParent));
+		}
+
+		currentState.startX = e.pageX - offsetX;
+		currentState.startY = e.pageY - offsetY;
 		x = currentState.startX;
 		y = currentState.startY;
 
@@ -319,12 +362,12 @@ $(document).ready(function()
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
-			currentState.shapes.push(new Line(x, y, x, y, tools.color));
+			currentState.shapes.push(new Line(x, y, x, y, tools.stoke));
 		} else if(tools.shape === "pen") {
 			var a = new Array();
 			var b = new Array();
-			a.push(e.pageX - this.offsetLeft);
-			b.push(e.pageY - this.offsetTop);
+			a.push(x);
+			b.push(y);
 			currentState.shapes.push(new Pen(a, b, tools.color));
 		} else if(tools.shape === "move"){
 			//Each shape needs a contains function
@@ -341,22 +384,33 @@ $(document).ready(function()
 				}
 			}
 			isDrawing = false;
-		}else if(tools.shape == "ellip"){
+		}else if(tools.shape === "ellip"){
 			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth));
+		} else if (tools.shape === "text") {
+
 		}
 
 	});
 
 	$("#myCanvas").mousemove(function(e) {
 		if (currentState.isDrawing) {
-			if(tools.shape != "move")
+			if(tools.shape !== "move") {
 				var currentShape = currentState.shapes.pop();
-			var x = e.pageX - this.offsetLeft;
-			var y = e.pageY - this.offsetTop;
+			}
+
+			var offsetX = 0, offsetY = 0, element = currentState.canvas;
+			if (element.offsetParent !== undefined) {
+				do {
+					offsetX += element.offsetLeft;
+					offsetY += element.offsetTop;
+				} while ((element = element.offsetParent));
+			}
+			var x = e.pageX - offsetX;
+			var y = e.pageY - offsetY;
 
 			if(tools.shape === "rect") {				
-				currentShape.w = x;
-				currentShape.h = y;
+				currentShape.x2 = x;
+				currentShape.y2 = y;
 			} else if (tools.shape === "circle") {
 				currentShape.x2 = x;
 				currentShape.y2 = y;
@@ -376,35 +430,110 @@ $(document).ready(function()
 				currentState.startX = x;
 				currentState.startY = y;
 				currentState.shapes[i] = currentState.selection;
-			} else {
-				return;
 			}
-			if(tools.shape != "move")
+			if(tools.shape !== "move") {
 				currentState.shapes.push(currentShape);
+			}
+
 			currentState.isValid = false;
 		};
 	});
 
 	$("#myCanvas").mouseup(function(e) {
 		currentState.isDrawing = false;
+
 		currentState.idInArr = null;
 		currentState.selection = null;
+
+
+		if (tools.shape === "text") {
+
+			if ($("#textArea").length !== 0) {
+				$("#textArea").remove();
+			}
+			var x = currentState.startX;
+			var y = currentState.startY + tools.fontsize;
+
+			var textBox = '<div id="textArea" style="position:absolute;top:' + (y - tools.fontsize) + 
+				'px;left:' + (x + this.offsetLeft)+ 'px;z-index:30;"><textArea id="textBox"></textArea></div>';
+
+			$("#canvasArea").append(textBox);
+			$("#textBox").focus();
+
+			$("#textBox").bind("keydown", function(e) {
+				if (e.keyCode === 13) {
+					var textString = $(this).val();
+					currentState.shapes.push(new Text(textString, x, y, tools.fill, tools.fontsize + "px " + tools.font));
+					currentState.isValid = false;
+					$("#textArea").remove();
+				} else if (e.keyCode === 27) {
+					$("#textArea").remove();
+				}
+			});
+		}
 	});
 
 
 	$(".tool").click(function(e) {
-		tools.shape = $(this).data("tool");
+		var activeTool = $(this).data("tool");
+		initToolbars(activeTool);
+		tools.shape = activeTool;
 	});
 
-	$(".strokeColor").click(function(e) {
+	$(".fill-stroke-toggle button").click(function(e) {
+		$(this).toggleClass("btn-primary");
+		$(this).toggleClass("btn-default");
+		if ($(this).html() === "Fill") {
+			tools.fillActive = !tools.fillActive;
+		} else if ($(this).html() === "Stroke") {
+			tools.strokeActive = !tools.strokeActive;
+		};
+	});
+
+	$(".stroke-width div ul li a").click(function(e) {
+		tools.lineWidth = $(this).data("strokewidth");
+	});
+
+	$(".stroke-color div ul li a").click(function(e) {
 		tools.stroke = $(this).data("strokecolor");
 	});
 
-	$(".fillColor").click(function(e) {
+	$(".fill-color div ul li a").click(function(e) {
 		tools.fill = $(this).data("fillcolor");
 	});
 
-	$(".line").click(function(e) {
-		tools.lineWidth = $(this).data("strokewidth");
+	$(".fonts div ul li a").click(function(e) {
+		tools.font = $(this).data("fonts");
 	});
+
+	$(".font-size div ul li a").click(function(e) {
+		tools.fontsize = $(this).data("fontsize");
+	});
+
+	$("#clear-canvas").click(function(e) {
+		currentState.shapes = [];
+		currentState.isValid = false;
+	});
+
+
 });
+
+function initToolbars(activeTool) {
+	$(".tool-settings").hide();
+	$(".tool").attr("class", "tool btn btn-default");
+	$("#" + activeTool).attr("class", "tool btn btn-primary");
+
+	if (activeTool === "rect" || activeTool === "circle") {
+		$(".fill-stroke-toggle").show();
+		$(".stroke-width").show();
+		$(".stroke-color").show();
+		$(".fill-color").show();
+	} else if (activeTool === "line" || activeTool === "pen") {
+		$(".stroke-width").show();
+		$(".stroke-color").show();
+	} else if (activeTool === "text") {
+		$(".font-size").show();
+		$(".fonts").show();
+		$(".fill-color").show();
+	}
+}

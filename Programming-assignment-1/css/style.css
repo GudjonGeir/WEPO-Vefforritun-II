@@ -1,3 +1,7 @@
-.toolSelector li {
-	display: inline;
+#myCanvas {
+	border: 1px solid;
+}
+
+#canvasArea {
+	height: 500px;
 }
