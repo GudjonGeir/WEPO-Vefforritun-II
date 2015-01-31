@@ -11,7 +11,7 @@ function ToolSettings() {
 }
 
 
-function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
+function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive, slidenum) {
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -22,6 +22,7 @@ function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActi
 	this.strokeActive = strokeActive;
 	this.fillActive = fillActive;
 	this.rotations = 0;
+	this.slidenum = slidenum;
 }
 
 // Draw the rectangle
@@ -59,12 +60,17 @@ Rectangle.prototype.draw = function(ctx) {
 	}
 }
 
+//	x2,y2 	x, y2
+//		IS IN?
+//
+//	x2,y	x, y
+
 Rectangle.prototype.contains = function(mx, my, ctx) {
-	var ctx2 = ctx;
-	ctx2.rect(this.x2, this.y2, this.x - this.x2, this.y - this.y2);
-	if(ctx2.isPointInPath(mx, my)){
-		return true;
-	} else{ return false; }
+	if(mx > this.x2){ return false; }
+	if(my > this.y2){ return false; }
+	if(mx < this.x){ return false; }
+	if(my < this.y){ return false; }
+	return true;
 }
 
 Rectangle.prototype.move = function(x, y, x2, y2){
@@ -77,7 +83,7 @@ Rectangle.prototype.move = function(x, y, x2, y2){
 	this.y2 = this.y2 - difOfY;
 }
 
-function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
+function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive, slidenum) {
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -88,6 +94,7 @@ function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive
 	this.strokeActive = strokeActive;
 	this.fillActive = fillActive;
 	this.rotations = 0;
+	this.slidenum = slidenum;
 }
 
 
@@ -206,7 +213,7 @@ Ellipse.prototype.move = function(x, y, x2, y2){
 }
 
 
-function Line(x, y, x2, y2, stroke, lineWidth) {
+function Line(x, y, x2, y2, stroke, lineWidth, slidenum) {
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -214,6 +221,7 @@ function Line(x, y, x2, y2, stroke, lineWidth) {
 	this.stroke = stroke;
 	this.lineWidth = lineWidth;
 	this.rotations = 0;
+	this.slidenum = slidenum;
 }
 
 Line.prototype.draw = function(ctx) {
@@ -273,12 +281,13 @@ Line.prototype.move = function(x, y, x2, y2){
 }
 
 
-function Pen(x, y, stroke, lineWidth){
+function Pen(x, y, stroke, lineWidth, slidenum){
 	this.x = x;
 	this.y = y;
 	this.stroke = stroke;
 	this.lineWidth = lineWidth;
 	this.rotations = 0;
+	this.slidenum = slidenum;
 }
 
 Pen.prototype.contains = function(mx, my, ctx) {
@@ -353,13 +362,14 @@ Pen.prototype.move = function(x, y , x2, y2) {
 	}
 }
 
-function Text(textString, x, y, color, font) {
+function Text(textString, x, y, color, font, slidenum) {
 	this.textString = textString;
 	this.x = x;
 	this.y = y;
 	this.color = color;
 	this.font = font;
 	this.rotations = 0;
+	this.slidenum = slidenum;
 }
 
 Text.prototype.draw = function(ctx) {
@@ -546,7 +556,9 @@ CanvasState.prototype.draw = function() {
 		this.clear();
 		var length = this.shapes.length;
 		for (var i = 0; i < length; i++) {
-			this.shapes[i].draw(this.ctx);
+			if(this.shapes[i].slidenum === this.slidenum){
+				this.shapes[i].draw(this.ctx);
+			}
 		};
 
 		this.isValid = true;
@@ -566,11 +578,6 @@ CanvasState.prototype.redo = function() {
 		this.isValid = false;
 	};
 }
-
-/*CanvasState.prototype.slide = function() {
-	this.ctx.translate(this.slidenum*this.width, 0);
-}*/
-
 
 $(document).ready(function() {
 	var imageLoader = document.getElementById('upload');
@@ -632,19 +639,19 @@ $(document).ready(function() {
 		y = currentState.startY;
 
 		if(tools.shape === "rect") {
-			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive, currentState.slidenum));
 		} else if (tools.shape === "circle") {
-			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive, currentState.slidenum));
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
-			currentState.shapes.push(new Line(x, y, x, y, tools.stroke, tools.lineWidth));
+			currentState.shapes.push(new Line(x, y, x, y, tools.stroke, tools.lineWidth, currentState.slidenum));
 		} else if(tools.shape === "pen") {
 			var a = new Array();
 			var b = new Array();
 			a.push(x);
 			b.push(y);
-			currentState.shapes.push(new Pen(a, b, tools.stroke, tools.lineWidth));
+			currentState.shapes.push(new Pen(a, b, tools.stroke, tools.lineWidth, currentState.slidenum));
 		} else if(tools.shape === "move"){
 			//Each shape needs a contains function
 			var shapes = currentState.shapes;
@@ -661,7 +668,7 @@ $(document).ready(function() {
 			}
 			isDrawing = false;
 		}else if(tools.shape === "ellip"){
-			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive, currentState.slidenum));
 		} else if(tools.shape === "rotate"){
 			var shapes = currentState.shapes;
 			var l = shapes.length;
@@ -751,7 +758,7 @@ $(document).ready(function() {
 			$("#textBox").bind("keydown", function(e) {
 				if (e.keyCode === 13) {
 					var textString = $(this).val();
-					currentState.shapes.push(new Text(textString, x, y, tools.fill, tools.fontsize + "px " + tools.font));
+					currentState.shapes.push(new Text(textString, x, y, tools.fill, tools.fontsize + "px " + tools.font, currentState.slidenum));
 					currentState.isValid = false;
 					$("#textArea").remove();
 				} else if (e.keyCode === 27) {
@@ -761,10 +768,20 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#prev-btn").click(function(e) {
+		if(currentState.slidenum !== 0){
+			currentState.slidenum--;	
+		}
+		currentState.isValid = false;
+	});
+	$("#next-btn").click(function(e) {
+		currentState.slidenum++;
+		currentState.isValid = false;
+	});
+
 	$("#undo-btn").click(function(e) {
 		currentState.undo();	
 	});
-
 	$("#redo-btn").click(function(e) {
 		currentState.redo();
 	});
