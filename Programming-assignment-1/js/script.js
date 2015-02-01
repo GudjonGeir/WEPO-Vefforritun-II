@@ -7,6 +7,7 @@ function ToolSettings() {
 	this.stroke = "#000000";
 	this.font = "Georgia";
 	this.fontsize = 14;
+	this.fontColor = "#000000";
 	this.fillActive = false;
 	this.strokeActive = true;
 }
@@ -338,7 +339,7 @@ Pen.prototype.draw = function(ctx) {
 		}
 		xmid = (xmax + xmin) / 2;
 		ymid = (ymax + ymin) / 2;
-		console.log(xmid + " " + ymid);
+
 		ctx.save();
 		ctx.translate(xmid, ymid);
 		for(var i = 0; i < this.rotations; i++) {
@@ -755,7 +756,7 @@ $(document).ready(function() {
 			$("#textBox").bind("keydown", function(e) {
 				if (e.keyCode === 13) {
 					var textString = $(this).val();
-					currentState.shapes.push(new Text(textString, x, y, tools.fill, tools.fontsize + "px " + tools.font, currentState.slidenum));
+					currentState.shapes.push(new Text(textString, x, y, tools.fontColor, tools.fontsize + "px " + tools.font, currentState.slidenum));
 					currentState.isValid = false;
 					$("#textArea").remove();
 				} else if (e.keyCode === 27) {
@@ -819,6 +820,12 @@ $(document).ready(function() {
 		$("#stroke-color-indicator").css("color", strokecolor);
 	});
 
+	$(".font-color div ul li a").click(function(e) {
+		var fontcolor = $(this).data("fontcolor");
+		tools.fontColor = fontcolor;
+		$("#font-color-indicator").css("color", fontcolor);
+	});
+
 	$(".fill-color div ul li a").click(function(e) {
 		var fillcolor = $(this).data("fillcolor");
 		tools.fill = fillcolor 
@@ -845,9 +852,11 @@ $(document).ready(function() {
 		currentState.isValid = false;
 	});
 
+	// Gets username from user to use for api calls for save/load
 	$("#login-btn").click(function(e) {
 		var username = $("#username-txt").val();
 
+		// Validation to prevent empty strings
 		if (username === "") {
 			var alert = '<div id="username-missing-alert" class="alert alert-warning alert-dismissible" role="alert" >' +
 					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -868,9 +877,11 @@ $(document).ready(function() {
 		$("#save-form").toggle();
 	});
 
+
 	$("#save-btn").click(function(e) {
 		var title = $("#save-title-txt").val();
 
+		// Validation to prevent empty strings
 		if (title === "") {
 			var alert = '<div id="title-missing-alert" class="alert alert-warning alert-dismissible" role="alert" >' + 
 					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -926,7 +937,11 @@ $(document).ready(function() {
 			dataType: "jsonp",
 			crossDomain: true,
 			success: function (data) {
+				// Empty the list to prevent duplicating data
 				$("#load-list").html("");
+
+				// For every item in the response, create html element and append
+				// it to the dropdown list
 				for (var i = 0; i < data.length; i++) {
 					var title = data[i].WhiteboardTitle;
 					var id = data[i].ID;
@@ -958,6 +973,8 @@ $(document).ready(function() {
 			success: function (data) {
 				loadedShapes = JSON.parse(data.WhiteboardContents);
 
+				// For every item in the response, create new corresponding
+				// shape and push onto the shape array
 				for (var i = 0; i < loadedShapes.length; i++) {
 
 					if (loadedShapes[i].shapeType === "rect") {
@@ -1050,7 +1067,7 @@ function initToolbars(activeTool) {
 	} else if (activeTool === "text") {
 		$(".font-size").show();
 		$(".fonts").show();
-		$(".fill-color").show();
+		$(".font-color").show();
 	}
 }
 
