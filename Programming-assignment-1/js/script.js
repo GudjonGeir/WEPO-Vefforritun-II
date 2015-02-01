@@ -1,4 +1,5 @@
-// Constructor for tool settings
+// Constructor for tool settings object, it contains all the tools and tool setting
+// that are active.
 function ToolSettings() {
 	this.shape = "pen";
 	this.fill = "#FFFFFF";
@@ -10,8 +11,14 @@ function ToolSettings() {
 	this.strokeActive = true;
 }
 
-
+// Every shape object contains member variables for every setting that is relevant to
+// that shape, f.x. rectlangle needs to have settings for both fill and stroke but
+// line doesn't need fill setting.
+// Every shape also has three prototype functions, draw, contains and move. These could
+// be said to be self explainatory. The shape needs to know how to draw itself, it needs
+// to tell if it was clicked (it contains the mouseclick) and it needs to be able to be moved.
 function Rectangle(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
+	this.shapeType = "rect";
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -55,6 +62,7 @@ Rectangle.prototype.move = function(x, y, x2, y2){
 }
 
 function Ellipse(x, y, x2, y2, fill, stroke, lineWidth, strokeActive, fillActive) {
+	this.shapeType = "ellip"
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -135,6 +143,7 @@ Ellipse.prototype.move = function(x, y, x2, y2){
 
 
 function Line(x, y, x2, y2, stroke, lineWidth) {
+	this.shapeType = "line"
 	this.x = x;
 	this.y = y;
 	this.x2 = x2;
@@ -182,6 +191,7 @@ Line.prototype.move = function(x, y, x2, y2){
 
 
 function Pen(x, y, stroke, lineWidth){
+	this.shapeType = "pen"
 	this.x = x;
 	this.y = y;
 	this.stroke = stroke;
@@ -222,6 +232,7 @@ Pen.prototype.move = function(x, y , x2, y2) {
 }
 
 function Text(textString, x, y, color, font) {
+	this.shapeType = "text";
 	this.textString = textString;
 	this.x = x;
 	this.y = y;
@@ -271,8 +282,9 @@ Text.prototype.move = function(x, y, x2, y2) {
 	this.y -= difOfY;
 }
 
-<<<<<<< HEAD
+
 function Img (x, y, width, height, img){
+	this.shapeType = "img"
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -300,10 +312,9 @@ Img.prototype.move = function(x, y, x2, y2) {
 	this.y = this.y - difOfY;
 }
 
-function Circle(x1, y1, x2, y2, fill, lineWidth, stroke) {
-=======
+
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive) {
->>>>>>> 31b9577793f7893e29c942dd3ea9cf80324eda26
+	this.shapeType = "circle";
 	this.x1 = x1;
 	this.y1 = y1;
 	this.x2 = x2;
@@ -362,11 +373,16 @@ Circle.prototype.move = function(x, y, x2, y2){
 	this.midy = this.midy - difOfY;
 }
 
+
+// The CanvasState holds canvas relevant settings as well as the
+// array of shapes that has been drawn on it and a redo array
 function CanvasState(canvas) {
 	this.canvas = canvas;
 	this.width = canvas.width;
 	this.height = canvas.height;
 	this.ctx = canvas.getContext("2d");
+
+	this.username = ""; // Contains the username for save/reload functionality
 
 	this.startX;
 	this.startY;
@@ -374,7 +390,7 @@ function CanvasState(canvas) {
 	
 
 
-	this.isValid = true;
+	this.isValid = true; // Set to false if any changes are made to the CanvasState
 	this.shapes = [];
 
 	this.redoStack = [];
@@ -384,10 +400,14 @@ function CanvasState(canvas) {
 	var drawInterval = 30;
 }
 
+
+// Clears the canvas context
 CanvasState.prototype.clear = function() {
 	this.ctx.clearRect(0, 0, this.width, this.height);
 }
 
+// If the CanvasState is not valid it clears and redraws every shape
+// in the shape array
 CanvasState.prototype.draw = function() {
 
 	if (!this.isValid) {
@@ -401,6 +421,8 @@ CanvasState.prototype.draw = function() {
 	};
 }
 
+// Pops the shape array and pushes onto the redo array
+// Sets the isValid to false to redraw the canvas
 CanvasState.prototype.undo = function() {
 	if (this.shapes.length) {
 		this.redoStack.push(this.shapes.pop());
@@ -408,6 +430,8 @@ CanvasState.prototype.undo = function() {
 	};
 }
 
+// Pops the redo array and pushes onto the shape array
+// Sets the isValid to false to redraw the canvas
 CanvasState.prototype.redo = function() {
 	if (this.redoStack.length) {
 		this.shapes.push(this.redoStack.pop());
@@ -418,50 +442,58 @@ CanvasState.prototype.redo = function() {
 
 $(document).ready(function() {
 	var imageLoader = document.getElementById('upload');
-    imageLoader.addEventListener('change', handleImage, false);
+	imageLoader.addEventListener('change', handleImage, false);
 	var canvas = document.getElementById("myCanvas");
 	var tools = new ToolSettings();
 
-	
+	// Set the toolbar ui to default settings
 	initToolbars(tools.shape);
 
-
+	// Make the canvas fill it's parent width and height.
 	canvas.style.width='100%';
 	canvas.style.height='100%';
 	canvas.width  = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
 
+
+
 	var currentState = new CanvasState(canvas);
 
-
+	// Call the draw function every 30ms, gives the feel of animation
 	setInterval(function() {
 		currentState.draw();
 	}, currentState.drawInterval);
 	
+
 	function handleImage(e){
-	   	var reader = new FileReader();
+		var reader = new FileReader();
 		reader.onload = function(event){
-	        var img = new Image();
-	        img.onload = function(){
-	            currentState.ctx.drawImage(img,0,0);
-	        }
-	        img.src = event.target.result;
-	        currentState.shapes.push(new Img(0, 0, img.width, img.height, img));  
-	        alert(img.width + " " + img.height);
-	    }
-	    reader.readAsDataURL(e.target.files[0]);   
+			var img = new Image();
+			img.onload = function(){
+				currentState.ctx.drawImage(img,0,0);
+			}
+			img.src = event.target.result;
+			currentState.shapes.push(new Img(0, 0, img.width, img.height, img));  
+			alert(img.width + " " + img.height);
+		}
+		reader.readAsDataURL(e.target.files[0]);   
 	}
 
 	$("#myCanvas").mousedown(function(e) {
 
 		var x, y;
 
+
+		// Empty the redo history
 		currentState.redoStack = [];
 
+		// Set the CanvasState's isValid to false, so it knows to redraw
+		// And isDrawing to true for mousemove
 		currentState.isValid = false;
 		currentState.isDrawing = true;
 
-
+		// Go through every ancestor of the canvas to set the x and y offset
+		// correctly
 		var offsetX = 0, offsetY = 0, element = currentState.canvas;
 		if (element.offsetParent !== undefined) {
 			do {
@@ -490,7 +522,8 @@ $(document).ready(function() {
 			b.push(y);
 			currentState.shapes.push(new Pen(a, b, tools.stroke, tools.lineWidth));
 		} else if(tools.shape === "move"){
-			//Each shape needs a contains function
+			// Go through every shape and call it's contains function on the mouseclick,
+			// if it's a hit, set the CanvasState's selection to the shape it hit
 			var shapes = currentState.shapes;
 			var l = shapes.length;
 			for(var i = l - 1; i >= 0; i--) {
@@ -503,21 +536,23 @@ $(document).ready(function() {
 					return;
 				}
 			}
-			isDrawing = false;
 		}else if(tools.shape === "ellip"){
 			currentState.shapes.push(new Ellipse(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive));
 		} else if (tools.shape === "text") {
-
+			// Note: empty on purpose
 		}
 
 	});
 
 	$("#myCanvas").mousemove(function(e) {
 		if (currentState.isDrawing) {
+
+			// If current shape is either move or text, the shape array should be left as is
 			if(tools.shape !== "move" && tools.shape !== "text") {
 				var currentShape = currentState.shapes.pop();
 			}
 
+			// Again, get the x and y offset based on the canvas's ancestors
 			var offsetX = 0, offsetY = 0, element = currentState.canvas;
 			if (element.offsetParent !== undefined) {
 				do {
@@ -528,6 +563,7 @@ $(document).ready(function() {
 			var x = e.pageX - offsetX;
 			var y = e.pageY - offsetY;
 
+			// Modify the shape based on mouse movement
 			if(tools.shape === "rect") {				
 				currentShape.x2 = x;
 				currentShape.y2 = y;
@@ -543,8 +579,7 @@ $(document).ready(function() {
 			} else if(tools.shape === "ellip"){
 				currentShape.x2 = x;
 				currentShape.y2 = y;
-			} else if(tools.shape === "move" && currentState.selection != null) {
-				//each shape needs a contains function for this
+			} else if(tools.shape === "move" && currentState.selection !== null) {
 				var i = currentState.idInArr;
 				currentState.selection.move(currentState.startX, currentState.startY, x, y);
 				currentState.startX = x;
@@ -560,14 +595,18 @@ $(document).ready(function() {
 	});
 
 	$("#myCanvas").mouseup(function(e) {
+		// Reset Canvas state settings that are no longer used
 		currentState.isDrawing = false;
-
 		currentState.idInArr = null;
 		currentState.selection = null;
 
-
+		// Creates a html textarea at the mouseclick, sets the focus
+		// and binds "enter" and "escape" to it.
+		// "Enter" saves the text written in the textbox to a shape
+		// and "escape" removes the textarea
 		if (tools.shape === "text") {
 
+			// If there already is a textearea present, remove it
 			if ($("#textArea").length !== 0) {
 				$("#textArea").remove();
 			}
@@ -601,12 +640,15 @@ $(document).ready(function() {
 		currentState.redo();
 	});
 
+	// Gets the tool that was clicked set the ui and tools.shape
 	$(".tool").click(function(e) {
 		var activeTool = $(this).data("tool");
 		initToolbars(activeTool);
 		tools.shape = activeTool;
 	});
 
+	// The stroke/fill settings, both or either or none can be selected
+	// It toggles the btn class and sets the tool settings appropriately
 	$(".fill-stroke-toggle button").click(function(e) {
 		$(this).toggleClass("btn-primary");
 		$(this).toggleClass("btn-default");
@@ -617,6 +659,10 @@ $(document).ready(function() {
 		};
 	});
 
+
+	// Tool settings
+	// Get the clicked setting data, update the tool setting
+	// And set the indicator
 	$(".stroke-width div ul li a").click(function(e) {
 		var strokewidth = $(this).data("strokewidth");
 		tools.lineWidth = strokewidth;
@@ -648,14 +694,195 @@ $(document).ready(function() {
 		$("#font-size-indicator").html(fontsize);
 	});
 
+
+	// Empty the shape array and set the CanvasState's isValid to false to redraw
 	$("#clear-canvas").click(function(e) {
 		currentState.shapes = [];
 		currentState.isValid = false;
 	});
 
+	$("#login-btn").click(function(e) {
+		var username = $("#username-txt").val();
 
+		if (username === "") {
+			var alert = '<div id="username-missing-alert" class="alert alert-warning alert-dismissible" role="alert" >' +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+					'<span aria-hidden="true">&times;</span></button>' +
+				  '<strong>Attention!</strong> Please insert username.' +
+				'</div>';
+			$("#alert-box").append(alert);
+			return;
+		};
+		currentState.username = username;
+		$("#login-form").hide();
+		$("#save-load-form").show();
+
+	});
+
+	$("#save-link").click(function(e) {
+		$("#save-form").toggle();
+	});
+
+	$("#save-btn").click(function(e) {
+		var title = $("#save-title-txt").val();
+
+		if (title === "") {
+			var alert = '<div id="title-missing-alert" class="alert alert-warning alert-dismissible" role="alert" >' + 
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+					'<span aria-hidden="true">&times;</span></button>' + 
+				  '<strong>Attention!</strong> Please insert title.' +
+				'</div>';
+			$("#alert-box").append(alert);
+			return;
+		};
+
+		var stringifiedArray = JSON.stringify(currentState.shapes);
+		var param = { "user": currentState.username, 
+			"name": title,
+			"content": stringifiedArray,
+			"template": false
+		};
+
+		$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "http://whiteboard.apphb.com/Home/Save",
+			data: param,
+			dataType: "jsonp",
+			crossDomain: true,
+			success: function (data) {
+				var alert = '<div id="save-success-alert" class="alert alert-success alert-dismissible" role="alert">' +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' + 
+					'<span aria-hidden="true">&times;</span></button>' + 
+				  '<strong>Success!</strong> Your image has been saved.' + 
+				'</div>';
+				$("#alert-box").append(alert);
+			},
+			error: function (xhr, err) {
+				// TODO: better error message
+				alert("Something went wrong")
+			}
+		});
+
+		$("#save-form").hide();
+	});
+
+	$("#load-link").click(function(e) {
+		var param = { "user": currentState.username, 
+			"template": false
+		};
+
+		$.ajax({
+			type: "GET",
+			contentType: "application/json; charset=utf-8",
+			url: "http://whiteboard.apphb.com/Home/GetList",
+			data: param,
+			dataType: "jsonp",
+			crossDomain: true,
+			success: function (data) {
+				$("#load-list").html("");
+				for (var i = 0; i < data.length; i++) {
+					var title = data[i].WhiteboardTitle;
+					var id = data[i].ID;
+					var listItem = '<li><a class="load-item" href="#" data-id="' + id + '">' + title + '</a></li>';
+					$("#load-list").append(listItem);
+				}
+
+				$(".load-item").click(function(e) {
+					var id = $(this).data("id");
+					loadDrawing(id);
+				});
+			},
+			error: function (xhr, err) {
+				// TODO: better error message
+				alert("Something went wrong")
+			}
+		});
+	});
+
+	function loadDrawing(id) {
+		var param = { "id": id };
+		$.ajax({
+			type: "GET",
+			contentType: "application/json; charset=utf-8",
+			url: "http://whiteboard.apphb.com/Home/GetWhiteboard",
+			data: param,
+			dataType: "jsonp",
+			crossDomain: true,
+			success: function (data) {
+				loadedShapes = JSON.parse(data.WhiteboardContents);
+
+				for (var i = 0; i < loadedShapes.length; i++) {
+
+					if (loadedShapes[i].shapeType === "rect") {
+						var newRect = new Rectangle(loadedShapes[i].x,
+							loadedShapes[i].y,
+							loadedShapes[i].x2,
+							loadedShapes[i].y2,
+							loadedShapes[i].fill,
+							loadedShapes[i].stroke,
+							loadedShapes[i].lineWidth,
+							loadedShapes[i].strokeActive,
+							loadedShapes[i].fillActive);
+
+						currentState.shapes.push(newRect);
+
+					} else if (loadedShapes[i].shapeType === "circle") {
+						currentState.shapes.push(new Circle(loadedShapes[i].x1,
+						loadedShapes[i].y1, 
+						loadedShapes[i].x2, 
+						loadedShapes[i].y2, 
+						loadedShapes[i].fill, 
+						loadedShapes[i].lineWidth, 
+						loadedShapes[i].stroke, 
+						loadedShapes[i].strokeActive, 
+						loadedShapes[i].fillActive));
+
+					} else if (loadedShapes[i].shapeType === "line") {
+						currentState.shapes.push(new Line(loadedShapes[i].x, 
+							loadedShapes[i].y, 
+							loadedShapes[i].x2, 
+							loadedShapes[i].y2, 
+							loadedShapes[i].stroke, 
+							loadedShapes[i].lineWidth));
+
+					} else if (loadedShapes[i].shapeType === "ellip") {
+						currentState.shapes.push(new Ellipse(loadedShapes[i].x, 
+							loadedShapes[i].y, 
+							loadedShapes[i].x2, 
+							loadedShapes[i].y2, 
+							loadedShapes[i].fill, 
+							loadedShapes[i].stroke, 
+							loadedShapes[i].lineWidth, 
+							loadedShapes[i].strokeActive, 
+							loadedShapes[i].fillActive));
+					} else if (loadedShapes[i].shapeType === "pen") {
+						currentState.shapes.push(new Pen(loadedShapes[i].x, 
+							loadedShapes[i].y, 
+							loadedShapes[i].stroke, 
+							loadedShapes[i].lineWidth));
+					} else if (loadedShapes[i].shapeType === "img") {
+
+					} else if (loadedShapes[i].shapeType === "text") {
+						currentState.shapes.push(new Text(loadedShapes[i].textString, 
+							loadedShapes[i].x, 
+							loadedShapes[i].y, 
+							loadedShapes[i].color, 
+							loadedShapes[i].font));
+					};
+				};
+				currentState.isValid = false;
+			},
+			error: function (xhr, err) {
+				// TODO: better error message
+				alert("Something went wrong")
+			}
+		});
+	}
+	
 });
 
+// Sets the ui to the selected tool
 function initToolbars(activeTool) {
 	$(".tool-settings").hide();
 	$(".tool").attr("class", "tool btn btn-default");
@@ -677,8 +904,8 @@ function initToolbars(activeTool) {
 }
 
 function downloadCanvas(link, canvasId, filename) {
-    link.href = document.getElementById(canvasId).toDataURL();
-    link.download = filename;
+	link.href = document.getElementById(canvasId).toDataURL();
+	link.download = filename;
 }
 
 /** 
@@ -686,7 +913,7 @@ function downloadCanvas(link, canvasId, filename) {
  * parameter (=the link element), ID of the canvas and a filename.
 */
 document.getElementById('download').addEventListener('click', function() {
-    downloadCanvas(this, 'myCanvas', 'test.png');
+	downloadCanvas(this, 'myCanvas', 'test.png');
 }, false);
 
 
