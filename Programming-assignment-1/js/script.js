@@ -451,34 +451,6 @@ Text.prototype.move = function(x, y, x2, y2) {
 }
 
 
-function Img (x, y, width, height, image){
-	this.shapeType = "img"
-	this.x = x;
-	this.y = y;
-	this.width = width;
-	this.height = height;
-	this.image = image;
-}
-
-Img.prototype.draw = function (ctx) {
-	ctx.drawImage(this.image, this.x, this.y);
-}
-
-Img.prototype.contains = function(mx, my, ctx) {
-	var ctx2 = ctx;
-	ctx2.rect(this.x, this.y, this.width, this.height);
-	if(ctx2.isPointInPath(mx, my)){
-		return true;
-	} else{ return false; }
-}
-
-Img.prototype.move = function(x, y, x2, y2) {
-	var difOfX = x - x2;
-	var difOfY = y - y2;
-
-	this.x = this.x - difOfX;
-	this.y = this.y - difOfY;
-}
 
 
 function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive) {
@@ -610,8 +582,6 @@ CanvasState.prototype.redo = function() {
 }
 
 $(document).ready(function() {
-	var imageLoader = document.getElementById('upload');
-	imageLoader.addEventListener('change', handleImage, false);
 	var canvas = document.getElementById("myCanvas");
 	var tools = new ToolSettings();
 
@@ -634,19 +604,6 @@ $(document).ready(function() {
 	}, currentState.drawInterval);
 	
 
-	function handleImage(e){
-		var reader = new FileReader();
-		reader.onload = function(event){
-			var img = new Image();
-			img.onload = function(){
-				currentState.ctx.drawImage(img,0,0);
-			}
-			img.src = event.target.result;
-			currentState.shapes.push(new Img(0, 0, img.width, img.height, img));  
-			alert(img.width + " " + img.height);
-		}
-		reader.readAsDataURL(e.target.files[0]);   
-	}
 
 	$("#myCanvas").mousedown(function(e) {
 
@@ -1057,9 +1014,6 @@ $(document).ready(function() {
 							loadedShapes[i].stroke, 
 							loadedShapes[i].lineWidth,
 							loadedShapes[i].slidenum));
-
-					} else if (loadedShapes[i].shapeType === "img") {
-
 					} else if (loadedShapes[i].shapeType === "text") {
 						currentState.shapes.push(new Text(loadedShapes[i].textString, 
 							loadedShapes[i].x, 
@@ -1100,19 +1054,5 @@ function initToolbars(activeTool) {
 		$(".fill-color").show();
 	}
 }
-
-function downloadCanvas(link, canvasId, filename) {
-	link.href = document.getElementById(canvasId).toDataURL();
-	link.download = filename;
-}
-
-/** 
- * The event handler for the link's onclick event. We give THIS as a
- * parameter (=the link element), ID of the canvas and a filename.
-*/
-document.getElementById('download').addEventListener('click', function() {
-	downloadCanvas(this, 'myCanvas', 'test.png');
-}, false);
-
 
 
