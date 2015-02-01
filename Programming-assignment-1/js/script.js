@@ -328,12 +328,10 @@ Pen.prototype.draw = function(ctx) {
 
 		for(var i = 1; i < this.x.length; i++) {
 			if((this.x[i] + this.y[i]) > (xmax + ymax)){
-				console.log("isbigger " + this.x[i]);
 				xmax = this.x[i];
 				ymax = this.y[i];
 			}
 			if((this.x[i] + this.y[i]) < (xmin + ymin)) {
-				console.log("issmaller " + this.x[i]);
 				xmin = this.x[i];
 				ymin = this.y[i];
 			}
@@ -884,6 +882,7 @@ $(document).ready(function() {
 		};
 
 		var stringifiedArray = JSON.stringify(currentState.shapes);
+
 		var param = { "user": currentState.username, 
 			"name": title,
 			"content": stringifiedArray,
@@ -958,7 +957,6 @@ $(document).ready(function() {
 			crossDomain: true,
 			success: function (data) {
 				loadedShapes = JSON.parse(data.WhiteboardContents);
-				console.log(loadedShapes);
 
 				for (var i = 0; i < loadedShapes.length; i++) {
 
@@ -997,7 +995,6 @@ $(document).ready(function() {
 							loadedShapes[i].slidenum));
 
 					} else if (loadedShapes[i].shapeType === "ellip") {
-						console.log(loadedShapes[i]);
 						currentState.shapes.push(new Ellipse(loadedShapes[i].x, 
 							loadedShapes[i].y, 
 							loadedShapes[i].x2, 
@@ -1025,7 +1022,7 @@ $(document).ready(function() {
 					};
 				};
 				currentState.isValid = false;
-				console.log(currentState.shapes);
+
 			},
 			error: function (xhr, err) {
 				// TODO: better error message
