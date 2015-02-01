@@ -465,7 +465,7 @@ Img.prototype.move = function(x, y, x2, y2) {
 }
 
 
-function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive) {
+function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActive, slidenum) {
 	this.x1 = x1;
 	this.y1 = y1;
 	this.x2 = x2;
@@ -477,6 +477,7 @@ function Circle(x1, y1, x2, y2, fill, lineWidth, stroke, strokeActive, fillActiv
 	this.stroke = stroke;
 	this.strokeActive = strokeActive;
 	this.fillActive = fillActive;
+	this.slidenum = slidenum;
 }
 
 Circle.prototype.contains = function(mx, my, ctx) {
@@ -725,7 +726,7 @@ $(document).ready(function() {
 				currentState.startX = x;
 				currentState.startY = y;
 				currentState.shapes[i] = currentState.selection;
-			}
+			} 
 			if(tools.shape !== "move" && tools.shape !== "text") {
 				currentState.shapes.push(currentShape);
 			}
