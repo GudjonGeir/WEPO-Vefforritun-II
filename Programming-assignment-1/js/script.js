@@ -318,6 +318,7 @@ Pen.prototype.draw = function(ctx) {
 			ctx.lineWidth = this.lineWidth;
 			ctx.moveTo(this.x[i], this.y[i]);
 			ctx.lineTo(this.x[i + 1], this.y[i + 1]);
+			ctx.lineJoin = "round";
 			ctx.closePath();
 			ctx.stroke();
 		}
@@ -351,6 +352,7 @@ Pen.prototype.draw = function(ctx) {
 			ctx.lineWidth = this.lineWidth;
 			ctx.moveTo(this.x[i] - xmid, this.y[i] - ymid);
 			ctx.lineTo(this.x[i + 1] - xmid, this.y[i + 1] - ymid);
+			ctx.lineJoin = "round";
 			ctx.closePath();
 			ctx.stroke();
 		}
