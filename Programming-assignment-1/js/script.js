@@ -632,7 +632,7 @@ $(document).ready(function() {
 		if(tools.shape === "rect") {
 			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive, currentState.slidenum));
 		} else if (tools.shape === "circle") {
-			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive));
+			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive, currentState.slidenum));
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
