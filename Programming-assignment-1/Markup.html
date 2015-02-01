@@ -23,9 +23,48 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="#">Whiteboard</a>
-				</div>
+				</div> <!-- navbar-header -->
+
+				<form id="login-form" class="navbar-form navbar-right">
+					<div class="input-group">
+						<input id="username-txt" type="text" class="form-control" placeholder="Username">
+						<span class="input-group-btn">
+							<button id="login-btn" type="submit" class="btn btn-default">Login</button>
+						</span>
+					</div>
+				</form>
+
+				<ul id="save-load-form" class="nav navbar-nav navbar-right" hidden>	
+					<li><a id="save-link" href="#">Save</a></li>				
+					<li class="dropdown">
+					  <a id="load-link" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Load <span class="caret"></span></a>
+					  <ul id="load-list" class="dropdown-menu" role="menu">
+						<!-- Populated by click -->
+					  </ul>
+					</li>
+				  </ul>
 			</div><!-- /.container-fluid -->
 		</nav>
+
+		<div class="row" id="alerts">
+			<div class="col-md-3"></div>
+			<div id="alert-box" class="col-md-6">
+				
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+
+		<div id="save-form" class="row" hidden> <!-- save input -->
+			<div class="col-md-9"></div>
+			<div class="col-md-3">
+				<div class="input-group">
+					<input id="save-title-txt" type="text" class="form-control" placeholder="Title">
+					<span class="input-group-btn">
+						<button id="save-btn" type="submit" class="btn btn-default">Save</button>
+					</span>
+				</div> 
+			</div>
+		</div> <!-- save input -->
 
 		<!-- Main content -->
 		<div class="row">
@@ -257,13 +296,13 @@
 						<button id="next-btn" type="button" class="btn btn-default">Next Slide</button>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div> <!-- ./container -->
-	<a id="download">Download as image</a>
-	<input type="file" id="upload" name="upload"/>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
 	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="node_modules/bootstrap/js/alert.js"></script>
 
 	<script src="js/script.js"></script>
 </body>
