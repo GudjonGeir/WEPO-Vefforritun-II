@@ -605,7 +605,6 @@ $(document).ready(function() {
 
 		var x, y;
 
-
 		// Empty the redo history
 		currentState.redoStack = [];
 
@@ -628,6 +627,7 @@ $(document).ready(function() {
 		currentState.startY = e.pageY - offsetY;
 		x = currentState.startX;
 		y = currentState.startY;
+
 
 		if(tools.shape === "rect") {
 			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive, currentState.slidenum));
@@ -675,7 +675,7 @@ $(document).ready(function() {
 		} else if (tools.shape === "text") {
 			// Note: empty on purpose
 		}
-
+		e.preventDefault();
 	});
 
 	$("#myCanvas").mousemove(function(e) {
@@ -725,6 +725,7 @@ $(document).ready(function() {
 			}
 
 			currentState.isValid = false;
+			e.preventDefault();
 		};
 	});
 
@@ -764,6 +765,7 @@ $(document).ready(function() {
 				}
 			});
 		}
+		e.preventDefault();
 	});
 
 	$("#prev-btn").click(function(e) {
@@ -860,6 +862,7 @@ $(document).ready(function() {
 		currentState.username = username;
 		$("#login-form").hide();
 		$("#save-load-form").show();
+		return false;
 
 	});
 
@@ -955,6 +958,7 @@ $(document).ready(function() {
 			crossDomain: true,
 			success: function (data) {
 				loadedShapes = JSON.parse(data.WhiteboardContents);
+				console.log(loadedShapes);
 
 				for (var i = 0; i < loadedShapes.length; i++) {
 
@@ -993,6 +997,7 @@ $(document).ready(function() {
 							loadedShapes[i].slidenum));
 
 					} else if (loadedShapes[i].shapeType === "ellip") {
+						console.log(loadedShapes[i]);
 						currentState.shapes.push(new Ellipse(loadedShapes[i].x, 
 							loadedShapes[i].y, 
 							loadedShapes[i].x2, 
@@ -1020,6 +1025,7 @@ $(document).ready(function() {
 					};
 				};
 				currentState.isValid = false;
+				console.log(currentState.shapes);
 			},
 			error: function (xhr, err) {
 				// TODO: better error message
