@@ -451,17 +451,17 @@ Text.prototype.move = function(x, y, x2, y2) {
 }
 
 
-function Img (x, y, width, height, img){
+function Img (x, y, width, height, image){
 	this.shapeType = "img"
 	this.x = x;
 	this.y = y;
 	this.width = width;
 	this.height = height;
-	this.img = img;
+	this.image = image;
 }
 
 Img.prototype.draw = function (ctx) {
-	ctx.drawImage(this.img, this.x, this.y);
+	ctx.drawImage(this.image, this.x, this.y);
 }
 
 Img.prototype.contains = function(mx, my, ctx) {
@@ -550,7 +550,7 @@ function CanvasState(canvas) {
 	this.height = canvas.height;
 	this.ctx = canvas.getContext("2d");
 
-	this.username = ""; // Contains the username for save/reload functionality
+	this.username = ""; // Contains the username for save/load functionality
 
 	this.startX;
 	this.startY;
@@ -679,7 +679,7 @@ $(document).ready(function() {
 		if(tools.shape === "rect") {
 			currentState.shapes.push(new Rectangle(x, y, x, y, tools.fill, tools.stroke, tools.lineWidth, tools.strokeActive, tools.fillActive, currentState.slidenum));
 		} else if (tools.shape === "circle") {
-			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive, currentState.slidenum));
+			currentState.shapes.push(new Circle(x, y, x, y, tools.fill, tools.lineWidth, tools.stroke, tools.strokeActive, tools.fillActive));
 		} else if(tools.shape === "line") {
 			currentState.startX = e.pageX - this.offsetLeft;
 			currentState.startY = e.pageY - this.offsetTop;
@@ -951,7 +951,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, err) {
 				// TODO: better error message
-				alert("Something went wrong")
+				alert("Something went wrong");
 			}
 		});
 
@@ -986,7 +986,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, err) {
 				// TODO: better error message
-				alert("Something went wrong")
+				alert("Something went wrong");
 			}
 		});
 	});
@@ -1014,7 +1014,8 @@ $(document).ready(function() {
 							loadedShapes[i].stroke,
 							loadedShapes[i].lineWidth,
 							loadedShapes[i].strokeActive,
-							loadedShapes[i].fillActive);
+							loadedShapes[i].fillActive,
+							loadedShapes[i].slidenum);
 
 						currentState.shapes.push(newRect);
 
@@ -1035,7 +1036,8 @@ $(document).ready(function() {
 							loadedShapes[i].x2, 
 							loadedShapes[i].y2, 
 							loadedShapes[i].stroke, 
-							loadedShapes[i].lineWidth));
+							loadedShapes[i].lineWidth,
+							loadedShapes[i].slidenum));
 
 					} else if (loadedShapes[i].shapeType === "ellip") {
 						currentState.shapes.push(new Ellipse(loadedShapes[i].x, 
@@ -1046,12 +1048,16 @@ $(document).ready(function() {
 							loadedShapes[i].stroke, 
 							loadedShapes[i].lineWidth, 
 							loadedShapes[i].strokeActive, 
-							loadedShapes[i].fillActive));
+							loadedShapes[i].fillActive,
+							loadedShapes[i].slidenum));
+
 					} else if (loadedShapes[i].shapeType === "pen") {
 						currentState.shapes.push(new Pen(loadedShapes[i].x, 
 							loadedShapes[i].y, 
 							loadedShapes[i].stroke, 
-							loadedShapes[i].lineWidth));
+							loadedShapes[i].lineWidth,
+							loadedShapes[i].slidenum));
+
 					} else if (loadedShapes[i].shapeType === "img") {
 
 					} else if (loadedShapes[i].shapeType === "text") {
@@ -1059,14 +1065,15 @@ $(document).ready(function() {
 							loadedShapes[i].x, 
 							loadedShapes[i].y, 
 							loadedShapes[i].color, 
-							loadedShapes[i].font));
+							loadedShapes[i].font,
+							loadedShapes[i].slidenum));
 					};
 				};
 				currentState.isValid = false;
 			},
 			error: function (xhr, err) {
 				// TODO: better error message
-				alert("Something went wrong")
+				alert("Something went wrong");
 			}
 		});
 	}
