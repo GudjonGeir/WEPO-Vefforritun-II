@@ -1,0 +1,25 @@
+{
+  "name": "Programming-assignment-2",
+  "version": "0.0.1",
+  "homepage": "https://github.com/GudjonGeir/WEPO-Vefforritun-II",
+  "authors": [
+    "Gudjon Geir Jonsson <gudjongeir@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.3.13",
+    "bootstrap": "~3.3.2",
+    "socket.io-client": "0.9.x"
+  }
+}
