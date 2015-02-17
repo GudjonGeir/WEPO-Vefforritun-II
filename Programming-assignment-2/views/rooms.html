@@ -1,8 +1,8 @@
 <div class="col-md 4">
-	<h4>Welcome {{ currentUser }}, please select a username</h4>
+	<h4>Welcome {{ currentUser }}, please select a chatroom</h4>
 	<div class="well">
 		<ul ng-repeat="room in roomList">
-			<li>{{ room.topic }}</li>
+			<li><a href="#/room/{{ currentUser }}/{{ room }}">{{ room }}</a></li>
 		</ul>
 	</div>
 </div>

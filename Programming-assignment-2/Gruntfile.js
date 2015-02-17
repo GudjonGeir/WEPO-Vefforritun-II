@@ -16,8 +16,28 @@ module.exports = function(grunt) {
 		// configure jshint to validate js files -----------------------------------
 		jshint: {
 			options: {
-				reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
+				reporter: require('jshint-stylish'), // use jshint-stylish to make our errors look and read good
+				curly:  true,
+				immed:  true,
+				newcap: true,
+				noarg:  true,
+				sub:    true,
+				boss:   true,
+				eqnull: true,
+				node:   true,
+				undef:  true,
+				globals: {
+					_:       		false,
+					jQuery:  		false,
+					angular: 		false,
+					moment:  		false,
+					console: 		false,
+					$:       		false,
+					io:      		false,
+					ChatterClient: 	true
+					}
 			},
+
 
 			// when this task is run, lint the Gruntfile and all js files in src
 			build: ['Gruntfile.js', 'js/**/*.js']
@@ -37,6 +57,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+
 
 };
