@@ -20,7 +20,7 @@ ChatterClient.factory('socket', function ($rootScope) {
                         callback.apply(socket, args);
                     }
                 });
-            })
+            });
         }
     };
 });
