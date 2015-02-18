@@ -5,4 +5,13 @@
 			<li><a href="#/room/{{ currentUser }}/{{ room }}">{{ room }}</a></li>
 		</ul>
 	</div>
+	<div class="input-group">
+		Room name: <input type="text" ng-model="newRoom"/> Room password: <input type="text" ng-model="newPass"/>
+		<span class="input-group-btn">
+			<button ng-click="addRoom()"> New Room </button> 
+		</span>
+	</div>
+	<div class="alert alert-danger" role="alert" ng-show="displayError">
+		{{ errorMessage }}
+	</div>
 </div>

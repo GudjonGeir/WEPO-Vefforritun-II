@@ -11,7 +11,8 @@ ChatterClient.config(
 			});
 	});
 
-ChatterClient.controller("LoginController", function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatterClient.controller("LoginController", 
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.username = "";
 	$scope.errorMessage = "";
 	$scope.displayError = false;
@@ -34,11 +35,67 @@ ChatterClient.controller("LoginController", function ($scope, $location, $rootSc
 	};
 });
 
-ChatterClient.controller("RoomListController", function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatterClient.controller("RoomController", 
+function ($scope, $location, $rootScope, $routeParams, socket) {
+	$scope.roomName = $routeParams.roomId;
+	$scope.displayError = false;
+
+	socket.on("roomlist", function (roomList) {
+		var rooms = Object(roomList);
+		console.log(rooms);
+	});
+	
+
+	$scope.addMsg = function() {
+		if($scope.msg === ""){
+			$scope.errorMessage = "Say sumthin";
+			$scope.displayError = true;
+		} else {
+			var data = {
+				msg : $scope.msg,
+				roomName : $scope.roomName
+			}
+			socket.emit('sendmsg', data);
+		}
+	}
+
+});
+
+ChatterClient.controller("RoomListController", 
+function ($scope, $location, $rootScope, $routeParams, socket) {
+
 	$scope.currentUser = $routeParams.user;
+	$scope.errorMessage = "";
+	$scope.displayError = false;
+
 	socket.emit("rooms");
 	socket.on("roomlist", function (roomList) {
 		$scope.roomList = Object.keys(roomList);
 
 	});
+
+	$scope.addRoom = function() {
+		if($scope.newRoom === "") {
+			$scope.errorMessage = "Please choose a room name";
+			$scope.displayError = true;
+		}
+		else {
+			if($scope.newPass === ""){
+				var joinObj = {room : $scope.newRoom};
+			} else {
+				var joinObj = {room : $scope.newRoom, pass : $scope.newPass};
+			}
+			socket.emit('joinroom', joinObj, function(available) {
+				if(available) {
+					$location.path("/room/" + $scope.currentUser + "/" + $scope.newRoom);
+				}
+				else {
+					$scope.errorMessage = "HerpaDerp";
+					$scope.displayError = true;
+				}
+
+			});
+
+		}
+	}
 });
