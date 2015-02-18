@@ -40,24 +40,36 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.roomName = $routeParams.roomId;
 	$scope.displayError = false;
 
-	socket.on("roomlist", function (roomList) {
-		var rooms = Object(roomList);
-		console.log(rooms);
+	var obj = {
+		room : $routeParams.roomId,
+		pass : ""
+	};
+
+	socket.emit("joinroom", obj, function (accepted, errorMessage) {
+		if (!accepted) {
+			$scope.displayError = true;
+			$scope.errorMessage = errorMessage;
+		}
+		
+		socket.on('updatechat', function (room, messageHistory){
+			$scope.messages = messageHistory;
+		});
 	});
 	
 
 	$scope.addMsg = function() {
 		if($scope.msg === ""){
-			$scope.errorMessage = "Say sumthin";
-			$scope.displayError = true;
+			//$scope.errorMessage = "Say sumthin";
+			//$scope.displayError = true;
 		} else {
 			var data = {
 				msg : $scope.msg,
 				roomName : $scope.roomName
-			}
+			};
 			socket.emit('sendmsg', data);
 		}
-	}
+		$scope.msg = "";
+	};
 
 });
 
@@ -67,11 +79,11 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
 	$scope.displayError = false;
+	var joinObj;
 
 	socket.emit("rooms");
 	socket.on("roomlist", function (roomList) {
 		$scope.roomList = Object.keys(roomList);
-
 	});
 
 	$scope.addRoom = function() {
@@ -81,9 +93,9 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		}
 		else {
 			if($scope.newPass === ""){
-				var joinObj = {room : $scope.newRoom};
+				joinObj = {room : $scope.newRoom};
 			} else {
-				var joinObj = {room : $scope.newRoom, pass : $scope.newPass};
+				joinObj = {room : $scope.newRoom, pass : $scope.newPass};
 			}
 			socket.emit('joinroom', joinObj, function(available) {
 				if(available) {
@@ -95,7 +107,6 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 				}
 
 			});
-
 		}
-	}
+	};
 });
