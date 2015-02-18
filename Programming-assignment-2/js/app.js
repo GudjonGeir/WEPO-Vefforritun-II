@@ -56,6 +56,13 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		});
 	});
 	
+	$scope.down = function(e) {
+		console.log(e.srcElement);
+      
+      	if (e.keyCode === 13) {
+        	$scope.addMsg();
+      	}
+	};
 
 	$scope.addMsg = function() {
 		if($scope.msg === ""){
