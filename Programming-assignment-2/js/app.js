@@ -37,10 +37,11 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 ChatterClient.controller("RoomController", 
 function ($scope, $location, $rootScope, $routeParams, socket) {
+	var data, obj
 	$scope.roomName = $routeParams.roomId;
 	$scope.displayError = false;
 
-	var obj = {
+	obj = {
 		room : $routeParams.roomId,
 		pass : ""
 	};
@@ -50,11 +51,27 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 			$scope.displayError = true;
 			$scope.errorMessage = errorMessage;
 		}
-		
-		socket.on('updatechat', function (room, messageHistory){
-			$scope.messages = messageHistory;
-		});
 	});
+
+	socket.on('updatechat', function (room, messageHistory){
+		$scope.messages = messageHistory;
+	});
+
+	socket.on('updateusers', function (room, users, ops) {
+		$scope.users = users;
+	});
+
+	socket.on('servermessage', function (event, room, username) {
+		if (event === "join") {
+			data = {
+				msg: username + " has joined the channel",
+				roomName: room
+			};
+			socket.emit('sendmsg', data);
+		};
+	});
+
+
 	
 
 	$scope.addMsg = function() {
@@ -62,7 +79,7 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 			//$scope.errorMessage = "Say sumthin";
 			//$scope.displayError = true;
 		} else {
-			var data = {
+			data = {
 				msg : $scope.msg,
 				roomName : $scope.roomName
 			};
