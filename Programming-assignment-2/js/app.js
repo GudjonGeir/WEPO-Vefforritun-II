@@ -116,7 +116,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		}, function () {
 			// User cancelled
 		});
-	}
+	};
 });
 
 ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, socket) {
