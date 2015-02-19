@@ -37,18 +37,17 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 });
 
 ChatterClient.controller("RoomController", 
-function ($scope, $location, $rootScope, $routeParams, socket) {
-	var data, obj;
+function ($scope, $location, $rootScope, $routeParams, socket, $window) {
+
+	var data, obj, roomtemp;
+
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
-
+	roomtemp = $routeParams.roomId;
 	obj = {
 		room : $routeParams.roomId,
 		pass : ""
 	};
-
-
-
 
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
@@ -81,12 +80,14 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	});
 	
 	$scope.$on("$destroy", function() {
+		console.log("exit");
 		$scope.exit();
 	});
 
 	$scope.exit = function() {
-		socket.emit('partroom', routeParams.roomId);
-	}
+		console.log(roomtemp);
+		socket.emit('partroom', roomtemp);
+	};
 
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
@@ -123,7 +124,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 	});
 
 	$scope.joinRoom = function(room) {
-		joinObj = { room: room }
+		joinObj = { room: room };
 		socket.emit('joinroom', joinObj, function (available, error) {
 			if(available) {
 				$location.path("/room/" + $scope.currentUser + "/" + room);
@@ -134,7 +135,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 				// $scope.displayError = true;
 			}
 		});
-	}
+	};
 
 	$scope.createRoom = function() {
 		var modalInstance = $modal.open({
