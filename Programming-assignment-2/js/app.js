@@ -119,30 +119,6 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 			// User cancelled
 		});
 	}
-
-	// $scope.addRoom = function() {
-	// 	if($scope.newRoom === "") {
-	// 		$scope.errorMessage = "Please choose a room name";
-	// 		$scope.displayError = true;
-	// 	}
-	// 	else {
-	// 		if($scope.newPass === ""){
-	// 			joinObj = {room : $scope.newRoom};
-	// 		} else {
-	// 			joinObj = {room : $scope.newRoom, pass : $scope.newPass};
-	// 		}
-	// 		socket.emit('joinroom', joinObj, function(available) {
-	// 			if(available) {
-	// 				$location.path("/room/" + $scope.currentUser + "/" + $scope.newRoom);
-	// 			}
-	// 			else {
-	// 				$scope.errorMessage = "HerpaDerp";
-	// 				$scope.displayError = true;
-	// 			}
-
-	// 		});
-	// 	}
-	// };
 });
 
 ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, socket) {
