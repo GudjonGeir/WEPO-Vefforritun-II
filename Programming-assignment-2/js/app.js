@@ -1,4 +1,4 @@
-var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap']);
+var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap', 'luegg.directives']);
 
 ChatterClient.config(
 	function ($routeProvider) {
@@ -36,10 +36,11 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 });
 
 ChatterClient.controller("RoomController", 
-function ($scope, $location, $rootScope, $routeParams, socket) {
+function ($scope, $location, $rootScope, $routeParams, socket, $anchorScroll) {
 	var data, obj;
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
+	$scope.glued = true;
 
 
 	obj = {
@@ -51,10 +52,7 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
-		angular.element(".testing").css( { color:"red"} );
-
-		// $( "div span:last-child" )
-		// 	.css({ color:"red", fontSize:"80%" })
+		$scope.glued = true;
 	});
 
 	socket.on('updateusers', function (room, users, ops) {
