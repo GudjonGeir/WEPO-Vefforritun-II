@@ -1,4 +1,4 @@
-var ChatterClient = angular.module("ChatterClient", ['ngRoute']);
+var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap']);
 
 ChatterClient.config(
 	function ($routeProvider) {
@@ -75,10 +75,10 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	
 	$scope.down = function(e) {
 		console.log(e.srcElement);
-      
-      	if (e.keyCode === 13) {
-        	$scope.addMsg();
-      	}
+	  
+		if (e.keyCode === 13) {
+			$scope.addMsg();
+		}
 	};
 
 	$scope.addMsg = function() {
@@ -98,39 +98,92 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 });
 
 ChatterClient.controller("RoomListController", 
-function ($scope, $location, $rootScope, $routeParams, socket) {
+function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
 	$scope.displayError = false;
-	var joinObj;
+	
 
 	socket.emit("rooms");
 	socket.on("roomlist", function (roomList) {
 		$scope.roomList = Object.keys(roomList);
 	});
 
-	$scope.addRoom = function() {
-		if($scope.newRoom === "") {
+	$scope.createRoom = function () {
+		var modalInstance = $modal.open({
+			templateUrl: 'modal_templates/createroom.html',
+			controller: 'CreateRoomCtrl'
+		});
+
+		modalInstance.result.then(function (newroomname, newroompassword) {
+			$location.path("/room/" + $scope.currentUser + "/" + newroomname);
+
+
+		}, function () {
+			// User cancelled
+		});
+	}
+
+	// $scope.addRoom = function() {
+	// 	if($scope.newRoom === "") {
+	// 		$scope.errorMessage = "Please choose a room name";
+	// 		$scope.displayError = true;
+	// 	}
+	// 	else {
+	// 		if($scope.newPass === ""){
+	// 			joinObj = {room : $scope.newRoom};
+	// 		} else {
+	// 			joinObj = {room : $scope.newRoom, pass : $scope.newPass};
+	// 		}
+	// 		socket.emit('joinroom', joinObj, function(available) {
+	// 			if(available) {
+	// 				$location.path("/room/" + $scope.currentUser + "/" + $scope.newRoom);
+	// 			}
+	// 			else {
+	// 				$scope.errorMessage = "HerpaDerp";
+	// 				$scope.displayError = true;
+	// 			}
+
+	// 		});
+	// 	}
+	// };
+});
+
+ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, socket) {
+	var joinObj, path;
+	$scope.displayError = false;
+	$scope.errorMessage = "";
+
+	$scope.newroomname = "";
+	$scope.newroompassword = "";
+
+	$scope.ok = function () {
+		if ($scope.newroomname === "") {
 			$scope.errorMessage = "Please choose a room name";
 			$scope.displayError = true;
 		}
 		else {
-			if($scope.newPass === ""){
-				joinObj = {room : $scope.newRoom};
-			} else {
-				joinObj = {room : $scope.newRoom, pass : $scope.newPass};
+			if($scope.newPass === "") {
+				joinObj = {room : $scope.newroomname};
+			} 
+			else {
+				joinObj = {room : $scope.newroomname, pass : $scope.newroompassword};
 			}
-			socket.emit('joinroom', joinObj, function(available) {
+			socket.emit('joinroom', joinObj, function (available, error) {
 				if(available) {
-					$location.path("/room/" + $scope.currentUser + "/" + $scope.newRoom);
+					path = "/room/" + $scope.currentUser + "/" + $scope.newRoom;
+					$modalInstance.close($scope.newroomname, $scope.newroompassword);
 				}
 				else {
-					$scope.errorMessage = "HerpaDerp";
+					$scope.errorMessage = error;
 					$scope.displayError = true;
 				}
-
 			});
 		}
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
 	};
 });
