@@ -1,17 +1,29 @@
 <div class="col-md 4">
 	<h4>Welcome to {{ roomName }}, please behave</h4>
-	<div class="well">
-		<ul ng-repeat="msg in messages">
-			<li><span>{{msg.nick}}:</span> {{ msg.message }}</li>
-		</ul>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="well">
+				<ul ng-repeat="msg in messages">
+					<li><span>{{msg.nick}}:</span> {{ msg.message }}</li>
+				</ul>
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" ng-controller="RoomController" ng-keydown="down($event)" ng-model="msg"/>
+				<span class="input-group-btn">
+					<button class="btn btn-default" ng-click="addMsg()" type="button">Send</button> 
+				</span>
+			</div>
+			<div class="alert alert-danger" role="alert" ng-show="displayError">
+				{{ errorMessage }}
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="well">
+				<ul ng-repeat="user in users">
+					<li>{{ user }}</li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	<div class="input-group">
-		<input type="text" ng-controller="RoomController" ng-keydown="down($event)" ng-model="msg"/>
-		<span class="input-group-btn">
-			<button ng-click="addMsg()" type="button">Send</button> 
-		</span>
-	</div>
-	<div class="alert alert-danger" role="alert" ng-show="displayError">
-		{{ errorMessage }}
-	</div>
+	
 </div>
