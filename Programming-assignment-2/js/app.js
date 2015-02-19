@@ -51,13 +51,16 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
+		angular.element(".testing").css( { color:"red"} );
+
+		// $( "div span:last-child" )
+		// 	.css({ color:"red", fontSize:"80%" })
 	});
 
 	socket.on('updateusers', function (room, users, ops) {
 		$scope.users = users;
 	});
 
-	console.log("roomctrl");
 
 	socket.on('servermessage', function (event, room, username) {
 		if (event === "join") {
@@ -73,21 +76,18 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
-      		console.log(e.keyCode);
         	$scope.addMsg();
       	}
 	};
 
 	$scope.addMsg = function() {
 		if($scope.newmsg === ""){
-			console.log("sd;f");
 		} 
 		else {
 			data = {
 				msg : $scope.newmsg,
 				roomName : $scope.roomName
 			};
-			console.log(data);
 			socket.emit('sendmsg', data);
 			$scope.newmsg = "";
 		}
@@ -96,6 +96,7 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 ChatterClient.controller("RoomListController", 
 function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
+	var joinObj;
 
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
@@ -107,7 +108,21 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		$scope.roomList = Object.keys(roomList);
 	});
 
-	$scope.createRoom = function () {
+	$scope.joinRoom = function(room) {
+		joinObj = { room: room }
+		socket.emit('joinroom', joinObj, function (available, error) {
+			if(available) {
+				$location.path("/room/" + $scope.currentUser + "/" + room);
+			}
+			else {
+				// TODO: error message
+				// $scope.errorMessage = error;
+				// $scope.displayError = true;
+			}
+		});
+	}
+
+	$scope.createRoom = function() {
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/createroom.html',
 			controller: 'CreateRoomCtrl'
@@ -137,7 +152,7 @@ ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, soc
 			$scope.displayError = true;
 		}
 		else {
-			if($scope.newPass === "") {
+			if($scope.newroompassword === "") {
 				joinObj = {room : $scope.newroomname};
 			} 
 			else {
