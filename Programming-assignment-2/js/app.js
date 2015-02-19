@@ -79,13 +79,13 @@ function ($scope, $location, $rootScope, $routeParams, socket, $window) {
 		}
 	});
 	
+	g
+
 	$scope.$on("$destroy", function() {
-		console.log("exit");
 		$scope.exit();
 	});
 
 	$scope.exit = function() {
-		console.log(roomtemp);
 		socket.emit('partroom', roomtemp);
 	};
 
