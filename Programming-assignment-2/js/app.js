@@ -41,17 +41,13 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
 
+
 	obj = {
 		room : $routeParams.roomId,
 		pass : ""
 	};
 
-	socket.emit("joinroom", obj, function (accepted, errorMessage) {
-		if (!accepted) {
-			$scope.displayError = true;
-			$scope.errorMessage = errorMessage;
-		}
-	});
+
 
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
@@ -61,6 +57,8 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		$scope.users = users;
 	});
 
+	console.log("roomctrl");
+
 	socket.on('servermessage', function (event, room, username) {
 		if (event === "join") {
 			data = {
@@ -68,8 +66,9 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 				roomName: room
 			};
 			socket.emit('sendmsg', data);
-		};
+		} 
 	});
+	
 
 
 	$scope.down = function(e) {      
@@ -93,7 +92,6 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 			$scope.newmsg = "";
 		}
 	};
-
 });
 
 ChatterClient.controller("RoomListController", 
@@ -122,7 +120,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		}, function () {
 			// User cancelled
 		});
-	}
+	};
 });
 
 ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, socket) {
