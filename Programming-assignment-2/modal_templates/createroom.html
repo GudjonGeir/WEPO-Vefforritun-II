@@ -1,0 +1,19 @@
+<div class="modal-header">
+	<h3 class="modal-title">I'm a modal!</h3>
+</div>
+<div class="modal-body">
+	<div class="form-group">
+		<label for="newroomname" class="control-label">Room name</label>
+		<input type="text" class="form-control" id="newroomname" name="newroomname" ng-model="newroomname" />
+		<label for="newroompassword" class="control-label">Room password (optional)</label>
+		<input type="password" class="form-control" id="newroompassword" name="newroompassword" ng-model="newroompassword" />
+	</div>
+
+	<div class="alert alert-danger" role="alert" ng-show="displayError">
+		{{ errorMessage }}
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="ok()">OK</button>
+	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>
