@@ -37,20 +37,16 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 ChatterClient.controller("RoomController", 
 function ($scope, $location, $rootScope, $routeParams, socket) {
-	var data, obj
+	var data, obj;
 	$scope.roomName = $routeParams.roomId;
+
 
 	obj = {
 		room : $routeParams.roomId,
 		pass : ""
 	};
 
-	socket.emit("joinroom", obj, function (accepted, errorMessage) {
-		if (!accepted) {
-			$scope.displayError = true;
-			$scope.errorMessage = errorMessage;
-		}
-	});
+
 
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
@@ -60,15 +56,20 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		$scope.users = users;
 	});
 
-	socket.on('servermessage', function (event, room, username) {
-		if (event === "join") {
+	console.log("roomctrl");
+
+	/*socket.on('servermessage', function (event, room, username) {
+		if (event === "join" && count === 0) {
 			data = {
 				msg: username + " has joined the channel",
 				roomName: room
 			};
+			console.log(data);
 			socket.emit('sendmsg', data);
-		};
-	});
+		} 
+	});*/
+	
+	//users[msgObj.nick].socket.emit('recv_privatemsg', socket.username, msgObj.message);
 
 
 	
@@ -84,17 +85,17 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		} else {
 			data = {
 				msg : $scope.msg,
-				roomName : $scope.roomName
+				roomName : $routeParams.roomId
 			};
 			socket.emit('sendmsg', data);
 		}
 		$scope.msg = "";
 	};
-
 });
 
 ChatterClient.controller("RoomListController", 
 function ($scope, $location, $rootScope, $routeParams, socket) {
+	console.log("roomctrl");
 
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
@@ -105,6 +106,24 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	socket.on("roomlist", function (roomList) {
 		$scope.roomList = Object.keys(roomList);
 	});
+
+	$scope.joinRoom = function(room) {
+		if(room !== ""){
+			console.log(room);
+			joinObj = {room : room};
+			socket.emit('joinroom', joinObj, function(available) {
+				if(available) {
+					$location.path("/room/" + $scope.currentUser + "/" + room);
+				} else {
+					$scope.errorMessage = "HerpaDerp";
+					$scope.displayError = true;
+				}
+			});
+		} else {
+			$scope.errorMessage = "Room doesn't exist";
+			$scope.displayError = true;
+		}
+	};
 
 	$scope.addRoom = function() {
 		if($scope.newRoom === "") {
@@ -130,3 +149,4 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		}
 	};
 });
+
