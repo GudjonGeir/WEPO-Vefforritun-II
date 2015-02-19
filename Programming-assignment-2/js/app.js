@@ -39,7 +39,6 @@ ChatterClient.controller("RoomController",
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	var data, obj
 	$scope.roomName = $routeParams.roomId;
-	$scope.displayError = false;
 
 	obj = {
 		room : $routeParams.roomId,
@@ -72,19 +71,15 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	});
 
 
-	
-	$scope.down = function(e) {
-		console.log(e.srcElement);
-	  
-		if (e.keyCode === 13) {
-			$scope.addMsg();
-		}
+	$scope.down = function(e) {      
+      	if (e.keyCode === 13) {
+        	$scope.addMsg();
+      	}
 	};
 
 	$scope.addMsg = function() {
 		if($scope.msg === ""){
-			//$scope.errorMessage = "Say sumthin";
-			//$scope.displayError = true;
+
 		} else {
 			data = {
 				msg : $scope.msg,

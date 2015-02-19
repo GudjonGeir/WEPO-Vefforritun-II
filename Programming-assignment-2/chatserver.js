@@ -112,7 +112,7 @@ io.sockets.on('connection', function (socket) {
 
 		if(userAllowed) {
 			//Update the message history for the room that the user sent the message to.
-			var messageObj = {
+			var messageObj = {  
 				nick : socket.username,
 				timestamp :  new Date(),
 				message : data.msg.substring(0, 200)
