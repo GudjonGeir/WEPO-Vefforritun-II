@@ -78,8 +78,6 @@ function ($scope, $location, $rootScope, $routeParams, socket, $window) {
 			socket.emit('sendmsg', data);
 		}
 	});
-	
-	g
 
 	$scope.$on("$destroy", function() {
 		$scope.exit();
