@@ -1,5 +1,6 @@
 var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap']);
 
+
 ChatterClient.config(
 	function ($routeProvider) {
 		$routeProvider
@@ -41,11 +42,11 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
 
-
 	obj = {
 		room : $routeParams.roomId,
 		pass : ""
 	};
+
 
 
 
@@ -65,11 +66,24 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 				msg: username + " has joined the channel",
 				roomName: room
 			};
+
 			socket.emit('sendmsg', data);
-		} 
+		} else if(event === "part") {
+			data = {
+				msg: username + " has decided to leave :/",
+				roomName: room
+			};
+			socket.emit('sendmsg', data);
+		}
 	});
 	
+	$scope.$on("$destroy", function() {
+		$scope.exit();
+	});
 
+	$scope.exit = function() {
+		socket.emit('partroom', routeParams.roomId);
+	}
 
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
@@ -106,6 +120,8 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 	socket.on("roomlist", function (roomList) {
 		$scope.roomList = Object.keys(roomList);
 	});
+
+
 
 	$scope.createRoom = function () {
 		var modalInstance = $modal.open({
