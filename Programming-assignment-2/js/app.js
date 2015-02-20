@@ -1,5 +1,6 @@
 var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap', 'luegg.directives']);
 
+
 ChatterClient.config(
 	function ($routeProvider) {
 		$routeProvider
@@ -42,13 +43,15 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.roomName = $routeParams.roomId;
 	$scope.glued = true;
 
+	var data, obj, roomtemp;
 
+	$scope.newmsg = "";
+	$scope.roomName = $routeParams.roomId;
+	roomtemp = $routeParams.roomId;
 	obj = {
 		room : $routeParams.roomId,
 		pass : ""
 	};
-
-
 
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
@@ -67,8 +70,15 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 				msg: username + " has joined the channel",
 				roomName: room
 			};
+
 			socket.emit('sendmsg', data);
-		} 
+		} else if(event === "part") {
+			data = {
+				msg: username + " has decided to leave :/",
+				roomName: room
+			};
+			socket.emit('sendmsg', data);
+		}
 	});
 
 	// users[msgObj.nick].socket.emit('recv_privatemsg', socket.username, msgObj.message);
@@ -78,6 +88,13 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	})
 	
 
+	$scope.$on("$destroy", function() {
+		$scope.exit();
+	});
+
+	$scope.exit = function() {
+		socket.emit('partroom', roomtemp);
+	};
 
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
