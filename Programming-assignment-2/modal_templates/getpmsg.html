@@ -1,0 +1,12 @@
+<div class="modal-header">
+	<h3 class="modal-title">Message from {{ sender }}</h3>
+</div>
+<div class="modal-body">
+	<div class="well">
+		<p>{{ message }}</p>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="reply(sender)">Reply</button>
+	<button class="btn btn-default" ng-click="dismiss()">Dismiss</button>
+</div>

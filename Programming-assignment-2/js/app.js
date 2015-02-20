@@ -114,10 +114,29 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	});
 
 	// users[msgObj.nick].socket.emit('recv_privatemsg', socket.username, msgObj.message);
-	socket.on('recv_privatemsg', function (sender, recievedMsg) {
-		console.log(sender);
-		console.log(recievedMsg);
-	});
+
+	socket.on('recv_privatemsg', function (from, recievedMsg) {
+		var modalInstance = $modal.open({
+			templateUrl: 'modal_templates/getpmsg.html',
+			controller: 'GetPrivateMessageCtrl',
+			resolve: {
+				sender: function() {
+					return from;
+				},
+				message: function() {
+					return recievedMsg;
+				}
+			}
+		});
+
+		modalInstance.result.then(function (sender) {
+			$scope.pmsg(sender)
+
+
+		}, function () {
+			// User dismissed message
+		});
+	})
 	
 
 	$scope.$on("$destroy", function() {
@@ -330,4 +349,20 @@ ChatterClient.controller('SendPrivateMessageCtrl', function ($scope, $modalInsta
 			});
 		}
 	};
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
+});
+
+ChatterClient.controller('GetPrivateMessageCtrl', function ($scope, $modalInstance, socket, sender, message) {
+	$scope.sender = sender;
+	$scope.message = message;
+
+	$scope.reply = function() {
+		$modalInstance.close(sender);
+	}
+
+	$scope.dismiss = function() {
+		$modalInstance.dismiss('cancel');
+	}
 });
