@@ -97,6 +97,12 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 
+	socket.on('updateroom', function (roomobj) {
+		var room = roomobj.room;
+		io.sockets.emit('updateusers', room, rooms[room].users, rooms[room].ops);
+		socket.emit('updatechat', room, rooms[room].messageHistory);
+	})
+
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendmsg', function (data) {
 		

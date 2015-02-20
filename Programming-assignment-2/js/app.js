@@ -42,16 +42,17 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.roomName = $routeParams.roomId;
 	$scope.glued = true;
 
-	var data, obj, roomtemp;
+	var data, roomobj, roomtemp;
 
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
 	roomtemp = $routeParams.roomId;
-	obj = {
-		room : $routeParams.roomId,
-		pass : ""
-	};
 
+	roomobj = {
+		room : $routeParams.roomId,
+	};
+	socket.emit('updateroom', roomobj);
+	
 	socket.on('updatechat', function (room, messageHistory){
 		$scope.messages = messageHistory;
 		$scope.glued = true;
