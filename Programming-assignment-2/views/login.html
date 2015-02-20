@@ -2,7 +2,7 @@
 	<div class="well">
 		<p>Please login:</p>
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Username" ng-model="username">
+			<input type="text" class="form-control" placeholder="Username" ng-model="username" ng-keydown="down($event)">
 			<span class="input-group-btn">
 				<button class="btn btn-default" ng-click="login()">Login</button>
 			</span>

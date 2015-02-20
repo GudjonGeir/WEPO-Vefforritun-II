@@ -17,6 +17,13 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.username = "";
 	$scope.errorMessage = "";
 	$scope.displayError = false;
+
+	$scope.down = function(e) {      
+      	if (e.keyCode === 13) {
+        	$scope.login();
+      	}
+	};
+
 	$scope.login = function() {
 		if ($scope.username === "") {
 			$scope.errorMessage = "Please choose a username";
@@ -71,7 +78,6 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 				msg: username + " has joined the channel",
 				roomName: room
 			};
-
 			socket.emit('sendmsg', data);
 		} else if(event === "part") {
 			data = {
@@ -109,6 +115,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	});
 
 	// users[msgObj.nick].socket.emit('recv_privatemsg', socket.username, msgObj.message);
+
 	socket.on('recv_privatemsg', function (from, recievedMsg) {
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/getpmsg.html',
@@ -224,7 +231,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 				}
 			}
 		});
-	}
+	};
 });
 
 ChatterClient.controller("RoomListController", 
@@ -278,6 +285,13 @@ ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, soc
 
 	$scope.newroomname = "";
 	$scope.newroompassword = "";
+
+	$scope.down = function(e) {      
+      	if (e.keyCode === 13) {
+        	$scope.ok();
+      	}
+	};
+
 
 	$scope.ok = function () {
 		if ($scope.newroomname === "") {
@@ -333,10 +347,9 @@ ChatterClient.controller('SendPrivateMessageCtrl', function ($scope, $modalInsta
 				else {
 					$modalInstance.close();
 				}
-			})
+			});
 		}
-	}
-
+	};
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');
 	};
