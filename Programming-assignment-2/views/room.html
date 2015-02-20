@@ -20,7 +20,7 @@
 		<div class="col-md-4">
 			<div class="well" id="users">
 				<ul ng-repeat="user in users">
-					<li>{{ user }}</li>
+					<li>{{ user }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(user)"></span></li>
 				</ul>
 			</div>
 		</div>

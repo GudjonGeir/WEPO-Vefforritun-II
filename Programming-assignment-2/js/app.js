@@ -36,7 +36,7 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 });
 
 ChatterClient.controller("RoomController", 
-function ($scope, $location, $rootScope, $routeParams, socket, $anchorScroll) {
+function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	var data, obj;
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
@@ -55,6 +55,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $anchorScroll) {
 		$scope.glued = true;
 	});
 
+
 	socket.on('updateusers', function (room, users, ops) {
 		$scope.users = users;
 	});
@@ -69,6 +70,12 @@ function ($scope, $location, $rootScope, $routeParams, socket, $anchorScroll) {
 			socket.emit('sendmsg', data);
 		} 
 	});
+
+	// users[msgObj.nick].socket.emit('recv_privatemsg', socket.username, msgObj.message);
+	socket.on('recv_privatemsg', function (sender, recievedMsg) {
+		console.log(sender);
+		console.log(recievedMsg);
+	})
 	
 
 
@@ -90,6 +97,18 @@ function ($scope, $location, $rootScope, $routeParams, socket, $anchorScroll) {
 			$scope.newmsg = "";
 		}
 	};
+
+	$scope.pmsg = function(toUser) {
+		var modalInstance = $modal.open({
+			templateUrl: 'modal_templates/sendpmsg.html',
+			controller: 'SendPrivateMessageCtrl',
+			resolve: {
+				recepient: function() {
+					return toUser;
+				}
+			}
+		});
+	}
 });
 
 ChatterClient.controller("RoomListController", 
@@ -107,7 +126,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 	});
 
 	$scope.joinRoom = function(room) {
-		joinObj = { room: room }
+		joinObj = { room: room };
 		socket.emit('joinroom', joinObj, function (available, error) {
 			if(available) {
 				$location.path("/room/" + $scope.currentUser + "/" + room);
@@ -118,7 +137,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 				// $scope.displayError = true;
 			}
 		});
-	}
+	};
 
 	$scope.createRoom = function() {
 		var modalInstance = $modal.open({
@@ -172,4 +191,34 @@ ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, soc
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');
 	};
+});
+
+ChatterClient.controller('SendPrivateMessageCtrl', function ($scope, $modalInstance, socket, recepient) {
+	var data;
+	$scope.recepient = recepient;
+	$scope.pmessage = "";
+	$scope.displayError = false;
+	$scope.errorMessage = "";
+
+	$scope.send = function () {
+		if ($scope.pmessage === "") {
+			$scope.errorMessage = "Message field is empty";
+			$scope.displayError = true;
+		}
+		else {
+			data = {
+				nick: recepient,
+				message : $scope.pmessage
+			};
+			socket.emit('privatemsg', data, function (success) {
+				if (!success) {
+					$scope.errorMessage = "Could not send message";
+					$scope.displayError = true;
+				}
+				else {
+					$modalInstance.close();
+				}
+			})
+		}
+	}
 });
