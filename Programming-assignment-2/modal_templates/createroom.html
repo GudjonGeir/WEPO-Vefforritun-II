@@ -4,9 +4,9 @@
 <div class="modal-body">
 	<div class="form-group">
 		<label for="newroomname" class="control-label">Room name</label>
-		<input type="text" class="form-control" id="newroomname" name="newroomname" ng-model="newroomname" />
+		<input type="text" class="form-control" id="newroomname" name="newroomname" ng-model="newroomname" ng-keydown="down($event)"/>
 		<label for="newroompassword" class="control-label">Room password (optional)</label>
-		<input type="password" class="form-control" id="newroompassword" name="newroompassword" ng-model="newroompassword" />
+		<input type="password" class="form-control" id="newroompassword" name="newroompassword" ng-model="newroompassword" ng-keydown="down($event)"/>
 	</div>
 
 	<div class="alert alert-danger" role="alert" ng-show="displayError">
