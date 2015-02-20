@@ -224,10 +224,9 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 
 	$scope.joinRoom = function(room) {
 		joinObj = { room: room };
-		$location.path("/room/" + $scope.currentUser + "/" + room);
 		socket.emit('joinroom', joinObj, function (available, error) {
 			if(available) {
-
+				$location.path("/room/" + $scope.currentUser + "/" + room);
 			}
 			else {
 				// TODO: error message
