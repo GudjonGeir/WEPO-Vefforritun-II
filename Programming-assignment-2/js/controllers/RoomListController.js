@@ -1,7 +1,5 @@
 ChatterClient.controller("RoomListController", ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket',
 function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
-	var joinObj;
-
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
 	$scope.displayError = false;
@@ -13,16 +11,20 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 	});
 
 	$scope.joinRoom = function(room) {
-		joinObj = { room: room };
-		socket.emit('joinroom', joinObj, function (available, error) {
-			if(available) {
-				$location.path("/room/" + $scope.currentUser + "/" + room);
+		var modalInstance = $modal.open({
+			templateUrl: 'modal_templates/joinroom.html',
+			controller: 'JoinRoomCtrl',
+			resolve: {
+				room: function() {
+					return room;
+				}
 			}
-			else {
-				// TODO: error message
-				// $scope.errorMessage = error;
-				// $scope.displayError = true;
-			}
+		});
+
+		modalInstance.result.then(function (roomname) {
+			$location.path("/room/" + $scope.currentUser + "/" + roomname);
+		}, function () {
+			// User cancelled
 		});
 	};
 

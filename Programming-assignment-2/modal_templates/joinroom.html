@@ -1,0 +1,17 @@
+<div class="modal-header">
+	<h3 class="modal-title">Joining room {{ roomname }}</h3>
+</div>
+<div class="modal-body">
+	<div class="form-group">
+		<label for="roompassword" class="control-label">Room password (if required)</label>
+		<input type="password" class="form-control" id="roompassword" name="roompassword" ng-model="roompassword" ng-keydown="down($event)"/>
+	</div>
+
+	<div class="alert alert-danger" role="alert" ng-show="displayError">
+		{{ errorMessage }}
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="ok()">OK</button>
+	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

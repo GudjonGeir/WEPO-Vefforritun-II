@@ -41,5 +41,3 @@ ChatterClient.controller('CreateRoomCtrl', ['$scope', '$modalInstance', 'socket'
 		$modalInstance.dismiss('cancel');
 	};
 }]);
-
-//CreateRoomCtrl.$inject = ['$scope', '$modalInstance', 'socket'];
