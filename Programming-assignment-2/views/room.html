@@ -19,11 +19,21 @@
 		</div>
 		<div class="col-md-4">
 			<div class="well" id="users">
+				<h4>Operators</h4>
+				<ul ng-repeat="op in ops">
+					<li>{{ op }}</li>
+				</ul>
+				<h4>Guests</h4>
 				<ul ng-repeat="user in users">
 					<li>{{ user }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(user)"></span></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	
+	<input type="text" class="form-control" ng-model="toBeKicked"/>
+	<button class="btn btn-default" ng-click="kick()" type="button">kick</button> 
+	<input type="text" class="form-control" ng-model="toBeOp"/>
+	<button class="btn btn-default" ng-click="op()" type="button">op</button> 
+	<input type="text" class="form-control" ng-model="toBeDOp"/>
+	<button class="btn btn-default" ng-click="deop()" type="button">op</button> 
 </div>

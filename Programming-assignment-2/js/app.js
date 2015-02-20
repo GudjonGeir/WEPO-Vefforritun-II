@@ -60,6 +60,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 
 	socket.on('updateusers', function (room, users, ops) {
 		$scope.users = users;
+		$scope.ops = ops;
 	});
 
 
@@ -74,6 +75,32 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		} else if(event === "part") {
 			data = {
 				msg: username + " has decided to leave :/",
+				roomName: room
+			};
+			socket.emit('sendmsg', data);
+		}
+	});
+
+	socket.on('kicked', function (room, toBeKicked, Kicker) {
+		if($routeParams.user === toBeKicked){
+			$location.path("/roomlist/" + $routeParams.user);
+		} 
+	});
+
+	socket.on('deop', function (room, toBeDOp, DOpper) {
+		if(DOpper !== toBeDOp){
+			var data = {
+				msg: "Hey i was promoted by " + DOpper + " :(",
+				roomName: room
+			};
+			socket.emit('sendmsg', data);
+		}
+	});
+
+	socket.on('opped', function (room, toBeOp, Opper) {
+		if(Opper !== toBeOp){
+			var data = {
+				msg: "Hey i was promoted by " + Opper + ", thank you!",
 				roomName: room
 			};
 			socket.emit('sendmsg', data);
@@ -108,6 +135,60 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.$on("$destroy", function() {
 		$scope.exit();
 	});
+
+	$scope.kick = function() {
+		console.log($scope.toBeKicked);
+		console.log($routeParams.roomId);
+		if($scope.toBeKicked !== ""){
+			var kickObj = {
+				user: $scope.toBeKicked,
+				room: $routeParams.roomId
+			};
+			socket.emit('kick', kickObj, function (available) {
+				if(available){
+					var data = {
+						msg: $scope.toBeKicked + " has been kicked for bad behavior",
+						roomName: kickObj.room
+					};
+					socket.emit('sendmsg', data);
+				} else {
+					console.log("oops");
+				}
+			});
+		}
+	};
+
+	$scope.op = function() {
+		if($scope.toBeOp !== ""){
+			var opObj = {
+				user: $scope.toBeOp,
+				room: $routeParams.roomId
+			};
+			socket.emit('op', opObj, function(available) {
+				if(available){
+					console.log(opObj.user + "has been promoted");
+				} else {
+					console.log("op ooops");
+				}
+			});
+		}
+	};
+
+	$scope.deop = function() {
+		if($scope.toBeDOp !== ""){
+			var opObj = {
+				user: $scope.toBeDOp,
+				room: $routeParams.roomId
+			};
+			socket.emit('deop', opObj, function(available) {
+				if(available){
+					console.log(opObj.user + "has been demoted");
+				} else {
+					console.log("deop ooops");
+				}
+			});
+		}
+	};
 
 	$scope.exit = function() {
 		socket.emit('partroom', roomtemp);
@@ -211,7 +292,6 @@ ChatterClient.controller('CreateRoomCtrl', function ($scope, $modalInstance, soc
 			}
 			socket.emit('joinroom', joinObj, function (available, error) {
 				if(available) {
-					path = "/room/" + $scope.currentUser + "/" + $scope.newRoom;
 					$modalInstance.close($scope.newroomname, $scope.newroompassword);
 				}
 				else {
