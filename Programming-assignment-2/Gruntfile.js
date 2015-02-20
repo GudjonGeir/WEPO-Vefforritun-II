@@ -52,9 +52,16 @@ module.exports = function(grunt) {
 					'dist/js/ChatterClient.min.js': ['js/ChatterClient.js', 'js/controllers/*.js', 'js/socket-factory.js']
 				}
 			}
+		},
+
+		// configure watch to auto update ----------------
+		watch: {
+
+			// for scripts, run jshint and uglify 
+			scripts: { 
+				files: 'js/**/*.js', tasks: ['jshint', 'uglify'] 
+			} 
 		}
-		
-		
 
 	});
 
@@ -67,4 +74,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 };
