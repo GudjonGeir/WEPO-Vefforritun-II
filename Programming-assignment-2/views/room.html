@@ -2,9 +2,9 @@
 	<h4>Welcome to {{ roomName }}, please behave</h4>
 	<div class="row">
 		<div class="col-md-8">
-			<div class="well" id="messages">
+			<div class="well" id="msgContainer" scroll-glue="glued">
 				<ul ng-repeat="msg in messages">
-					<li class="testing"><span>{{msg.nick}}:</span> {{ msg.message }}</li>
+					<li ><span>{{msg.nick}}:</span> {{ msg.message }}</li>
 				</ul>
 			</div>
 			<div class="input-group">
@@ -25,7 +25,7 @@
 				</ul>
 				<h4>Guests</h4>
 				<ul ng-repeat="user in users">
-					<li>{{ user }}</li>
+					<li>{{ user }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(user)"></span></li>
 				</ul>
 			</div>
 		</div>
