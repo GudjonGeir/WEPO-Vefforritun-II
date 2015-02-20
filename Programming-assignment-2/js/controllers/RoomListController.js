@@ -41,5 +41,3 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		});
 	};
 }]);
-
-// RoomListController.$inject = ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket'];
