@@ -16,41 +16,63 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	socket.emit('updateroom', roomobj);
 	
 	socket.on('updatechat', function (room, messageHistory){
-		$scope.messages = messageHistory;
-		$scope.glued = true;
+		if(room === $routeParams.roomId){
+			$scope.messages = messageHistory;
+			$scope.glued = true;
+		}
 	});
 
 
 	socket.on('updateusers', function (room, users, ops) {
-		$scope.users = users;
-		$scope.ops = ops;
+		if(room === $routeParams.roomId){
+			$scope.users = users;
+			$scope.ops = ops;
+		}
 	});
 
 
 	socket.on('servermessage', function (event, room, username) {
-		if (event === "join") {
-			data = {
-				msg: username + " has joined the channel",
-				roomName: room
-			};
-			socket.emit('sendmsg', data);
-		} else if(event === "part") {
-			data = {
-				msg: username + " has decided to leave :/",
-				roomName: room
-			};
-			socket.emit('sendmsg', data);
+		if(room === $routeParams.roomId && username === $routeParams.user){
+			var number = Math.floor((Math.random() * 4) + 1);
+			var msg;
+			// if(number === 1){
+			// 	msg = "Hi " + username + ", welcome to " + room + " :)";
+			// } else if(number === 2){
+			// 	msg = "Hey guys! " + username + ", is here! :D";
+			// } else if(number === 3){
+			// 	msg = "Oh no," + username + " is here";
+			// } else if(number === 4){
+			// 	msg = "Bonjourno, Mr. " + username + " welcome to the family";
+			// } 
+
+			// if(username === $routeParams.user){
+			// 	msg = "Thank you very much, I am honored to be a guest at " + room;
+			// }
+
+			if (event === "join") {
+				data = {
+					msg: "Hi y'all, I just entered " + room,
+					roomName: room
+				};
+				socket.emit('sendmsg', data);
+			} else if(event === "part") {
+				data = {
+					msg: username + " has decided to leave :/",
+					roomName: room
+				};
+				socket.emit('sendmsg', data);
+			}
 		}
 	});
 
 	socket.on('kicked', function (room, toBeKicked, Kicker) {
-		if($routeParams.user === toBeKicked){
+		if($routeParams.user === toBeKicked && room === $routeParams.roomId){
 			$location.path("/roomlist/" + $routeParams.user);
 		} 
 	});
 
 	socket.on('deop', function (room, toBeDOp, DOpper) {
-		if(DOpper !== toBeDOp){
+		if(DOpper !== toBeDOp && room === $routeParams.roomId){
 			var data = {
 				msg: "Hey i was promoted by " + DOpper + " :(",
 				roomName: room
@@ -60,7 +82,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	});
 
 	socket.on('opped', function (room, toBeOp, Opper) {
-		if(Opper !== toBeOp){
+		if(Opper !== toBeOp && room === $routeParams.roomId){
 			var data = {
 				msg: "Hey i was promoted by " + Opper + ", thank you!",
 				roomName: room
