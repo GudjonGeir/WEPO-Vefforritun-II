@@ -7,9 +7,9 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 
 	//fabulous enter function sends to login()
 	$scope.down = function(e) {      
-      	if (e.keyCode === 13) {
-        	$scope.login();
-      	}
+		if (e.keyCode === 13) {
+			$scope.login();
+		}
 	};
 
 	//basic login, if scope.username is not empty or the given username is not taken the user will be directed to available rooms
