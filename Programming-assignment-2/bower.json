@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "homepage": "https://github.com/GudjonGeir/WEPO-Vefforritun-II",
   "authors": [
-    "Gudjon Geir Jonsson <gudjongeir@gmail.com>"
+    "Gudjon Geir Jonsson <gudjongeir@gmail.com>",
+    "Arni Freyr Thorsteinsson <freysi21@gmail.com>"
   ],
   "moduleType": [
     "node"
