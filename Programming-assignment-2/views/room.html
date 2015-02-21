@@ -1,5 +1,15 @@
-<div class="col-md 4">
-	<h4>Welcome to {{ roomName }}, please behave</h4>
+<div>
+	<div class="row">
+		<div class="col-md-8">
+			<h4>Welcome to {{ roomName }}, please behave</h4>		
+		</div>
+		<div class="col-md-4">
+			<button class="btn btn-default pull-right" ng-click="settingsDialog()" ng-show="isOP">Room Settings</button>
+		</div>
+	
+	
+	</div>
+	
 	<div class="row">
 		<div class="col-md-8">
 			<div class="well" id="msgContainer" scroll-glue="glued">

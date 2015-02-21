@@ -3,6 +3,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
 	$scope.glued = true;
+	$scope.isOP = false;
 
 	var data, roomobj, roomtemp;
 
@@ -27,6 +28,9 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		if(room === $routeParams.roomId){
 			$scope.users = users;
 			$scope.ops = ops;
+			if (ops[$routeParams.user] === $routeParams.user) {
+				$scope.isOP = true;
+			}
 		}
 	});
 
@@ -205,6 +209,18 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 			resolve: {
 				recepient: function() {
 					return toUser;
+				}
+			}
+		});
+	};
+
+	$scope.settingsDialog = function () {
+		var modalInstance = $modal.open({
+			templateUrl: 'modal_templates/roomsettings.html',
+			controller: 'RoomSettingsCtrl',
+			resolve: {
+				room: function() {
+					return $scope.roomName;
 				}
 			}
 		});

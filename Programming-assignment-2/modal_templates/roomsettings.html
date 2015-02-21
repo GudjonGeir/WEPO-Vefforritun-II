@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<h3 class="modal-title">Settings for {{ room }}</h3>
+</div>
+<div class="modal-body">
+	<div class="well">
+		<label for="newtopic" class="control-label">Set topic</label>
+		<div class="input-group">
+			<input type="text" class="form-control" id="newtopic" name="newtopic" ng-model="newtopic" ng-keydown="settopicDown($event)"/>
+			<span class="input-group-btn">
+				<button class="btn btn-default" ng-click="setTopic()">Save</button>
+			</span>
+		</div>
+	</div>
+
+	<div class="well">
+		<label for="newpassord" class="control-label">Set password</label>
+		<div class="input-group">
+			<input type="text" class="form-control" id="newpassord" name="newpassord" ng-model="newpassord" ng-keydown="setpasswordDown($event)"/>
+			<span class="input-group-btn">
+				<button class="btn btn-default" ng-click="setPassword()">Save</button>
+			</span>
+		</div>
+		<button class="btn btn-default" ng-click="removePassword()">Remove Password</button>
+	</div>
+	<!-- <div class="form-group">
+		<label for="newroomname" class="control-label">Room name</label>
+		<input type="text" class="form-control" id="newroomname" name="newroomname" ng-model="newroomname" ng-keydown="down($event)"/>
+		<label for="newroompassword" class="control-label">Room password (optional)</label>
+		<input type="password" class="form-control" id="newroompassword" name="newroompassword" ng-model="newroompassword" ng-keydown="down($event)"/>
+	</div> -->
+
+	<div class="alert alert-danger" role="alert" ng-show="displayError">
+		{{ errorMessage }}
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="ok()">OK</button>
+	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>
