@@ -13,9 +13,9 @@
 	</div>
 
 	<div class="well">
-		<label for="newpassord" class="control-label">Set password</label>
+		<label for="newpassword" class="control-label">Set password</label>
 		<div class="input-group">
-			<input type="text" class="form-control" id="newpassord" name="newpassord" ng-model="newpassord" ng-keydown="setpasswordDown($event)"/>
+			<input type="password" class="form-control" id="newpassword" name="newpassword" ng-model="newpassword" ng-keydown="setpasswordDown($event)"/>
 			<span class="input-group-btn">
 				<button class="btn btn-default" ng-click="setPassword()">Save</button>
 			</span>
@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="well">
-		<label for="setop">Set as operator</label>
+		<label for="setop">Set user privileges</label>
 		<ui-select ng-model="user.selected" theme="bootstrap" reset-search-input="false">
 			<ui-select-match placeholder="Select or search for a user">{{$select.selected}}</ui-select-match>
 			<ui-select-choices repeat="user in users | filter: $select.search">
@@ -35,13 +35,13 @@
 			</ui-select-choices>
 		</ui-select>
 		<div class="btn-group" role="group" aria-label="...">
-			<button type="button" class="btn btn-default" ng-click="setOp(user.selected)">Promote</button>
-			<button type="button" class="btn btn-default" ng-click="deOp(user.selected)">Demote</button>
+			<button type="button" class="btn btn-default" ng-click="userStatus('op')">Promote</button>
+			<button type="button" class="btn btn-default" ng-click="userStatus('deop')">Demote</button>
 		</div>
-		<button type="button" class="btn btn-default" ng-click="kick(user.selected)">Kick</button>
+		<button type="button" class="btn btn-default" ng-click="userStatus('kick')">Kick</button>
 		<div class="btn-group" role="group" aria-label="...">
-			<button type="button" class="btn btn-default" ng-click="ban(user.selected)">Ban</button>
-			<button type="button" class="btn btn-default" ng-click="unban(user.selected)">Unban</button>
+			<button type="button" class="btn btn-default" ng-click="userStatus('ban')">Ban</button>
+			<button type="button" class="btn btn-default" ng-click="userStatus('unban')">Unban</button>
 		</div>
 	</div>
 
@@ -55,8 +55,10 @@
 	<div class="alert alert-danger" role="alert" ng-show="displayError">
 		{{ errorMessage }}
 	</div>
+	<div class="alert alert-success" role="alert" ng-show="displaySuccess">
+		{{ successMessage }}
+	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default" ng-click="ok()">OK</button>
-	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-default" ng-click="close()">Close</button>
 </div>

@@ -5,9 +5,9 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.displayError = false;
 
 	$scope.down = function(e) {      
-      	if (e.keyCode === 13) {
-        	$scope.login();
-      	}
+		if (e.keyCode === 13) {
+			$scope.login();
+		}
 	};
 
 	$scope.login = function() {

@@ -31,6 +31,9 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 			if (ops[$routeParams.user] === $routeParams.user) {
 				$scope.isOP = true;
 			}
+			else {
+				$scope.isOP = false;
+			}
 		}
 	});
 
@@ -61,34 +64,31 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 
 
 	socket.on('kicked', function (room, toBeKicked, Kicker) {
-		if($routeParams.user === toBeKicked && room === $routeParams.roomId){
+		if($routeParams.user === toBeKicked && $routeParams.user !== Kicker && room === $routeParams.roomId){
 			$location.path("/roomlist/" + $routeParams.user);
 		} 
 	});
 
-	socket.on('deop', function (room, toBeDOp, DOpper) {
-		if(DOpper !== toBeDOp && room === $routeParams.roomId){
-			var data = {
-				msg: "Hey i was promoted by " + DOpper + " :(",
-				roomName: room
-			};
-			socket.emit('sendmsg', data);
-		}
-	});
+	// socket.on('deop', function (room, toBeDOp, DOpper) {
+	// 	if(DOpper !== toBeDOp && room === $routeParams.roomId){
+	// 		var data = {
+	// 			msg: "Hey i was promoted by " + DOpper + " :(",
+	// 			roomName: room
+	// 		};
+	// 		socket.emit('sendmsg', data);
+	// 	}
+	// });
 
-	socket.on('opped', function (room, toBeOp, Opper) {
-		if(Opper !== toBeOp && room === $routeParams.roomId){
-			var data = {
-				msg: "Hey i was demoted by " + Opper + " :(",
-				roomName: room
-			};
-			socket.emit('sendmsg', data);
-		}
-	});
+	// socket.on('opped', function (room, toBeOp, Opper) {
+	// 	if(Opper !== toBeOp && room === $routeParams.roomId){
+	// 		var data = {
+	// 			msg: "Hey i was demoted by " + Opper + " :(",
+	// 			roomName: room
+	// 		};
+	// 		socket.emit('sendmsg', data);
+	// 	}
+	// });
 
-
-
-	// users[msgObj.nick].socket.emit('recv_privatemsg', socket.username, msgObj.message);
 
 	socket.on('recv_privatemsg', function (from, recievedMsg) {
 		var modalInstance = $modal.open({
@@ -118,40 +118,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		$scope.exit();
 	});
 
-	$scope.userStatus = function (action) {
-		var msg;
-		var userObj = {
-				user: $scope.toBeModified,
-				room: $routeParams.roomId
-			};		
-			socket.emit(action, userObj, function(available) {
-				if(available){
-					if(action === 'kick'){
-						msg = $scope.toBeModified + " has been kicked for bad behavior";
-						$scope.pmsg(userObj.user);
-					} else if(action === 'op') {
-						msg = $scope.toBeModified + " has been promoted";
-					} else if(action === 'deop') {
-						msg = $scope.toBeModified + " has been demoted";
-					} else if(action === 'ban') {
-						msg = $scope.toBeModified + " has been banned from this " + userObj.room;
-						$scope.pmsg(userObj.user);
-					} else if(action === 'unban') {
-						msg = $scope.toBeModified + " has been granted a second chance";
-						$scope.pmsg(userObj.user);
-					} else {
-						msg = "wut?";
-					}
-					var data = {
-						msg: msg,
-						roomName: userObj.room
-					};
-					socket.emit('sendmsg', data);
-				} else {
-					console.log('userStatus says oops');
-				}
-			});
-	};
+	
 
 	$scope.exit = function() {
 		socket.emit('partroom', roomtemp);
