@@ -10,7 +10,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		$scope.roomList = Object.keys(roomList);
 	});
 
-	$scope.joinRoom = function(room) {
+	$scope.joinRoom = function(room) {		
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/joinroom.html',
 			controller: 'JoinRoomCtrl',

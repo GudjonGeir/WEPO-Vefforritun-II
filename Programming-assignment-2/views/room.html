@@ -40,10 +40,10 @@
 			</div>
 		</div>
 	</div>
-	<input type="text" class="form-control" ng-model="toBeKicked"/>
-	<button class="btn btn-default" ng-click="kick()" type="button">kick</button> 
-	<input type="text" class="form-control" ng-model="toBeOp"/>
-	<button class="btn btn-default" ng-click="op()" type="button">op</button> 
-	<input type="text" class="form-control" ng-model="toBeDOp"/>
-	<button class="btn btn-default" ng-click="deop()" type="button">op</button> 
+	<input type="text" class="form-control" ng-model="toBeModified"/>
+	<button class="btn btn-default" ng-click="userStatus('kick')" type="button">kick</button>
+	<button class="btn btn-default" ng-click="userStatus('op')" type="button">op</button> 
+	<button class="btn btn-default" ng-click="userStatus('deop')" type="button">op</button> 
+	<button class="btn btn-default" ng-click="userStatus('ban')" type="button">op</button> 
+	<button class="btn btn-default" ng-click="userStatus('unban')" type="button">op</button> 
 </div>

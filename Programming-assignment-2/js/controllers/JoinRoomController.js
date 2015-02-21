@@ -25,8 +25,13 @@ ChatterClient.controller('JoinRoomCtrl', ['$scope', '$modalInstance', 'socket', 
 				$modalInstance.close($scope.roomname);
 			}
 			else {
-				$scope.errorMessage = error;
-				$scope.displayError = true;
+				if(error === 'banned') {
+					$scope.errorMessage = "You have been banned from " + room;
+					$scope.displayError = true;					
+				} else if(error === 'wrong password'){
+					$scope.errorMessage = "The password you typed for " + room + " does not match the required password ";
+					$scope.displayError = true;		
+				}
 			}
 		});
 	};
