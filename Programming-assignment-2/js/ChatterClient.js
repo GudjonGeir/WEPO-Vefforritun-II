@@ -1,4 +1,4 @@
-var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap', 'luegg.directives']);
+var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap', 'luegg.directives', 'ui.select', 'ngSanitize']);
 
 
 ChatterClient.config( ['$routeProvider',

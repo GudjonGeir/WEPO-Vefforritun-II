@@ -1,6 +1,11 @@
 ChatterClient.controller("RoomSettingsCtrl", ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket', 'room',
 function ($scope, $location, $rootScope, $routeParams, $modal, socket, room) {
+	socket.emit('users');
+	socket.on('userlist', function (userlist) {
+		$scope.users = Object.keys(userlist).map(function (key) {return userlist[key];});
+	});
 	$scope.room = room;
+	$scope.user = {};
 	// $scope.currentUser = $routeParams.user;
 	// $scope.errorMessage = "";
 	// $scope.displayError = false;

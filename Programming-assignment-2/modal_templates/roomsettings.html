@@ -20,8 +20,31 @@
 				<button class="btn btn-default" ng-click="setPassword()">Save</button>
 			</span>
 		</div>
-		<button class="btn btn-default" ng-click="removePassword()">Remove Password</button>
+		<label for="removepassword" class="control-label">Remove password</label>
+		<div>
+			<button class="btn btn-default" ng-click="removePassword()">Remove Password</button>
+		</div>
 	</div>
+
+	<div class="well">
+		<label for="setop">Set as operator</label>
+		<ui-select ng-model="user.selected" theme="bootstrap" reset-search-input="false">
+			<ui-select-match placeholder="Select or search for a user">{{$select.selected}}</ui-select-match>
+			<ui-select-choices repeat="user in users | filter: $select.search">
+				<span ng-bind-html="user | highlight: $select.search"></span>
+			</ui-select-choices>
+		</ui-select>
+		<div class="btn-group" role="group" aria-label="...">
+			<button type="button" class="btn btn-default" ng-click="setOp(user.selected)">Promote</button>
+			<button type="button" class="btn btn-default" ng-click="deOp(user.selected)">Demote</button>
+		</div>
+		<button type="button" class="btn btn-default" ng-click="kick(user.selected)">Kick</button>
+		<div class="btn-group" role="group" aria-label="...">
+			<button type="button" class="btn btn-default" ng-click="ban(user.selected)">Ban</button>
+			<button type="button" class="btn btn-default" ng-click="unban(user.selected)">Unban</button>
+		</div>
+	</div>
+
 	<!-- <div class="form-group">
 		<label for="newroomname" class="control-label">Room name</label>
 		<input type="text" class="form-control" id="newroomname" name="newroomname" ng-model="newroomname" ng-keydown="down($event)"/>
