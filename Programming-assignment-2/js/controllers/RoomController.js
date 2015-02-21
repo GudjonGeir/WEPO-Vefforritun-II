@@ -3,6 +3,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
 	$scope.glued = true;
+	$scope.focusOn = true;
 	$scope.isOP = false;
 
 	var data, roomobj, roomtemp;
@@ -14,8 +15,11 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	roomobj = {
 		room : $routeParams.roomId,
 	};
+
+	//created our own reciever in chatserver because of servermessage bug 
 	socket.emit('updateroom', roomobj);
 	
+
 	socket.on('updatechat', function (room, messageHistory){
 		if(room === $routeParams.roomId){
 			$scope.messages = messageHistory;

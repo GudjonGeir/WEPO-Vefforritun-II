@@ -1,7 +1,9 @@
 ChatterClient.controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', 'socket', 'sender', 'message', function ($scope, $modalInstance, socket, sender, message) {
 	$scope.sender = sender;
 	$scope.message = message;
+	$scope.focusOn = true;
 
+	
 	$scope.reply = function() {
 		$modalInstance.close(sender);
 		$modalInstance.dismiss('cancel');
@@ -12,4 +14,3 @@ ChatterClient.controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', '
 	};
 }]);
 
-//GetPrivateMessageCtrl.$inject = ['$scope', '$modalInstance', 'socket', 'sender', 'message'];

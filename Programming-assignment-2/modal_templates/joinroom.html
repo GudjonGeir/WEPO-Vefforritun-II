@@ -4,7 +4,7 @@
 <div class="modal-body">
 	<div class="form-group">
 		<label for="roompassword" class="control-label">Room password (if required)</label>
-		<input type="password" class="form-control" id="roompassword" name="roompassword" ng-model="roompassword" ng-keydown="down($event)"/>
+		<input type="password" class="form-control" id="roompassword" name="roompassword" ng-model="roompassword" ng-keydown="down($event)" focus="{{roompassword}}"/>
 	</div>
 
 	<div class="alert alert-danger" role="alert" ng-show="displayError">
