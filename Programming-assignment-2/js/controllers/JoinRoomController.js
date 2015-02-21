@@ -2,17 +2,19 @@ ChatterClient.controller('JoinRoomCtrl', ['$scope', '$modalInstance', 'socket', 
 	var joinObj;
 	$scope.displayError = false;
 	$scope.errorMessage = "";
+	$scope.focusOn = true;
 
 	$scope.roomname = room;
 	$scope.roompassword = "";
 
+	//fabulous enter function sends to ok()
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
         	$scope.ok();
       	}
 	};
 
-
+	//promps the user to type in password, even though password is not required
 	$scope.ok = function () {
 		if ($scope.roompassword === "") {
 			joinObj = { room: room };

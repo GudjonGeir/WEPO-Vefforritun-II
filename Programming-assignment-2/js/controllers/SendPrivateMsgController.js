@@ -5,6 +5,8 @@ function ($scope, $modalInstance, socket, recepient) {
 	$scope.pmessage = "";
 	$scope.displayError = false;
 	$scope.errorMessage = "";
+	$scope.focusOn = true;
+
 
 	$scope.send = function () {
 		if ($scope.pmessage === "") {

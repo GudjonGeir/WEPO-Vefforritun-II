@@ -120,7 +120,7 @@ io.sockets.on('connection', function (socket) {
 			//Update the message history for the room that the user sent the message to.
 			var messageObj = {  
 				nick : socket.username,
-				timestamp :  new Date(),
+				timestamp :  new Date().toLocaleTimeString(),
 				message : data.msg.substring(0, 200)
 			};
 			rooms[data.roomName].addMessage(messageObj);
