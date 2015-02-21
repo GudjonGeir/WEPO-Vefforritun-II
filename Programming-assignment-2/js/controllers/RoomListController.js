@@ -1,7 +1,5 @@
 ChatterClient.controller("RoomListController", ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket',
 function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
-	var joinObj;
-
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
 	$scope.displayError = false;
@@ -12,21 +10,21 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		$scope.roomList = Object.keys(roomList);
 	});
 
-	$scope.joinRoom = function(room) {
-		joinObj = { room: room };
-		socket.emit('joinroom', joinObj, function (available, error) {
-			if(available) {
-				$location.path("/room/" + $scope.currentUser + "/" + room);
-			}
-			else {
-				if(error === 'banned') {
-					$scope.errorMessage = "You have been banned from " + room;
-					$scope.displayError = true;					
-				} else if(error === 'wrong password'){
-					$scope.errorMessage = "The password you typed for " + room + " does not match the required password ";
-					$scope.displayError = true;						
+	$scope.joinRoom = function(room) {		
+		var modalInstance = $modal.open({
+			templateUrl: 'modal_templates/joinroom.html',
+			controller: 'JoinRoomCtrl',
+			resolve: {
+				room: function() {
+					return room;
 				}
 			}
+		});
+
+		modalInstance.result.then(function (roomname) {
+			$location.path("/room/" + $scope.currentUser + "/" + roomname);
+		}, function () {
+			// User cancelled
 		});
 	};
 

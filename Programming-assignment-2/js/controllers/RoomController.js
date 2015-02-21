@@ -33,22 +33,6 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 
 	socket.on('servermessage', function (event, room, username) {
 		if(room === $routeParams.roomId && username === $routeParams.user){
-			var number = Math.floor((Math.random() * 4) + 1);
-			var msg;
-			// if(number === 1){
-			// 	msg = "Hi " + username + ", welcome to " + room + " :)";
-			// } else if(number === 2){
-			// 	msg = "Hey guys! " + username + ", is here! :D";
-			// } else if(number === 3){
-			// 	msg = "Oh no," + username + " is here";
-			// } else if(number === 4){
-			// 	msg = "Bonjourno, Mr. " + username + " welcome to the family";
-			// } 
-
-			// if(username === $routeParams.user){
-			// 	msg = "Thank you very much, I am honored to be a guest at " + room;
-			// }
-
 			if (event === "join") {
 				data = {
 					msg: "Hi y'all, I just entered " + room,
