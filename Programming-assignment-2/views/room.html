@@ -13,14 +13,16 @@
 <div class="row">
 	<div class="col-md-8">
 		<div class="well" id="msgContainer" scroll-glue="glued">
-			<ul id="msgList" class="msgList">
-				<li ng-repeat="msg in messages"><span>{{msg.timestamp}} - </span><span><b>{{msg.nick}} </b> :</span> {{ msg.message }}</li>
-			</ul>
+			<table class="table table-striped">
+				<tr ng-repeat="msg in messages">
+					<td>{{msg.timestamp}} - <b>{{msg.nick}}</b> : {{ msg.message }}</td>
+				</tr>
+			</table>
 		</div>
 		<div class="input-group">
 			<input type="text" class="form-control" name="msgbox" ng-model="newmsg" ng-keydown="down($event)" focus="{{msgbox}}"/>
 			<span class="input-group-btn">
-				<button class="btn btn-default" ng-click="addMsg()" type="button">Send</button> 
+				<button class="btn btn-primary" ng-click="addMsg()" type="button">Send</button> 
 			</span>
 		</div>
 		<div class="alert alert-danger" role="alert" ng-show="displayError">
@@ -29,14 +31,18 @@
 	</div>
 	<div class="col-md-4">
 		<div class="well" id="users">
-			<h4>Operators</h4>
-			<ul ng-repeat="op in ops">
-				<li>{{ op }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(op)"></span></li>
-			</ul>
-			<h4>Guests</h4>
-			<ul>
-				<li ng-repeat="user in users">{{ user }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(user)"></span></li>
-			</ul>
+			<h5>Operators</h5>
+			<table class="table table-striped">
+				<tr ng-repeat="op in ops">
+					<td>{{ op }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(op)"></span></td>
+				</tr>
+			</table>
+			<h5>Guests</h5>
+			<table class="table table-striped">
+				<tr ng-repeat="user in users">
+					<td>{{ user }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(op)"></span></td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </div>
