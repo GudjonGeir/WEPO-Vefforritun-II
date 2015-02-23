@@ -1,8 +1,14 @@
 ChatterClient.controller("RoomListController", ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket',
 function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
+	$scope.loggedIn = true;
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = "";
 	$scope.displayError = false;
+
+	socket.emit('users');
+	socket.on('userlist', function (userlist) {
+		$scope.users = userlist;
+	});
 	
 
 	socket.emit("rooms");
@@ -40,5 +46,10 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		}, function () {
 			// User cancelled
 		});
+	};
+
+	$scope.logOut = function() {
+		socket.emit('disconnect');
+		$location.path('/login');
 	};
 }]);

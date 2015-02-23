@@ -110,11 +110,6 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		socket.emit('partroom', roomtemp);
 	});
 
-	
-	//exit button ----TODO: ADD IT TO THE HTML
-	// $scope.exit = function() {
-	// 	socket.emit('partroom', roomtemp);
-	// };
 
 	//fabulous enter function for shortening your chatting needs
 	$scope.down = function(e) {      
@@ -162,6 +157,18 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 				}
 			}
 		});
+	};
+
+	// Leave room button, emits the partroom message and reroutes the user
+	$scope.leaveRoom = function() {
+		socket.emit('partroom', roomtemp);
+		$location.path('/roomlist/' + $routeParams.user);
+	};
+
+	// Log out button, emits the disconnect button and reroutes the user
+	$scope.logOut = function() {
+		socket.emit('disconnect');
+		$location.path('/login');
 	};
 }]);
 
