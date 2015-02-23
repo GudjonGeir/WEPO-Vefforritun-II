@@ -101,6 +101,7 @@ io.sockets.on('connection', function (socket) {
 		var room = roomobj.room;
 		io.sockets.emit('updateusers', room, rooms[room].users, rooms[room].ops);
 		socket.emit('updatechat', room, rooms[room].messageHistory);
+		socket.emit('updatetopic', room, rooms[room].topic, socket.username);
 	});
 
 	// when the client emits 'sendchat', this listens and executes
@@ -278,7 +279,7 @@ io.sockets.on('connection', function (socket) {
 		if(rooms[topicObj.room].ops[socket.username] !== undefined) {
 			rooms[topicObj.room].setTopic(topicObj.topic);
 			//Broadcast to room that the user changed the topic.
-			io.sockets.emit('updatetopic', topicObj.room, topicObj.topic, socket.username);
+			io.sockets.emit('updatetopic', topicObj.room, topicObj.topic, "op");
 			fn(true);
 		}
 		//Return false if topic was not set.

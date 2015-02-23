@@ -45,17 +45,28 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		}
 	});
 
+	socket.on('updatetopic', function (room, topic, username) {
+		// We changed the emit from settopic so that the username given is "op",
+		// we did this to differentiate when it is emmited when a user joins (only 
+		// that user gets the topic) and when the op sets a new topic (everyone gets the topic)
+		if (room === roomtemp && (username === usertemp || username === "op")) {
+			$scope.serverMSG = "Topic - " + topic;	
+		}
+	});
+
 
 	//listens for the two events if a member of a room leaves or joins
 	//and sends a message for that user introduction or outroduction
 	socket.on('servermessage', function (event, room, username) {
 		if(room === $routeParams.roomId){
 			if (event === "join") {
-				console.log("join");
-				$scope.serverMSG = username + " has entered the room";
-			} else if(event === "part") {
-				console.log("part");
-				$scope.serverMSG = username + " has left the room";
+				$scope.serverMSG = "Attention! - " + username + " has entered the room.";
+			}
+			else if (event === "part") {
+				$scope.serverMSG = "Attention! - " + username + " has left the room.";
+			}
+			else if (event === "quit") {
+				$scope.serverMSG = "Attention! - " + username + " has loggd out.";
 			}
 		}
 	});
