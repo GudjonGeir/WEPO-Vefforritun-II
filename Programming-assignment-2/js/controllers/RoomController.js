@@ -24,9 +24,13 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	//listens for new messagehistory of room and updates the dialogue
 	socket.on('updatechat', function (room, messageHistory){
 		if(room === $routeParams.roomId){
+			angular.element('.audio').append("<audio id='audio' autoplay='true'><source src='bling.mp3' type='audio/mpeg'></audio>");
 			$scope.messages = messageHistory;
 			$scope.glued = true;
 		}
+		setTimeout(function(){
+			angular.element('#audio').remove();
+		}, 2000);
 	});
 
 
@@ -109,6 +113,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.$on("$destroy", function() {
 		socket.emit('partroom', roomtemp);
 	});
+
 
 
 	//fabulous enter function for shortening your chatting needs
