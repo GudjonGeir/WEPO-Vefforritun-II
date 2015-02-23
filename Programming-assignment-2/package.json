@@ -12,6 +12,7 @@
     "jshint-stylish": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-watch": "latest"
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-concat": "latest"
   }
 }

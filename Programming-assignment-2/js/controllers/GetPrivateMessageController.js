@@ -6,7 +6,6 @@ ChatterClient.controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', '
 	
 	$scope.reply = function() {
 		$modalInstance.close(sender);
-		$modalInstance.dismiss('cancel');
 	};
 
 	$scope.dismiss = function() {
