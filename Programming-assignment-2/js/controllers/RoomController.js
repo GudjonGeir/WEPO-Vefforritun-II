@@ -6,11 +6,13 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.focusOn = true;
 	$scope.isOP = false;
 
-	var data, roomobj, roomtemp;
+	var data, roomobj, roomtemp, usertemp;
+
 
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;
 	roomtemp = $routeParams.roomId;
+	usertemp = $routeParams.user;
 
 	roomobj = {
 		room : $routeParams.roomId,
@@ -47,19 +49,13 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	//listens for the two events if a member of a room leaves or joins
 	//and sends a message for that user introduction or outroduction
 	socket.on('servermessage', function (event, room, username) {
-		if(room === $routeParams.roomId && username === $routeParams.user){
+		if(room === $routeParams.roomId){
 			if (event === "join") {
-				data = {
-					msg: "Hi y'all, I just entered " + room,
-					roomName: room
-				};
-				socket.emit('sendmsg', data);
+				console.log("join");
+				$scope.serverMSG = username + " has entered the room";
 			} else if(event === "part") {
-				data = {
-					msg: username + " has decided to leave :/",
-					roomName: room
-				};
-				socket.emit('sendmsg', data);
+				console.log("part");
+				$scope.serverMSG = username + " has left the room";
 			}
 		}
 	});
@@ -111,14 +107,14 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	//if a user exits the room template he has parted the room
 	//and therefore other users of room are informed of his abscense
 	$scope.$on("$destroy", function() {
-		$scope.exit();
+		socket.emit('partroom', roomtemp);
 	});
 
 	
 	//exit button ----TODO: ADD IT TO THE HTML
-	$scope.exit = function() {
-		socket.emit('partroom', roomtemp);
-	};
+	// $scope.exit = function() {
+	// 	socket.emit('partroom', roomtemp);
+	// };
 
 	//fabulous enter function for shortening your chatting needs
 	$scope.down = function(e) {      

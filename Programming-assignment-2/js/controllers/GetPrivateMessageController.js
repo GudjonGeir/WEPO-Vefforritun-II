@@ -1,7 +1,6 @@
 ChatterClient.controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', 'socket', 'sender', 'message', function ($scope, $modalInstance, socket, sender, message) {
 	$scope.sender = sender;
 	$scope.message = message;
-	$scope.focusOn = true;
 
 	
 	$scope.reply = function() {

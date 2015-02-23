@@ -1,15 +1,13 @@
 <div>
 	<div class="row">
 		<div class="col-md-8">
-			<h4>Welcome to {{ roomName }}, please behave</h4>		
+			<h4>Welcome to {{ roomName }}, please behave</h4>
+			<h5>{{ serverMSG }}</h5>		
 		</div>
 		<div class="col-md-4">
 			<button class="btn btn-default pull-right" ng-click="settingsDialog()" ng-show="isOP">Room Settings</button>
 		</div>
-	
-	
-	</div>
-	
+	</div>	
 	<div class="row">
 		<div class="col-md-8">
 			<div class="well" id="msgContainer" scroll-glue="glued">
@@ -31,7 +29,7 @@
 			<div class="well" id="users">
 				<h4>Operators</h4>
 				<ul ng-repeat="op in ops">
-					<li>{{ op }}</li>
+					<li>{{ op }} <span class="glyphicon glyphicon-envelope" ng-click="pmsg(op)"></span></li>
 				</ul>
 				<h4>Guests</h4>
 				<ul>

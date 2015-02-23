@@ -37,7 +37,6 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		modalInstance.result.then(function (newroomname, newroompassword) {
 			$location.path("/room/" + $scope.currentUser + "/" + newroomname);
 
-
 		}, function () {
 			// User cancelled
 		});

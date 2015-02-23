@@ -7,6 +7,11 @@ function ($scope, $modalInstance, socket, recepient) {
 	$scope.errorMessage = "";
 	$scope.focusOn = true;
 
+	$scope.down = function(e) {     
+      	if (e.keyCode === 13) {
+        	$scope.send();
+      	}
+	};
 
 	$scope.send = function () {
 		if ($scope.pmessage === "") {
