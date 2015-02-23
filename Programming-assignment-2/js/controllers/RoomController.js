@@ -19,7 +19,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	//created our own reciever in chatserver because of servermessage bug 
 	socket.emit('updateroom', roomobj);
 	
-
+	//listens for new messagehistory of room and updates the dialogue
 	socket.on('updatechat', function (room, messageHistory){
 		if(room === $routeParams.roomId){
 			$scope.messages = messageHistory;
@@ -28,6 +28,8 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	});
 
 
+	//listens for any changes in the userlist of the room and
+	//updates it if needed
 	socket.on('updateusers', function (room, users, ops) {
 		if(room === $routeParams.roomId){
 			$scope.users = users;
@@ -42,6 +44,8 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	});
 
 
+	//listens for the two events if a member of a room leaves or joins
+	//and sends a message for that user introduction or outroduction
 	socket.on('servermessage', function (event, room, username) {
 		if(room === $routeParams.roomId && username === $routeParams.user){
 			if (event === "join") {
@@ -60,40 +64,26 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		}
 	});
 
+	//listens for a banned event and checks if an operator wanted to ban this client
+	//if so he is redirected to another room
 	socket.on('banned', function (room, toBeBanned, Banner) {
 		if($routeParams.user === toBeBanned && $routeParams.user !== Banner && room === $routeParams.roomId){
 			$location.path("/roomlist/" + $routeParams.user);
 		} 
 	});
 
-
+	//listens for a kicked event and checks if an operator wanted to ban this client
+	//if so he is redirected to another room
 	socket.on('kicked', function (room, toBeKicked, Kicker) {
 		if($routeParams.user === toBeKicked && $routeParams.user !== Kicker && room === $routeParams.roomId){
 			$location.path("/roomlist/" + $routeParams.user);
 		} 
 	});
 
-	// socket.on('deop', function (room, toBeDOp, DOpper) {
-	// 	if(DOpper !== toBeDOp && room === $routeParams.roomId){
-	// 		var data = {
-	// 			msg: "Hey i was promoted by " + DOpper + " :(",
-	// 			roomName: room
-	// 		};
-	// 		socket.emit('sendmsg', data);
-	// 	}
-	// });
 
-	// socket.on('opped', function (room, toBeOp, Opper) {
-	// 	if(Opper !== toBeOp && room === $routeParams.roomId){
-	// 		var data = {
-	// 			msg: "Hey i was demoted by " + Opper + " :(",
-	// 			roomName: room
-	// 		};
-	// 		socket.emit('sendmsg', data);
-	// 	}
-	// });
-
-
+	//if this client is ment to recieve a personal message for his eyes only
+	//a modal will appear where he can choose to answer it or not. The message 
+	//disappears into the void
 	socket.on('recv_privatemsg', function (from, recievedMsg) {
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/getpmsg.html',
@@ -118,17 +108,21 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	});
 	
 
+	//if a user exits the room template he has parted the room
+	//and therefore other users of room are informed of his abscense
 	$scope.$on("$destroy", function() {
 		socket.emit('partroom', roomtemp);
 	});
 
 
+	//fabulous enter function for shortening your chatting needs
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
         	$scope.addMsg();
       	}
 	};
 
+	//send message to chatboard
 	$scope.addMsg = function() {
 		if($scope.newmsg === ""){
 		} 
@@ -142,6 +136,8 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		}
 	};
 
+
+	//opens a private message dialog
 	$scope.pmsg = function(toUser) {
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/sendpmsg.html',
@@ -154,6 +150,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		});
 	};
 
+	//opens the roomsetting dialog
 	$scope.settingsDialog = function () {
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/roomsettings.html',
@@ -166,15 +163,16 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		});
 	};
 
+	// Leave room button, emits the partroom message and reroutes the user
 	$scope.leaveRoom = function() {
 		socket.emit('partroom', roomtemp);
 		$location.path('/roomlist/' + $routeParams.user);
 	};
 
+	// Log out button, emits the disconnect button and reroutes the user
 	$scope.logOut = function() {
 		socket.emit('disconnect');
 		$location.path('/login');
 	};
 }]);
 
-// RoomController.$inject = ['$scope', '$location', '$rootScope', '$routeParams', 'socket', '$modal'];
