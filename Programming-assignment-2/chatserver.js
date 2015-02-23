@@ -97,6 +97,8 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 
+	// Used to fix the issue that the 'updateusers', 'updatechat' and 'updatetopic' emits where
+	// sometimes emitted before the user had joined the room
 	socket.on('updateroom', function (roomobj) {
 		var room = roomobj.room;
 		io.sockets.emit('updateusers', room, rooms[room].users, rooms[room].ops);

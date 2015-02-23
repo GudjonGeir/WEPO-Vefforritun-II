@@ -1,22 +1,14 @@
-// Gruntfile.js
-
-// our wrapper function (required by grunt and its plugins)
-// all configuration goes inside this function
+// Based on a tutorial by Chris Sevilleja
+// https://scotch.io/tutorials/a-simple-guide-to-getting-started-with-grunt
 module.exports = function(grunt) {
 
-	// ===========================================================================
-	// CONFIGURE GRUNT ===========================================================
-	// ===========================================================================
 	grunt.initConfig({
 
-		// get the configuration info from package.json ----------------------------
-		// this way we can use things like name and version (pkg.name)
 		pkg: grunt.file.readJSON('package.json'),
 
-		// configure jshint to validate js files -----------------------------------
 		jshint: {
 			options: {
-				reporter: require('jshint-stylish'), // use jshint-stylish to make our errors look and read good
+				reporter: require('jshint-stylish'),
 				curly:  true,
 				immed:  true,
 				newcap: true,
@@ -38,8 +30,6 @@ module.exports = function(grunt) {
 					}
 			},
 
-
-			// when this task is run, lint the Gruntfile and all js files in src
 			build: ['Gruntfile.js', 'js/**/*.js']
 		},
 
@@ -54,7 +44,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// configure watch to auto update ----------------
 		watch: {
 
 			// for scripts, run jshint and uglify 
@@ -65,14 +54,9 @@ module.exports = function(grunt) {
 
 	});
 
-	// ===========================================================================
-	// LOAD GRUNT PLUGINS ========================================================
-	// ===========================================================================
-	// we can only load these if they are in our package.json
-	// make sure you have run npm install so our app can find these
+
 	grunt.registerTask('default', ['jshint', 'uglify']); 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 };

@@ -18,7 +18,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 		room : $routeParams.roomId,
 	};
 
-	//created our own reciever in chatserver because of servermessage bug 
+	// Called because an issue where the emits from the server after 'joinroom' where emitted to soon
 	socket.emit('updateroom', roomobj);
 	
 	//listens for new messagehistory of room, updates the dialogue
@@ -72,7 +72,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 				$scope.serverMSG = "Attention! - " + username + " has left the room.";
 			}
 			else if (event === "quit") {
-				$scope.serverMSG = "Attention! - " + username + " has loggd out.";
+				$scope.serverMSG = "Attention! - " + username + " has logged out.";
 			}
 		}
 	});
@@ -136,7 +136,7 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
       	}
 	};
 
-	//send message to chatboard
+	//send message to chatroom
 	$scope.addMsg = function() {
 		if($scope.newmsg === ""){
 		} 
