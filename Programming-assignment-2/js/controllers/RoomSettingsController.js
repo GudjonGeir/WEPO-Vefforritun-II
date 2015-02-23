@@ -124,7 +124,7 @@ function ($scope, $modalInstance, socket, room) {
 					$scope.successMessage = "You have successfully demoted " + $scope.user.selected;
 				}
 				else if(action === 'ban') {
-					msg = $scope.user.selected + " has been banned from " + userObj.room = ".";
+					msg = $scope.user.selected + " has been banned from " + userObj.room + ".";
 					$scope.successMessage = "You have successfully banned " + $scope.user.selected;
 				}
 				else if(action === 'unban') {
