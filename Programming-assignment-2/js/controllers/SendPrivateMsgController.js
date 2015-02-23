@@ -39,4 +39,3 @@ function ($scope, $modalInstance, socket, recepient) {
 	};
 }]);
 
-// SendPrivateMessageCtrl.$inject = ['$scope', '$modalInstance', 'socket', 'recepient'];

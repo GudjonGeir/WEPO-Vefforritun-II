@@ -6,16 +6,21 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 	$scope.displayError = false;
 
 	socket.emit('users');
+
+	//updates the userlist, if a new users signs in the list gets updated
 	socket.on('userlist', function (userlist) {
 		$scope.users = userlist;
 	});
 	
 
 	socket.emit("rooms");
+
+	//updates the roomlist
 	socket.on("roomlist", function (roomList) {
 		$scope.roomList = Object.keys(roomList);
 	});
 
+	//open joinroom dialog
 	$scope.joinRoom = function(room) {		
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/joinroom.html',
@@ -34,6 +39,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		});
 	};
 
+	//opens createroom dialog
 	$scope.createRoom = function() {
 		var modalInstance = $modal.open({
 			templateUrl: 'modal_templates/createroom.html',
@@ -48,6 +54,7 @@ function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 		});
 	};
 
+	//logs out the user
 	$scope.logOut = function() {
 		socket.emit('disconnect');
 		$location.path('/login');

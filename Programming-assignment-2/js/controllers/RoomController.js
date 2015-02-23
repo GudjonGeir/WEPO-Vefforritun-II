@@ -21,7 +21,9 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	//created our own reciever in chatserver because of servermessage bug 
 	socket.emit('updateroom', roomobj);
 	
-	//listens for new messagehistory of room and updates the dialogue
+	//listens for new messagehistory of room, updates the dialogue
+	//and plays a notification sound. We wait for the sound to start 
+	//b4 we remove it from the template
 	socket.on('updatechat', function (room, messageHistory){
 		if(room === $routeParams.roomId){
 			angular.element('.audio').append("<audio id='audio' autoplay='true'><source src='bling.mp3' type='audio/mpeg'></audio>");

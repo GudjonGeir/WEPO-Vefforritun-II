@@ -2,6 +2,7 @@ ChatterClient.controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', '
 	$scope.sender = sender;
 	$scope.message = message;
 
+	//reply or exit, wat can i say more?
 	
 	$scope.reply = function() {
 		$modalInstance.close(sender);
