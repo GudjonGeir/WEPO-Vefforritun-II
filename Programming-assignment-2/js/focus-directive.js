@@ -10,7 +10,7 @@ ChatterClient.directive('focus', ['$timeout', function focus($timeout) {
         $timeout(function() {
 
           element[0].focus();
-        }, 500);
+        }, 500); //timeout is done for modals to recieve focus
       }
 
       if (scope.focus != null)
