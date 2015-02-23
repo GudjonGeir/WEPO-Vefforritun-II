@@ -119,14 +119,9 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	
 
 	$scope.$on("$destroy", function() {
-		$scope.exit();
+		socket.emit('partroom', roomtemp);
 	});
 
-	
-
-	$scope.exit = function() {
-		socket.emit('partroom', roomtemp);
-	};
 
 	$scope.down = function(e) {      
       	if (e.keyCode === 13) {
@@ -169,6 +164,16 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 				}
 			}
 		});
+	};
+
+	$scope.leaveRoom = function() {
+		socket.emit('partroom', roomtemp);
+		$location.path('/roomlist/' + $routeParams.user);
+	};
+
+	$scope.logOut = function() {
+		socket.emit('disconnect');
+		$location.path('/login');
 	};
 }]);
 

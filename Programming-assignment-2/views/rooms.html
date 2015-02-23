@@ -1,13 +1,33 @@
-<div class="col-md 4">
-	<h4>Welcome {{ currentUser }}, please select a chatroom</h4>
-	<div class="well">
-		<ul>
-			<li ng-repeat="room in roomList"><a ng-click="joinRoom(room)">{{ room }}</a></li>
-		</ul>
+<div class="row">
+	<div class="col-md-8">
+		<h4>Welcome {{ currentUser }}, please select a chatroom</h4>
+	</div>
+	<div class="col-md-4">
+		<button class="btn btn-default pull-right" ng-click="logOut()">Log Out</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-8">
+		<div class="well">
+			<h5>Available rooms</h5>
+			<ul>
+				<li ng-repeat="room in roomList"><a ng-click="joinRoom(room)">{{ room }}</a></li>
+			</ul>
+		</div>
+
+		<button type="button" class="btn btn-default" ng-click="createRoom()">Create new room</button>
+		<div class="alert alert-danger" role="alert" ng-show="displayError">
+			{{ errorMessage }}
+		</div>
 	</div>
 
-	<button type="button" class="btn btn-default" ng-click="createRoom()">Create new room</button>
-	<div class="alert alert-danger" role="alert" ng-show="displayError">
-		{{ errorMessage }}
+	<div class="col-md-4">
+		<div class="well">
+			<h5>Users currently logged in</h5>
+			<ul>
+				<li ng-repeat="user in users">{{ user }}</li>
+			</ul>
+		</div>
 	</div>
 </div>
