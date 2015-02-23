@@ -42,3 +42,4 @@ function ($scope, $modalInstance, socket, recepient) {
 		$modalInstance.dismiss('cancel');
 	};
 }]);
+
