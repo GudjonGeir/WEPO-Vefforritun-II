@@ -1,9 +1,13 @@
 ChatterClient.controller("RoomSettingsCtrl", ['$scope', '$modalInstance', 'socket', 'room',
 function ($scope, $modalInstance, socket, room) {
+
+	// Use the 'users' listener to get a list of everyone logged into the chat application
 	socket.emit('users');
 	socket.on('userlist', function (userlist) {
+		// Map the userlist to an array for select
 		$scope.users = Object.keys(userlist).map(function (key) {return userlist[key];});
 	});
+
 	$scope.room = room;
 	$scope.user = {};
 	$scope.newtopic = "";
@@ -13,18 +17,22 @@ function ($scope, $modalInstance, socket, room) {
 	$scope.successMessage = "";
 	$scope.displaySuccess = false;
 
+	// For when the user presses enter
 	$scope.settopicDown = function(e) {      
 		if (e.keyCode === 13) {
 			$scope.setTopic();
 		}
 	};
 
+	// For when the user presses enter
 	$scope.setpasswordDown = function(e) {      
 		if (e.keyCode === 13) {
 			$scope.setPassword();
 		}
 	};
 
+	// When the user wants to set a new topic,
+	// verify the input field is not empty and emit the data
 	$scope.setTopic = function () {
 		if ($scope.newtopic === "") {
 			$scope.errorMessage = "Please choose a topic";
@@ -49,6 +57,8 @@ function ($scope, $modalInstance, socket, room) {
 		}
 	};
 
+	// When the user wants to set a new password,
+	// verify the input field is not empty and emit the data
 	$scope.setPassword = function () {
 		if ($scope.newpassword === "") {
 			$scope.errorMessage = "Please choose a password. If you want to remove the password use the given button";
@@ -73,6 +83,7 @@ function ($scope, $modalInstance, socket, room) {
 		}
 	};
 
+	// Remove password button
 	$scope.removePassword = function () {
 		var remObj = {
 			room: room
@@ -89,6 +100,9 @@ function ($scope, $modalInstance, socket, room) {
 		});
 	};
 
+	// Various user privilege settings, the requested action recieved in parameter
+	// and proceed accordingly.
+	// Sends a message to the chatroom notifying everyone of the change
 	$scope.userStatus = function (action) {
 		var msg;
 		var userObj = {
@@ -97,7 +111,6 @@ function ($scope, $modalInstance, socket, room) {
 		};		
 		socket.emit(action, userObj, function(success) {
 			if(success){
-				// TODO: create success messages
 				if(action === 'kick'){
 					msg = $scope.user.selected + " has been kicked for bad behavior";
 					$scope.successMessage = "You have successfully kicked " + $scope.user.selected;
@@ -134,6 +147,8 @@ function ($scope, $modalInstance, socket, room) {
 			}
 		});
 	};
+
+	// Close modal button
 	$scope.close = function() {
 		$modalInstance.dismiss('cancel');
 	};
