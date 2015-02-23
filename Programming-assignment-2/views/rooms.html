@@ -11,9 +11,11 @@
 	<div class="col-md-8">
 		<div class="well">
 			<h5>Available rooms</h5>
-			<ul>
-				<li ng-repeat="room in roomList"><a ng-click="joinRoom(room)">{{ room }}</a></li>
-			</ul>
+			<table class="table table-striped">
+				<tr ng-repeat="room in roomList">
+					<td><a ng-click="joinRoom(room)">{{ room }}</a></td>
+				</tr>
+			</table>
 		</div>
 
 		<button type="button" class="btn btn-default" ng-click="createRoom()">Create new room</button>
@@ -25,9 +27,11 @@
 	<div class="col-md-4">
 		<div class="well">
 			<h5>Users currently logged in</h5>
-			<ul>
-				<li ng-repeat="user in users">{{ user }}</li>
-			</ul>
+			<table class="table table-striped">
+				<tr ng-repeat="user in users">
+					<td>{{user}}</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </div>
