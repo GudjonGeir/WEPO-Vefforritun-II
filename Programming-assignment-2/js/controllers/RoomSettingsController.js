@@ -102,7 +102,7 @@ function ($scope, $modalInstance, socket, room) {
 
 	// Various user privilege settings, the requested action recieved in parameter
 	// and proceed accordingly.
-	// Sends a message to the chatroom notifying everyone of the change
+	// Sends a message to the chatroom as op notifying everyone of the change
 	$scope.userStatus = function (action) {
 		var msg;
 		var userObj = {
@@ -112,23 +112,23 @@ function ($scope, $modalInstance, socket, room) {
 		socket.emit(action, userObj, function(success) {
 			if(success){
 				if(action === 'kick'){
-					msg = $scope.user.selected + " has been kicked for bad behavior";
+					msg = $scope.user.selected + " has been kicked for bad behavior.";
 					$scope.successMessage = "You have successfully kicked " + $scope.user.selected;
 				}
 				else if(action === 'op') {
-					msg = $scope.user.selected + " has been promoted";
+					msg = $scope.user.selected + " has been promoted.";
 					$scope.successMessage = "You have successfully promoted " + $scope.user.selected;
 				}
 				else if(action === 'deop') {
-					msg = $scope.user.selected + " has been demoted";
+					msg = $scope.user.selected + " has been demoted.";
 					$scope.successMessage = "You have successfully demoted " + $scope.user.selected;
 				}
 				else if(action === 'ban') {
-					msg = $scope.user.selected + " has been banned from this " + userObj.room;
+					msg = $scope.user.selected + " has been banned from " + userObj.room + ".";
 					$scope.successMessage = "You have successfully banned " + $scope.user.selected;
 				}
 				else if(action === 'unban') {
-					msg = $scope.user.selected + " has been granted a second chance";
+					msg = $scope.user.selected + " has been granted a second chance.";
 					$scope.successMessage = "You have successfully unbanned " + $scope.user.selected;
 				}
 				else {

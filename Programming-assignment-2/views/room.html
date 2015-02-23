@@ -1,8 +1,14 @@
 <div class="row">
 	<div class="audio" hidden></div>
 	<div class="col-md-8">
-		<h4>Welcome to {{ roomName }}, please behave</h4>
-		<h5>{{ serverMSG }}</h5>		
+		<h3 class="text-center">Welcome to {{ roomName }}, please behave</h3>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-8">
+		
+		<h4>{{ serverMSG }}</h4>		
 	</div>
 	<div class="col-md-4 pull-right">
 		<button class="btn btn-default" ng-click="settingsDialog()" ng-show="isOP">Room Settings</button>
