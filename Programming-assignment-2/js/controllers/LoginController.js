@@ -12,7 +12,8 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 		}
 	};
 
-	//basic login, if scope.username is not empty or the given username is not taken the user will be directed to available rooms
+	//basic login, if scope.username is not empty or the given username 
+	//is not taken the user will be directed to available rooms
 	$scope.login = function() {
 		if ($scope.username === "") {
 			$scope.errorMessage = "Please choose a username";
@@ -32,4 +33,3 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	};
 }]);
 
-//LoginController.$inject = ['$scope', '$location', '$rootScope', '$routeParams', 'socket'];

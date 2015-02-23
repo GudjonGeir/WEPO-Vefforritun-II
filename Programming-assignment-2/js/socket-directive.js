@@ -34,4 +34,3 @@ ChatterClient.directive('focus', ['$timeout', function focus($timeout) {
   };
 }]);
 
-//setTimeout(function(){ alert("Hello"); }, 3000);
