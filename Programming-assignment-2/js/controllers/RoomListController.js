@@ -1,4 +1,4 @@
-ChatterClient.controller("RoomListController", ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket',
+angular.module("ChatterClient").controller("RoomListController", ['$scope', '$location', '$rootScope', '$routeParams', '$modal', 'socket',
 function ($scope, $location, $rootScope, $routeParams, $modal, socket) {
 	$scope.loggedIn = true;
 	$scope.currentUser = $routeParams.user;

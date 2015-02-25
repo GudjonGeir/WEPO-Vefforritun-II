@@ -1,4 +1,4 @@
-ChatterClient.controller('JoinRoomCtrl', ['$scope', '$modalInstance', 'socket', 'room', function ($scope, $modalInstance, socket, room) {
+angular.module("ChatterClient").controller('JoinRoomCtrl', ['$scope', '$modalInstance', 'socket', 'room', function ($scope, $modalInstance, socket, room) {
 	var joinObj;
 	$scope.displayError = false;
 	$scope.errorMessage = "";

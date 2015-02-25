@@ -1,6 +1,6 @@
 //borrowed from http://www.marushkevych.com/2014/05/21/angular-focus-on-input/
 
-ChatterClient.directive('focus', ['$timeout', function focus($timeout) {
+angular.module("ChatterClient").directive('focus', ['$timeout', function focus($timeout) {
   return {
     scope: {
       focus: '@'

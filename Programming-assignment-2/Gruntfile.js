@@ -26,7 +26,6 @@ module.exports = function(grunt) {
 					console: 		false,
 					$:       		false,
 					io:      		false,
-					ChatterClient: 	true
 					}
 			},
 

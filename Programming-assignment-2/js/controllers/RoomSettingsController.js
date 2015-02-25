@@ -1,4 +1,4 @@
-ChatterClient.controller("RoomSettingsCtrl", ['$scope', '$modalInstance', 'socket', 'room',
+angular.module("ChatterClient").controller("RoomSettingsCtrl", ['$scope', '$modalInstance', 'socket', 'room',
 function ($scope, $modalInstance, socket, room) {
 
 	// Use the 'users' listener to get a list of everyone logged into the chat application
