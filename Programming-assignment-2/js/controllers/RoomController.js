@@ -26,13 +26,9 @@ function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	//b4 we remove it from the template
 	socket.on('updatechat', function (room, messageHistory){
 		if(room === $routeParams.roomId){
-			angular.element('.audio').append("<audio id='audio' autoplay='true'><source src='bling.mp3' type='audio/mpeg'></audio>");
 			$scope.messages = messageHistory;
 			$scope.glued = true;
 		}
-		setTimeout(function(){
-			angular.element('#audio').remove();
-		}, 2000);
 	});
 
 

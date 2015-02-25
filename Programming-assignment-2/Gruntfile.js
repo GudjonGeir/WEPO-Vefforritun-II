@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: {
-					'dist/js/ChatterClient.min.js': ['js/ChatterClient.js', 'js/controllers/*.js', 'js/socket-factory.js', 'js/focus-directive.js']
+					'dist/js/ChatterClient.min.js': ['js/ChatterClient.js', 'js/controllers/*.js', 'js/socket-factory.js', 'js/focus-directive.js', 'js/sound-directive.js']
 				}
 			}
 		},
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 					'bower_components/angular-sanitize/angular-sanitize.min.js',
 					'bower_components/socket.io-client/dist/socket.io.min.js',
 					'bower_components/bootstrap/dist/js/bootstrap.min.js'],
-				dest: 'dist/js/Dependencies.js',
+				dest: 'dist/js/Dependencies.min.js',
 			}
 		},
 
