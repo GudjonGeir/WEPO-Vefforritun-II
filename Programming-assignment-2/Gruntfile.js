@@ -42,7 +42,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-
 		cssmin: {
 			options: {
 				banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
