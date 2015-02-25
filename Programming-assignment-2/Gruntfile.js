@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: {
-					'dist/js/ChatterClient.min.js': ['js/ChatterClient.js', 'js/controllers/*.js', 'js/socket-factory.js', 'js/focus-directive.js', 'js/sound-directive.js']
+					'dist/js/ChatterClient.min.js': ['js/ChatterClient.js', 'js/controllers/*.js', 'js/socket-factory.js', 'js/focus-directive.js']
 				}
 			}
 		},
