@@ -1,7 +1,7 @@
-var ChatterClient = angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap', 'luegg.directives', 'ui.select', 'ngSanitize']);
+angular.module("ChatterClient", ['ngRoute', 'ui.bootstrap', 'luegg.directives', 'ui.select', 'ngSanitize']);
 
 
-ChatterClient.config( ['$routeProvider',
+angular.module("ChatterClient").config( ['$routeProvider',
 	function ($routeProvider) {
 		$routeProvider
 			.when("/login", { templateUrl: "views/login.html", controller: "LoginController" })

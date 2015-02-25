@@ -1,4 +1,4 @@
-ChatterClient.controller("RoomController", ['$scope', '$location', '$rootScope', '$routeParams', 'socket', '$modal',
+angular.module("ChatterClient").controller("RoomController", ['$scope', '$location', '$rootScope', '$routeParams', 'socket', '$modal',
 function ($scope, $location, $rootScope, $routeParams, socket, $modal) {
 	$scope.newmsg = "";
 	$scope.roomName = $routeParams.roomId;

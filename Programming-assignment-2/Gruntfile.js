@@ -26,7 +26,6 @@ module.exports = function(grunt) {
 					console: 		false,
 					$:       		false,
 					io:      		false,
-					ChatterClient: 	true
 					}
 			},
 
@@ -43,36 +42,48 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		concat: {
-			dist: {
-				src: ['bower_components/jquery/dist/jquery.min.js',
-					'bower_components/angular/angular.min.js',
-					'bower_components/angular-route/angular-route.min.js',
-					'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-					'bower_components/angular-scroll-glue/src/scrollglue.js',
-					'bower_components/angular-ui-select/dist/select.min.js',
-					'bower_components/angular-sanitize/angular-sanitize.min.js',
-					'bower_components/socket.io-client/dist/socket.io.min.js',
-					'bower_components/bootstrap/dist/js/bootstrap.min.js'],
-				dest: 'dist/js/Dependencies.min.js',
+		cssmin: {
+			options: {
+				banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
+			},
+			build: {
+				files: {
+					'dist/css/style.min.css': 'css/style.css'
+				}
 			}
 		},
+
+		// concat: {
+		// 	dist: {
+		// 		src: ['bower_components/jquery/dist/jquery.min.js',
+		// 			'bower_components/angular/angular.min.js',
+		// 			'bower_components/angular-route/angular-route.min.js',
+		// 			'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+		// 			'bower_components/angular-scroll-glue/src/scrollglue.js',
+		// 			'bower_components/angular-ui-select/dist/select.min.js',
+		// 			'bower_components/angular-sanitize/angular-sanitize.min.js',
+		// 			'bower_components/socket.io-client/dist/socket.io.min.js',
+		// 			'bower_components/bootstrap/dist/js/bootstrap.min.js'],
+		// 		dest: 'dist/js/Dependencies.min.js',
+		// 	}
+		// },
 
 
 		watch: {
 
 			// for scripts, run jshint and uglify 
 			scripts: { 
-				files: 'js/**/*.js', tasks: ['jshint', 'uglify', 'concat'] 
+				files: 'js/**/*.js', tasks: ['jshint', 'uglify', 'cssmin'] 
 			} 
 		}
 
 	});
 
 
-	grunt.registerTask('default', ['jshint', 'uglify', 'concat']); 
+	grunt.registerTask('default', ['jshint', 'uglify', 'cssmin']); 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	// grunt.loadNpmTasks('grunt-contrib-concat');
 };

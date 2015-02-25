@@ -1,4 +1,4 @@
-ChatterClient.controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', 'socket', 'sender', 'message', function ($scope, $modalInstance, socket, sender, message) {
+angular.module("ChatterClient").controller('GetPrivateMessageCtrl', ['$scope', '$modalInstance', 'socket', 'sender', 'message', function ($scope, $modalInstance, socket, sender, message) {
 	$scope.sender = sender;
 	$scope.message = message;
 

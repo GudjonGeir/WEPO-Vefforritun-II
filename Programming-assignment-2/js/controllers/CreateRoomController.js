@@ -1,4 +1,4 @@
-ChatterClient.controller('CreateRoomCtrl', ['$scope', '$modalInstance', 'socket', function ($scope, $modalInstance, socket) {
+angular.module("ChatterClient").controller('CreateRoomCtrl', ['$scope', '$modalInstance', 'socket', function ($scope, $modalInstance, socket) {
 	var joinObj, path;
 	$scope.focusOn = true;			
 	$scope.displayError = false;

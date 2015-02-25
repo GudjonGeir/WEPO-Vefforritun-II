@@ -1,4 +1,4 @@
-ChatterClient.controller("LoginController", ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module("ChatterClient").controller("LoginController", ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.focusOn = true;
 	$scope.username = "";

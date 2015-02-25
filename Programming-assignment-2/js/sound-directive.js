@@ -1,4 +1,4 @@
-ChatterClient.directive('sound', [ 'socket', '$routeParams', function (socket, $routeParams) {
+angular.module("ChatterClient").directive('sound', [ 'socket', '$routeParams', function (socket, $routeParams) {
     return function ($scope, element, attrs) {
   		socket.on('updatechat', function(room, messageHistory){
   			console.log("K");
