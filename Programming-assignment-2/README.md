@@ -10,7 +10,6 @@ Run the following commands:
 ```bash
 bin/install.bat
 ```
-Note: when prompted for which version of angular should be used select the one that is required by Chatter
 
 
 #### Running the application
