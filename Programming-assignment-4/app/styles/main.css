@@ -4,7 +4,8 @@
 	left: 0;
 	width: 5em;
 	height: 5em;
-	background: blue;
+	/*background: blue;*/
+	background-image: url('../dabs.png');
 }
 
 .Scoreboard {
@@ -60,5 +61,7 @@ height: 57.6em;
 margin-left: -51.2em;
 margin-top: -28.8em;
 overflow: hidden;
-background: red;
+background-image: url('../hr.jpg');
+background-repeat: no-repeat;
+background-size: 1920px 1080px;
 }
