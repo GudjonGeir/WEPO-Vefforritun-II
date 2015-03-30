@@ -8,12 +8,13 @@ window.Player = (function() {
 	//var SPEED = 30; // * 10 pixels per second
 	var GRAVITY = 30;
 	var JUMPHEIGHT = GRAVITY * 3;
-	var WIDTH = 5;
-	var HEIGHT = 5;
+	var WIDTH = 8;
+	var HEIGHT = 8;
 	var INITIAL_POSITION_X = 30;
 	var INITIAL_POSITION_Y = 25;
 
 	var Player = function(el, game) {
+		console.log('player constructor');
 		this.el = el;
 		this.game = game;
 		this.pos = { x: 0, y: 0 };
@@ -30,7 +31,7 @@ window.Player = (function() {
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
 			if (Controls.keys.up || Controls.keys.space) {
-				console.log('jump');
+				console.log('JIIMP');
 				this.pos.y -= delta * JUMPHEIGHT;
 			}
 
@@ -44,15 +45,22 @@ window.Player = (function() {
 
 		// Update UI
 		this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
+
 	};
 
+
 	Player.prototype.checkCollisionWithBounds = function() {
+		/* We only have to end game if player hits ground */
+		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT || WIDTH > 1000) {
+			return this.game.gameover();
+		}
+		/* old block of code
 		if (this.pos.x < 0 ||
 			this.pos.x + WIDTH > this.game.WORLD_WIDTH ||
 			this.pos.y < 0 ||
 			this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
 			return this.game.gameover();
-		}
+		}*/
 	};
 
 	return Player;
