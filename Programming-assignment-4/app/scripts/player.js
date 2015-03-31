@@ -57,10 +57,10 @@ window.Player = (function() {
 		// Update UI
 
 		if(VERTSPEED > 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-45deg)');
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
 		}
 		else if(VERTSPEED < 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(45deg)');
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(10deg)');
 		}
 		else{
 			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
