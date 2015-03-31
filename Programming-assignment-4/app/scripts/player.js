@@ -10,9 +10,9 @@ window.Player = (function() {
 	//var JUMPHEIGHT = GRAVITY * 3;
 	var WIDTH = 8;
 	var HEIGHT = 8;
-	var vertSpeed = 0;
-	var jumpSpeed = 40;
-	var fallingConstant = 80;
+	var VERTSPEED = 0;
+	var JUMPSPEED = 40;
+	var GRAVITY = 80;
 
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
@@ -43,25 +43,23 @@ window.Player = (function() {
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
 			if (Controls.keys.up || Controls.keys.space) {
-				console.log('JIIMP');
-				console.log(vertSpeed);
-				console.log(jumpSpeed);
-				vertSpeed = jumpSpeed;
+				VERTSPEED = JUMPSPEED;
 			}
 			
 			/* Gravity */
-			this.pos.y -= delta * vertSpeed;
-			vertSpeed -= fallingConstant * delta;
+			this.pos.y -= delta * VERTSPEED;
+			VERTSPEED -= GRAVITY * delta;
 			//console.log(vertSpeed);
 		}
 		
 		this.checkCollisionWithBounds();
 
 		// Update UI
-		if(vertSpeed > 0){
+
+		if(VERTSPEED > 0){
 			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-45deg)');
 		}
-		else if(vertSpeed < 0){
+		else if(VERTSPEED < 0){
 			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(45deg)');
 		}
 		else{

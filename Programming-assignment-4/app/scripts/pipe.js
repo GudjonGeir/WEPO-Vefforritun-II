@@ -4,7 +4,8 @@ window.Pipe = (function() {
 	// All these constants are in em's, multiply by 10 pixels
 	// for 640x420px canvas.
 	var posArr = [-28.5, -24.85, -21.5, -17.85, -14.2, -10.55, -6.9, -3.25, 0.4];
-	var SPEED = 100; // * 10 pixels per second
+
+	var SPEED = 30;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
 	var INITIAL_POSITION_X = 120;
