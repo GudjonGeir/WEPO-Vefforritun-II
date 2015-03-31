@@ -21,7 +21,8 @@ window.Controls = (function() {
         this.keys = {};
         $(window)
             .on('keydown', this._onKeyDown.bind(this))
-            .on('keyup', this._onKeyUp.bind(this));
+            .on('keyup', this._onKeyUp.bind(this))
+            .on('click', this._onClick.bind(this));
     };
 
     Controls.prototype._onKeyDown = function(e) {
@@ -44,6 +45,14 @@ window.Controls = (function() {
             this.keys[keyName] = false;
             return false;
         }
+    };
+
+    Controls.prototype._onClick = function() {
+        //this._didJump = true;
+        //var keyName = KEYS[38];
+        //console.log(this.keys);
+        //this.keys[keyName] = true;
+        return false;
     };
 
     /**

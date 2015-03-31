@@ -28,19 +28,21 @@ window.Player = (function() {
 		this.pos.y = game.WORLD_HEIGHT/2 + 3;
 	};
 
+	Player.prototype.getWidth = function(){
+		return WIDTH;
+	};
+
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
 			if (Controls.keys.up || Controls.keys.space) {
 				console.log('JIIMP');
 				this.pos.y -= delta * JUMPHEIGHT;
 			}
-
+			
 			/* Gravity */
 			this.pos.y += delta * GRAVITY;
 		}
 		
-		
-
 		this.checkCollisionWithBounds();
 
 		// Update UI

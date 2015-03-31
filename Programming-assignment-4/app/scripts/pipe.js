@@ -43,7 +43,8 @@ window.Pipe = (function() {
 
 		/* TODO: Implement pipe hit detection */
 		/* End game if player hits pipe */
-		if(this.player.pos.x + this.player.WIDTH > this.pos.x){
+		
+		if((this.player.pos.x + this.player.getWidth()) > this.pos.x){
 			return this.game.gameover();
 		}
 
