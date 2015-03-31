@@ -53,7 +53,7 @@ window.Player = (function() {
 
 	Player.prototype.checkCollisionWithBounds = function() {
 		/* We only have to end game if player hits ground */
-		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT || WIDTH > 1000) {
+		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
 			return this.game.gameover();
 		}
 		/* old block of code
