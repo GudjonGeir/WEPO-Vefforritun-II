@@ -6,10 +6,14 @@ window.Player = (function() {
 	// All these constants are in em's, multiply by 10 pixels
 	// for 1024x576px canvas.
 	//var SPEED = 30; // * 10 pixels per second
-	var GRAVITY = 30;
-	var JUMPHEIGHT = GRAVITY * 3;
+	//var GRAVITY = 30;
+	//var JUMPHEIGHT = GRAVITY * 3;
 	var WIDTH = 8;
 	var HEIGHT = 8;
+	var VERTSPEED = 0;
+	var JUMPSPEED = 20;
+	var GRAVITY = 60;
+
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
 
@@ -32,24 +36,46 @@ window.Player = (function() {
 		return WIDTH;
 	};
 
+	Player.prototype.getHeight = function(){
+		return HEIGHT;
+	};
+
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
 			if (Controls.keys.up || Controls.keys.space) {
-				console.log('JIIMP');
-				this.pos.y -= delta * JUMPHEIGHT;
+				VERTSPEED = JUMPSPEED;
 			}
 			
 			/* Gravity */
-			this.pos.y += delta * GRAVITY;
+			this.pos.y -= delta * VERTSPEED;
+			VERTSPEED -= GRAVITY * delta;
+			//console.log(vertSpeed);
 		}
 		
 		this.checkCollisionWithBounds();
 
 		// Update UI
-		this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
+
+		if(VERTSPEED > 0){
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-45deg)');
+		}
+		else if(VERTSPEED < 0){
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(45deg)');
+		}
+		else{
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
+		}
 	};
 
-
+/*method Update()
+{
+     if (PlayerTappedScreen)
+     {
+            vertSpeed = jumpSpeed;
+     }
+     Position.Y += vertSpeed * deltaTime;
+     vertSpeed -= fallingConstant * deltaTime;
+}*/
 	Player.prototype.checkCollisionWithBounds = function() {
 		/* We only have to end game if player hits ground */
 		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
