@@ -10,22 +10,22 @@ window.Player = (function() {
 	var JUMPHEIGHT = GRAVITY * 3;
 	var WIDTH = 8;
 	var HEIGHT = 8;
-	var INITIAL_POSITION_X = 30;
-	var INITIAL_POSITION_Y = 25;
+	// var INITIAL_POSITION_X = 30;
+	// var INITIAL_POSITION_Y = 25;
 
 	var Player = function(el, game) {
 		console.log('player constructor');
 		this.el = el;
 		this.game = game;
-		this.pos = { x: 0, y: 0 };
+		this.pos = { x: this.game.WORLD_WIDTH/2 - 8 , y: this.game.WORLD_HEIGHT/2 + 3};
 	};
 
 	/**
 	 * Resets the state of the player for a new game.
 	 */
-	Player.prototype.reset = function() {
-		this.pos.x = INITIAL_POSITION_X;
-		this.pos.y = INITIAL_POSITION_Y;
+	Player.prototype.reset = function(game) {
+		this.pos.x = game.WORLD_WIDTH/2 - 8;
+		this.pos.y = game.WORLD_HEIGHT/2 + 3;
 	};
 
 	Player.prototype.getWidth = function(){
