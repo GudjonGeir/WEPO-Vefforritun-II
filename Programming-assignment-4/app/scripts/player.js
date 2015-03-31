@@ -11,8 +11,8 @@ window.Player = (function() {
 	var WIDTH = 8;
 	var HEIGHT = 8;
 	var VERTSPEED = 0;
-	var JUMPSPEED = 20;
-	var GRAVITY = 60;
+	var JUMPSPEED = 40;
+	var GRAVITY = 80;
 
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
