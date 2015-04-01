@@ -14,11 +14,14 @@ window.Game = (function() {
 		this.el = el;
 		this.player = new window.Player(this.el.find('.Player'), this);
 		this.pipe = new window.Pipe(this.el.find('.Pipe'), this);
-		//this.ground = new window.ground(this.el.find('.ground'), this);
+		this.ground = new window.Ground(this.el.find('.Ground'), this);
+		this.cloud = new window.Cloud(this.el.find('.Cloud'), this);
 		this.isPlaying = false;
 
 		/* for starting game */
 		this.hasStarted = false;
+
+		this.highScore = 0;
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -50,7 +53,7 @@ window.Game = (function() {
 		this.player.onFrame(delta, this.hasStarted);
 		this.pipe.onFrame(delta, this.hasStarted);
 		this.ground.onFrame(delta, this.hasStarted);
-
+		this.cloud.onFrame(delta, this.hasStarted);
 		// Request next frame.
 		window.requestAnimationFrame(this.onFrame);
 	};
@@ -94,6 +97,11 @@ window.Game = (function() {
 					scoreboardEl.removeClass('is-visible');
 					that.start();
 				});
+		$('.Scoreboard-Score>span').html(this.player.score);
+		if(this.player.score > this.highScore) {
+			this.highScore = this.player.score;
+		}
+		$('.Scoreboard-Highscore>span').html(this.highScore);
 	};
 
 	/**

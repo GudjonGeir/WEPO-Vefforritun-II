@@ -33,11 +33,14 @@
         <![endif]-->
 
         <div class="GameCanvas">
+            <div class="Cloud"></div>
             <div class="Player"></div>
             <div class="Pipe"></div>
             <div class="Score">0</div>
-            <div class="Bottom"></div>
+            <div class="Ground"></div>
             <div class="Scoreboard">
+                <div class="Scoreboard-Score">Score: <span></span></div>
+                <div class="Scoreboard-Highscore">High Score: <span></span></div>
                 <button class="Scoreboard-restart">
                     <span class="Scoreboard-restartText">Restart</span>
                 </button>
@@ -57,6 +60,8 @@
         <script src="scripts/player.js"></script>
         <script src="scripts/pipe.js"></script>
         <script src="scripts/utils.js"></script>
+        <script src="scripts/ground.js"></script>
+        <script src="scripts/cloud.js"></script>
         <!-- endbuild -->
 </body>
 </html>

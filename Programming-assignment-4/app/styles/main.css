@@ -18,12 +18,21 @@
 	background-image: url('../Images/rayman-thickpipe.png');
 }
 
-.Bottom {
+.Ground {
 	position: absolute;
 	top: 90%;
 	left: 0;
 	width: 55em;
 	height: 8em;
+	background-image: url('../Images/ground.png');
+}
+.Cloud {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 55em;
+	height: 8em;
+    opacity: 0.4;
 	background-image: url('../Images/ground.png');
 }
 
@@ -89,6 +98,13 @@ background-image: url('../Images/rayman-background.png');
 
 .Score {
 	position: absolute;
-	top: 3em;
-	left: 3em;
+	top: 0.7em;
+	left: 0.7em;
+	font-size: 2.7em;
+	color: white;
+	text-shadow:
+		-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
 }

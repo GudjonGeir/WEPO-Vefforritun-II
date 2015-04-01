@@ -21,8 +21,8 @@ window.Controls = (function() {
         this.keys = {};
         $(window)
             .on('keydown', this._onKeyDown.bind(this))
-            .on('keyup', this._onKeyUp.bind(this));
-            //.on('click', this._onClick.bind(this));
+            .on('keyup', this._onKeyUp.bind(this))
+            .on('click', this._onClick.bind(this));
     };
 
     Controls.prototype._onKeyDown = function(e) {

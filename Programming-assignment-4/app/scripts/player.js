@@ -50,11 +50,14 @@ window.Player = (function() {
 			/*if ((Controls.keys.up || Controls.keys.space) && Controls.didJump()) {
 				VERTSPEED = JUMPSPEED;
 			}*/
+			//We wanna finish one jump if user holds key and then let him fly. So the distance for one jump is measured
+			//in ca. 30 space messages from keyboard
 			if ((jumps === 0 || jumps > 30) && (Controls.keys.up || Controls.keys.space)) {
 				VERTSPEED = JUMPSPEED;
 				yB4 = this.pos.y;
 			}
 
+			//if 
 			if ((Controls.keys.up || Controls.keys.space)) {
 				jumps++;
 			}
@@ -64,20 +67,36 @@ window.Player = (function() {
 			}
 			/* Gravity */
 			this.pos.y -= delta * VERTSPEED;
-			VERTSPEED -= GRAVITY * delta;
-			//console.log(vertSpeed);
+			if(VERTSPEED > -180){
+				VERTSPEED -= GRAVITY * delta;
+			}
+			console.log(VERTSPEED);
 			/*if(yB4 < this.pos.y){
 				console.log(jumps);
 				jumps = 0;
 				tmp = true;
 			}*/
 		}
-		console.log(Controls._didJump);
 		this.checkCollisionWithBounds();
 
 		// Update UI
+		console.log(VERTSPEED);
 
-		if(VERTSPEED > 0){
+		var rotate;
+
+		if(VERTSPEED < -60){
+			rotate = -60;
+		}
+		else if(VERTSPEED > 60){
+			rotate = 60;
+		}
+		else{
+			rotate = VERTSPEED;
+		}
+
+		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-rotate) + 'deg)');
+
+		/*if(VERTSPEED > 0){
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
 		}
 		else if(VERTSPEED < 0){
@@ -85,7 +104,7 @@ window.Player = (function() {
 		}
 		else{
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
-		}
+		}*/
 	};
 
 /*method Update()

@@ -44,12 +44,11 @@ window.Pipe = (function() {
 		if(this.pos.x < -WIDTH ){
 			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
-			console.log(newY);
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;
 		}
-		this.checkCollisionWithPlayer();
+		//this.checkCollisionWithPlayer();
 		this.updateScore();
 
 		// Update UI
@@ -63,17 +62,10 @@ window.Pipe = (function() {
 				return this.game.gameover();
 			}
 		}
-
-		/*if (this.pos.x + WIDTH < Player.pos.x ||
-			this.pos.x + WIDTH > this.game.WORLD_WIDTH ||
-			this.pos.y < 0 ||
-			this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
-			return this.game.gameover();
-		}*/
 	};
 
 	Pipe.prototype.updateScore = function() {
-		if(((this.pos.x + WIDTH) < this.player.pos.x) && !pipePassed) {
+		if(((this.pos.x + WIDTH/2) < this.player.pos.x) && !pipePassed) {
 			this.player.score++;
 			$('.Score').html(this.player.score);
 			pipePassed = true;
