@@ -19,6 +19,8 @@ window.Game = (function() {
 		/* for starting game */
 		this.hasStarted = false;
 
+		this.highScore = 0;
+
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
 	};
@@ -92,6 +94,11 @@ window.Game = (function() {
 					scoreboardEl.removeClass('is-visible');
 					that.start();
 				});
+		$('.Scoreboard-Score>span').html(this.player.score);
+		if(this.player.score > this.highScore) {
+			this.highScore = this.player.score;
+		}
+		$('.Scoreboard-Highscore>span').html(this.highScore);
 	};
 
 	/**

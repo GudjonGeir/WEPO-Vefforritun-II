@@ -49,7 +49,7 @@ window.Pipe = (function() {
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;
 		}
-		this.checkCollisionWithPlayer();
+		//this.checkCollisionWithPlayer();
 		this.updateScore();
 
 		// Update UI
@@ -66,7 +66,7 @@ window.Pipe = (function() {
 	};
 
 	Pipe.prototype.updateScore = function() {
-		if(((this.pos.x + WIDTH) < this.player.pos.x) && !pipePassed) {
+		if(((this.pos.x + WIDTH/2) < this.player.pos.x) && !pipePassed) {
 			this.player.score++;
 			$('.Score').html(this.player.score);
 			pipePassed = true;

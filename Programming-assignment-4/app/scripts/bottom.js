@@ -1,6 +1,6 @@
 window.Bottom = (function() {
 	'use strict';
 
-	return Bottom;
+	return 0;
 
 })();
