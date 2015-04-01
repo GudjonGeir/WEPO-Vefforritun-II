@@ -4,7 +4,7 @@ window.Player = (function() {
 	var Controls = window.Controls;
 
 	// All these constants are in em's, multiply by 10 pixels
-	// for 1024x576px canvas.
+	// for 640x420px canvas.
 	//var SPEED = 30; // * 10 pixels per second
 	//var GRAVITY = 30;
 	//var JUMPHEIGHT = GRAVITY * 3;
@@ -75,13 +75,20 @@ window.Player = (function() {
 		// Update UI
 
 		if(VERTSPEED > 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
+<<<<<<< HEAD
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-3deg)');
 		}
 		else if(VERTSPEED < 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(10deg)');
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(3deg)');
+=======
+			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
+		}
+		else if(VERTSPEED < 0){
+			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(10deg)');
+>>>>>>> 2e919e0b2ac8a280498153cef171d2aacf73de87
 		}
 		else{
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
+			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
 		}
 	};
 

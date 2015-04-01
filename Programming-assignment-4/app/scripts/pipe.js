@@ -8,8 +8,8 @@ window.Pipe = (function() {
 	var SPEED = 30;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
-	var INITIAL_POSITION_X = 120;
-	var INITIAL_POSITION_Y = posArr[3];
+	var INITIAL_POSITION_X = 47;
+	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
 	
 
 	var Pipe = function(el, game) {
@@ -41,7 +41,7 @@ window.Pipe = (function() {
 		this.checkCollisionWithBounds();
 
 		// Update UI
-		this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
+		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
 	};
 
 	Pipe.prototype.checkCollisionWithBounds = function() {
