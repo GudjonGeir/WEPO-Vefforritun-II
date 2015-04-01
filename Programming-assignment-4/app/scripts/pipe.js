@@ -26,7 +26,7 @@ window.Pipe = (function() {
 		this.pos = { x: 0, y: 0 };
 	};
 
-	/**
+	/*
 	 * Resets the state of the Pipe for a new game.
 	 */
 	Pipe.prototype.reset = function() {

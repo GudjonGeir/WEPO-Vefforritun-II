@@ -14,6 +14,7 @@ window.Game = (function() {
 		this.el = el;
 		this.player = new window.Player(this.el.find('.Player'), this);
 		this.pipe = new window.Pipe(this.el.find('.Pipe'), this);
+		//this.ground = new window.ground(this.el.find('.ground'), this);
 		this.isPlaying = false;
 
 		/* for starting game */
@@ -48,6 +49,7 @@ window.Game = (function() {
 		// Update game entities.
 		this.player.onFrame(delta, this.hasStarted);
 		this.pipe.onFrame(delta, this.hasStarted);
+		this.ground.onFrame(delta, this.hasStarted);
 
 		// Request next frame.
 		window.requestAnimationFrame(this.onFrame);
