@@ -63,13 +63,6 @@ window.Pipe = (function() {
 				return this.game.gameover();
 			}
 		}
-
-		/*if (this.pos.x + WIDTH < Player.pos.x ||
-			this.pos.x + WIDTH > this.game.WORLD_WIDTH ||
-			this.pos.y < 0 ||
-			this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
-			return this.game.gameover();
-		}*/
 	};
 
 	Pipe.prototype.updateScore = function() {
