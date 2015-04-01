@@ -36,7 +36,7 @@ window.Game = (function() {
 		}
 
 		/* first jump initiates gravity */
-		if(Controls.keys.up || Controls.keys.space){
+		if(Controls.keys.up || Controls.keys.space || Controls.keys.click){
 			this.hasStarted = true;
 		}
 

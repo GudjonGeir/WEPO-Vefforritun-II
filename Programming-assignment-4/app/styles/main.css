@@ -28,9 +28,9 @@
 	box-sizing: border-box;
 	background: purple;
 	text-align: center;
-	-webkit-transform: translate(0, -40em);
+	-webkit-transform: translateZ(0) translate(0, -40em);
 	-webkit-transition: -webkit-transform 0.5s;
-	transform: translate(0, -40em);
+	transform: translateZ(0) translate(0, -40em);
 	transition: transform 0.5s;
 }
 
@@ -40,6 +40,10 @@
 .Scoreboard.is-visible {
 	-webkit-transform: none;
 	transform: none;
+}
+
+.Scoreboard-Score {
+
 }
 
 .Scoreboard-restart {
