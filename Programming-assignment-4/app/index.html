@@ -4,16 +4,16 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
-
         <!-- All audio for the game -->
-        <audio autoplay>
+        <audio id="background_audio" autoplay loop>
+            <source src="/audio/soundtrack.ogg" type="audio/ogg">
             <source src="/audio/soundtrack.mp4" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
         <!-- All audio for the game -->
 
         <meta charset="utf-8">
-        <title>html5 game new</title>
+        <title>Rayman</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="shortcut icon" href="/favicon.ico">
@@ -46,6 +46,9 @@
                     <span class="Scoreboard-restartText">Restart</span>
                 </button>
             </div>
+        </div>
+        <div class="mute">
+            <button class = "mute-btn" type="button">Mute</button>
         </div>
 
         <!-- build:js scripts/vendor.js -->
