@@ -11,8 +11,10 @@ window.Player = (function() {
 	var WIDTH = 5;
 	var HEIGHT = 5;
 	var VERTSPEED = 0;
-	var JUMPSPEED = 40;
+	var JUMPSPEED = 60;
 	var GRAVITY = 250;
+	var yB4 = 0;
+	var jumps = 0;
 
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
@@ -45,16 +47,32 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
-			if (Controls.keys.up || Controls.keys.space) {
+			/*if ((Controls.keys.up || Controls.keys.space) && Controls.didJump()) {
 				VERTSPEED = JUMPSPEED;
+			}*/
+			if ((jumps === 0 || jumps > 30) && (Controls.keys.up || Controls.keys.space)) {
+				VERTSPEED = JUMPSPEED;
+				yB4 = this.pos.y;
 			}
-			
+
+			if ((Controls.keys.up || Controls.keys.space)) {
+				jumps++;
+			}
+
+			if(!Controls.keys.space){
+				jumps = 0;
+			}
 			/* Gravity */
 			this.pos.y -= delta * VERTSPEED;
 			VERTSPEED -= GRAVITY * delta;
 			//console.log(vertSpeed);
+			/*if(yB4 < this.pos.y){
+				console.log(jumps);
+				jumps = 0;
+				tmp = true;
+			}*/
 		}
-		
+		console.log(Controls._didJump);
 		this.checkCollisionWithBounds();
 
 		// Update UI
