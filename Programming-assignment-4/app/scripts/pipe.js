@@ -26,7 +26,7 @@ window.Pipe = (function() {
 		this.pos = { x: 0, y: 0 };
 	};
 
-	/**
+	/*
 	 * Resets the state of the Pipe for a new game.
 	 */
 	Pipe.prototype.reset = function() {
@@ -44,7 +44,6 @@ window.Pipe = (function() {
 		if(this.pos.x < -WIDTH ){
 			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
-			console.log(newY);
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;

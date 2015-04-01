@@ -84,14 +84,29 @@ window.Player = (function() {
 
 			/* Gravity */
 			this.pos.y -= delta * VERTSPEED;
-			VERTSPEED -= GRAVITY * delta;
-
+			if(VERTSPEED > -180){
+				VERTSPEED -= GRAVITY * delta;
+			}
 		}
 		this.checkCollisionWithBounds();
 
 		// Update UI
 
-		if(VERTSPEED > 0){
+		var rotate;
+
+		if(VERTSPEED < -60){
+			rotate = -60;
+		}
+		else if(VERTSPEED > 60){
+			rotate = 60;
+		}
+		else{
+			rotate = VERTSPEED;
+		}
+
+		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-rotate) + 'deg)');
+
+		/*if(VERTSPEED > 0){
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
 		}
 		else if(VERTSPEED < 0){
@@ -99,7 +114,7 @@ window.Player = (function() {
 		}
 		else{
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
-		}
+		}*/
 	};
 
 /*method Update()
@@ -113,7 +128,7 @@ window.Player = (function() {
 }*/
 	Player.prototype.checkCollisionWithBounds = function() {
 		/* We only have to end game if player hits ground */
-		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
+		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT - 8) {
 			return this.game.gameover();
 		}
 		/* old block of code

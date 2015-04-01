@@ -6,7 +6,7 @@
 	width: 8em;
 	height: 8em;
 	/*background: blue;*/
-	background-image: url('../rayman.png');
+	background-image: url('../Images/rayman.png');
 }
 
 .Pipe {
@@ -15,7 +15,25 @@
 	left: 0;
 	width: 12em;
 	height: 92em;
-	background-image: url('../rayman-thickpipe.png');
+	background-image: url('../Images/rayman-thickpipe.png');
+}
+
+.Ground {
+	position: absolute;
+	top: 90%;
+	left: 0;
+	width: 55em;
+	height: 8em;
+	background-image: url('../Images/ground.png');
+}
+.Cloud {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 55em;
+	height: 8em;
+    opacity: 0.4;
+	background-image: url('../Images/ground.png');
 }
 
 .Scoreboard {
@@ -78,7 +96,7 @@ height: 64em;
 margin-left: -51.2em;
 margin-top: -28.8em;
 overflow: hidden;
-background-image: url('../rayman-background.png');
+background-image: url('../Images/rayman-background.png');
 /*background: white;*/
 }
 
