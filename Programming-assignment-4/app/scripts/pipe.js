@@ -8,11 +8,15 @@ window.Pipe = (function() {
 	var SPEED = 30;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
-	var INITIAL_POSITION_X = 55;
-	var INITIAL_POSITION_Y = posArr[3];
 
-	// danger zone 36 em
-	// gap 20 em
+	var DANGER_ZONE = 36;
+	var GAP = 20;
+
+	var INITIAL_POSITION_X = 51;
+	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
+
+	var pipePassed = false;
+
 	
 
 	var Pipe = function(el, game) {
@@ -43,21 +47,19 @@ window.Pipe = (function() {
 			console.log(newY);
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
+			pipePassed = false;
 		}
-		this.checkCollisionWithBounds();
+		this.checkCollisionWithPlayer();
+		this.updateScore();
 
 		// Update UI
 		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
 	};
 
-	Pipe.prototype.checkCollisionWithBounds = function() {
-
-		/* TODO: Implement pipe hit detection */
-		/* End game if player hits pipe */
-		
+	Pipe.prototype.checkCollisionWithPlayer = function() {
 		if(((this.player.pos.x + this.player.getWidth()) > this.pos.x) && (this.player.pos.x < (this.pos.x + WIDTH))){
 
-			if((this.player.pos.y < (this.pos.y + 36)) || ((this.player.pos.y + this.player.getHeight()) > (this.pos.y + 36 + 20))) {
+			if((this.player.pos.y < (this.pos.y + DANGER_ZONE)) || ((this.player.pos.y + this.player.getHeight()) > (this.pos.y + DANGER_ZONE + GAP))) {
 				return this.game.gameover();
 			}
 		}
@@ -68,6 +70,14 @@ window.Pipe = (function() {
 			this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
 			return this.game.gameover();
 		}*/
+	};
+
+	Pipe.prototype.updateScore = function() {
+		if(((this.pos.x + WIDTH) < this.player.pos.x) && !pipePassed) {
+			this.player.score++;
+			$('.Score').html(this.player.score);
+			pipePassed = true;
+		}
 	};
 
 	return Pipe;

@@ -4,7 +4,7 @@ window.Player = (function() {
 	var Controls = window.Controls;
 
 	// All these constants are in em's, multiply by 10 pixels
-	// for 1024x576px canvas.
+	// for 640x420px canvas.
 	//var SPEED = 30; // * 10 pixels per second
 	//var GRAVITY = 30;
 	//var JUMPHEIGHT = GRAVITY * 3;
@@ -22,6 +22,7 @@ window.Player = (function() {
 		this.el = el;
 		this.game = game;
 		this.pos = { x: this.game.WORLD_WIDTH/2 - 8 , y: this.game.WORLD_HEIGHT/2 + 3};
+		this.score = 0;
 	};
 
 	/**
@@ -30,6 +31,8 @@ window.Player = (function() {
 	Player.prototype.reset = function(game) {
 		this.pos.x = game.WORLD_WIDTH/2 - 8;
 		this.pos.y = game.WORLD_HEIGHT/2 + 3;
+		this.score = 0;
+		$('.Score').html(this.score);
 	};
 
 	Player.prototype.getWidth = function(){
