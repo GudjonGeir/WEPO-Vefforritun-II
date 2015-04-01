@@ -8,11 +8,13 @@ window.Player = (function() {
 	//var SPEED = 30; // * 10 pixels per second
 	//var GRAVITY = 30;
 	//var JUMPHEIGHT = GRAVITY * 3;
-	var WIDTH = 8;
-	var HEIGHT = 8;
+	var WIDTH = 5;
+	var HEIGHT = 5;
 	var VERTSPEED = 0;
-	var JUMPSPEED = 40;
+	var JUMPSPEED = 60;
 	var GRAVITY = 250;
+	var yB4 = 0;
+	var jumps = 0;
 
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
@@ -22,6 +24,7 @@ window.Player = (function() {
 		this.el = el;
 		this.game = game;
 		this.pos = { x: this.game.WORLD_WIDTH/2 - 8 , y: this.game.WORLD_HEIGHT/2 + 3};
+		this.score = 0;
 	};
 
 	/**
@@ -30,6 +33,8 @@ window.Player = (function() {
 	Player.prototype.reset = function(game) {
 		this.pos.x = game.WORLD_WIDTH/2 - 8;
 		this.pos.y = game.WORLD_HEIGHT/2 + 3;
+		this.score = 0;
+		$('.Score').html(this.score);
 	};
 
 	Player.prototype.getWidth = function(){
@@ -42,32 +47,41 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
-			if (Controls.keys.up || Controls.keys.space) {
+			/*if ((Controls.keys.up || Controls.keys.space) && Controls.didJump()) {
 				VERTSPEED = JUMPSPEED;
+			}*/
+			if ((jumps === 0 || jumps > 30) && (Controls.keys.up || Controls.keys.space)) {
+				VERTSPEED = JUMPSPEED;
+				yB4 = this.pos.y;
 			}
-			
+
+			if ((Controls.keys.up || Controls.keys.space)) {
+				jumps++;
+			}
+
+			if(!Controls.keys.space){
+				jumps = 0;
+			}
 			/* Gravity */
 			this.pos.y -= delta * VERTSPEED;
 			VERTSPEED -= GRAVITY * delta;
 			//console.log(vertSpeed);
+			/*if(yB4 < this.pos.y){
+				console.log(jumps);
+				jumps = 0;
+				tmp = true;
+			}*/
 		}
-		
+		console.log(Controls._didJump);
 		this.checkCollisionWithBounds();
 
 		// Update UI
 
 		if(VERTSPEED > 0){
-<<<<<<< HEAD
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-3deg)');
-		}
-		else if(VERTSPEED < 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(3deg)');
-=======
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
 		}
 		else if(VERTSPEED < 0){
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(10deg)');
->>>>>>> 2e919e0b2ac8a280498153cef171d2aacf73de87
 		}
 		else{
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');

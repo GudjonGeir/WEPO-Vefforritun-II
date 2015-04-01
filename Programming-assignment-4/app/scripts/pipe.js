@@ -8,8 +8,15 @@ window.Pipe = (function() {
 	var SPEED = 30;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
-	var INITIAL_POSITION_X = 47;
+
+	var DANGER_ZONE = 36;
+	var GAP = 20;
+
+	var INITIAL_POSITION_X = 51;
 	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
+
+	var pipePassed = false;
+
 	
 
 	var Pipe = function(el, game) {
@@ -31,27 +38,31 @@ window.Pipe = (function() {
 		if(hasStarted){
 			this.pos.x -= delta * SPEED;
 		}
+
+		// Checks if the element has passed the left side of the game screen completely and respawns it on the right
+		// side with a random y position from posArr
 		if(this.pos.x < -WIDTH ){
 			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
 			console.log(newY);
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
+			pipePassed = false;
 		}
-		this.checkCollisionWithBounds();
+		this.checkCollisionWithPlayer();
+		this.updateScore();
 
 		// Update UI
 		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
 	};
 
-	Pipe.prototype.checkCollisionWithBounds = function() {
+	Pipe.prototype.checkCollisionWithPlayer = function() {
+		if(((this.player.pos.x + this.player.getWidth()) > this.pos.x) && (this.player.pos.x < (this.pos.x + WIDTH))){
 
-		/* TODO: Implement pipe hit detection */
-		/* End game if player hits pipe */
-		
-		//if((this.player.pos.x + this.player.getWidth()) > this.pos.x){
-		//	return this.game.gameover();
-		//}
+			if((this.player.pos.y < (this.pos.y + DANGER_ZONE)) || ((this.player.pos.y + this.player.getHeight()) > (this.pos.y + DANGER_ZONE + GAP))) {
+				return this.game.gameover();
+			}
+		}
 
 		/*if (this.pos.x + WIDTH < Player.pos.x ||
 			this.pos.x + WIDTH > this.game.WORLD_WIDTH ||
@@ -59,6 +70,14 @@ window.Pipe = (function() {
 			this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
 			return this.game.gameover();
 		}*/
+	};
+
+	Pipe.prototype.updateScore = function() {
+		if(((this.pos.x + WIDTH) < this.player.pos.x) && !pipePassed) {
+			this.player.score++;
+			$('.Score').html(this.player.score);
+			pipePassed = true;
+		}
 	};
 
 	return Pipe;

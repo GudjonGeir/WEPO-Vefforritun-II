@@ -77,3 +77,9 @@ overflow: hidden;
 background-image: url('../rayman-background.png');
 /*background: white;*/
 }
+
+.Score {
+	position: absolute;
+	top: 3em;
+	left: 3em;
+}
