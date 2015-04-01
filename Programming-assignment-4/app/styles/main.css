@@ -89,12 +89,13 @@ padding: 0.2em 0;
 .GameCanvas {
 font-size: 10px;
 position: absolute;
-left: 50%;
-top: 50%;
+top: 20em;
 width: 48em;
 height: 64em;
-margin-left: -51.2em;
-margin-top: -28.8em;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
 overflow: hidden;
 background-image: url('../Images/rayman-background.png');
 /*background: white;*/
