@@ -30,8 +30,8 @@ window.Pipe = (function() {
 	 * Resets the state of the Pipe for a new game.
 	 */
 	Pipe.prototype.reset = function() {
-			this.pos.x = INITIAL_POSITION_X;
-			this.pos.y = INITIAL_POSITION_Y;
+		this.pos.x = INITIAL_POSITION_X;
+		this.pos.y = INITIAL_POSITION_Y;
 	};
 
 	Pipe.prototype.onFrame = function(delta, hasStarted) {
