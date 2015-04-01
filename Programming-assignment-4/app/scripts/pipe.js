@@ -5,7 +5,7 @@ window.Pipe = (function() {
 	// for 640x420px canvas.
 	var posArr = [-28.5, -24.85, -21.5, -17.85, -14.2, -10.55, -6.9, -3.25, 0.4];
 
-	var SPEED = 30;// * 10 pixels per second
+	var SPEED = 25;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
 
@@ -26,7 +26,7 @@ window.Pipe = (function() {
 		this.pos = { x: 0, y: 0 };
 	};
 
-	/**
+	/*
 	 * Resets the state of the Pipe for a new game.
 	 */
 	Pipe.prototype.reset = function() {
@@ -44,7 +44,6 @@ window.Pipe = (function() {
 		if(this.pos.x < -WIDTH ){
 			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
-			console.log(newY);
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;
