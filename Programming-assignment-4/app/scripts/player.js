@@ -4,14 +4,14 @@ window.Player = (function() {
 	var Controls = window.Controls;
 
 	// All these constants are in em's, multiply by 10 pixels
-	// for 1024x576px canvas.
+	// for 640x420px canvas.
 	//var SPEED = 30; // * 10 pixels per second
 	//var GRAVITY = 30;
 	//var JUMPHEIGHT = GRAVITY * 3;
 	var WIDTH = 8;
 	var HEIGHT = 8;
 	var VERTSPEED = 0;
-	var JUMPSPEED = 40;
+	var JUMPSPEED = 35;
 	var GRAVITY = 80;
 
 	// var INITIAL_POSITION_X = 30;
@@ -57,10 +57,10 @@ window.Player = (function() {
 		// Update UI
 
 		if(VERTSPEED > 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-3deg)');
 		}
 		else if(VERTSPEED < 0){
-			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(10deg)');
+			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(3deg)');
 		}
 		else{
 			this.el.css('transform', 'translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
