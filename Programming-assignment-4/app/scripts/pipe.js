@@ -8,8 +8,11 @@ window.Pipe = (function() {
 	var SPEED = 30;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
-	var INITIAL_POSITION_X = 120;
+	var INITIAL_POSITION_X = 55;
 	var INITIAL_POSITION_Y = posArr[3];
+
+	// danger zone 36 em
+	// gap 20 em
 	
 
 	var Pipe = function(el, game) {
@@ -31,6 +34,9 @@ window.Pipe = (function() {
 		if(hasStarted){
 			this.pos.x -= delta * SPEED;
 		}
+
+		// Checks if the element has passed the left side of the game screen completely and respawns it on the right
+		// side with a random y position from posArr
 		if(this.pos.x < -WIDTH ){
 			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
@@ -49,9 +55,12 @@ window.Pipe = (function() {
 		/* TODO: Implement pipe hit detection */
 		/* End game if player hits pipe */
 		
-		//if((this.player.pos.x + this.player.getWidth()) > this.pos.x){
-		//	return this.game.gameover();
-		//}
+		if(((this.player.pos.x + this.player.getWidth()) > this.pos.x) && (this.player.pos.x < (this.pos.x + WIDTH))){
+
+			if((this.player.pos.y < (this.pos.y + 36)) || ((this.player.pos.y + this.player.getHeight()) > (this.pos.y + 36 + 20))) {
+				return this.game.gameover();
+			}
+		}
 
 		/*if (this.pos.x + WIDTH < Player.pos.x ||
 			this.pos.x + WIDTH > this.game.WORLD_WIDTH ||
