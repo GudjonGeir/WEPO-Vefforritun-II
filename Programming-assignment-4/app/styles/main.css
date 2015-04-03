@@ -10,6 +10,15 @@
 	background-size: 8em 8em;
 }
 
+.Coin {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 4em;
+	height: 4em;
+	background-image: url('../Images/coin.gif');
+}
+
 .Pipe {
 	position: absolute;
 	top: 0;
@@ -27,7 +36,10 @@
 	width: 12em;
 	height: 92em;
 	background-image: url('../Images/rayman-thickpipe.png');
+	background-size: 12em 92em;
 }
+
+
 
 .Player-wings {
 	position: absolute;

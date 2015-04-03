@@ -18,6 +18,7 @@ window.Game = (function() {
 		this.pipe2 = new window.Pipe(this.el.find('.Pipe2'), this, 2);
 		this.ground = new window.Ground(this.el.find('.Ground'), this);
 		this.cloud = new window.Cloud(this.el.find('.Cloud'), this);
+		this.coin = new window.Coin(this.el.find('.Coin'), this);
 		this.isPlaying = false;
 
 		/* for starting game */
@@ -65,6 +66,7 @@ window.Game = (function() {
 		this.cloud.onFrame(delta, this.hasStarted);
 		this.pipe.onFrame(delta, this.hasStarted);
 		this.pipe2.onFrame(delta, this.hasStarted);
+		this.coin.onFrame(delta, this.hasStarted);
 		// Request next frame.
 		window.requestAnimationFrame(this.onFrame);
 	};
@@ -88,7 +90,7 @@ window.Game = (function() {
 		this.player.reset(this);
 		this.pipe.reset();
 		this.pipe2.reset();
-
+		this.coin.reset();
 		/* resets the start playing state */
 		this.hasStarted = false;
 	};

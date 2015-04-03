@@ -13,7 +13,7 @@ window.Wings = (function() {
 
 	Wings.prototype.onFrame = function() {
 		if(Controls.isKeyPressed()){
-			this.el.css('transform', 'rotateX(180deg)');
+			this.el.css('transform', 'translateZ(0) rotateX(180deg)');
 		}
 	};
 	return Wings;
