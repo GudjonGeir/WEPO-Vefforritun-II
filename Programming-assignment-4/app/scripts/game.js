@@ -23,6 +23,14 @@ window.Game = (function() {
 
 		this.highScore = 0;
 
+
+
+		var fontsize = Math.min(
+			window.innerWidth / 35,
+			window.innerHeight / 75
+		);
+		el.css('fontSize',fontsize + 'px');
+
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
 	};
@@ -107,8 +115,8 @@ window.Game = (function() {
 	/**
 	 * Some shared constants.
 	 */
-	Game.prototype.WORLD_WIDTH = 48;
-	Game.prototype.WORLD_HEIGHT = 64;
+	Game.prototype.WORLD_WIDTH = 40;
+	Game.prototype.WORLD_HEIGHT = 70;
 
 
 	return Game;
