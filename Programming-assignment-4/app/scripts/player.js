@@ -24,7 +24,6 @@ window.Player = (function() {
 		this.game = game;
 		this.pos = { x: this.game.WORLD_WIDTH/2 - 8 , y: this.game.WORLD_HEIGHT/2 + 3};
 		this.score = 0;
-
 		// Contains number of jump events registered since the key was first pressed
 		this.lastFrameKeyPressed = false;
 		this.yb4 = this.pos.y;
@@ -53,7 +52,6 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
-
 			// Check if the control keys or mouse is pressed
 			if (Controls.isKeyPressed()) {
 

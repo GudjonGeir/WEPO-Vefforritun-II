@@ -20,6 +20,26 @@
 	background-size: 12em 92em;
 }
 
+.Pipe2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 12em;
+	height: 92em;
+	background-image: url('../Images/rayman-thickpipe.png');
+}
+
+.Player-wings {
+	position: absolute;
+  	transition: 0.05s;
+	top: 0;
+	left: 0;
+	width: 2em;
+	height: 2em;
+  
+  	background: yellow;
+}
+
 .Ground {
 	position: absolute;
 	top: 88.7%;
@@ -31,23 +51,14 @@
 }
 .Cloud {
 	position: absolute;
-	top: 50%;
-	left: 0;
-	width: 55em;
-	height: 8em;
+	top: 30%;
+	right: 10;
+	width: 80em;
+	height: 19.7em;
     opacity: 0.4;
-	background-image: url('../Images/ground.png');
-	background-size: 55em 8em;
+	background-image: url('../Images/cloud.png');
 }
 
-.Pipe2 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 12em;
-	height: 92em;
-	background-image: url('../rayman-thickpipe.png');
-}
 
 .Scoreboard {
 	position: absolute;
