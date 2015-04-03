@@ -74,11 +74,13 @@
 
 .Scoreboard {
 	position: absolute;
-	left: 50%;
 	top: 10em;
-	height: 30em;
-	width: 40em;
-	margin-left: -20em;
+	height: 25em;
+	width: 30em;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
 	box-sizing: border-box;
 	background: purple;
 	text-align: center;
@@ -97,11 +99,31 @@
 }
 
 .Scoreboard-Score {
+	margin-top: 1em;
+	font-size: 2.7em;
+	color: white;
+	text-shadow:
+		-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
 
+.Scoreboard-Highscore {
+	margin-top: 1em;
+	font-size: 2.7em;
+	color: white;
+	text-shadow:
+		-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
 }
 
 .Scoreboard-restart {
-	margin-top: 20em;
+	margin-top: 5em;
+	height: 5em;
+	width: 15em;
 	font-size: inherit;
 	padding: 0.4em 1.5em;
 	border: 0.2em solid white;
