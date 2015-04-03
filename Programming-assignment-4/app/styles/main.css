@@ -7,6 +7,7 @@
 	height: 8em;
 	/*background: blue;*/
 	background-image: url('../Images/rayman.png');
+	background-size: 8em 8em;
 }
 
 .Pipe {
@@ -16,6 +17,7 @@
 	width: 12em;
 	height: 92em;
 	background-image: url('../Images/rayman-thickpipe.png');
+	background-size: 12em 92em;
 }
 
 .Pipe2 {
@@ -40,11 +42,12 @@
 
 .Ground {
 	position: absolute;
-	top: 90%;
+	top: 88.7%;
 	left: 0;
 	width: 55em;
 	height: 8em;
 	background-image: url('../Images/ground.png');
+	background-size: 55em 8em;
 }
 .Cloud {
 	position: absolute;
@@ -54,6 +57,7 @@
 	height: 19.7em;
     opacity: 0.4;
 	background-image: url('../Images/cloud.png');
+	background-size: 55em 8em;
 }
 
 
@@ -110,12 +114,13 @@ padding: 0.2em 0;
 .GameCanvas {
 font-size: 10px;
 position: absolute;
-left: 50%;
-top: 50%;
-width: 48em;
-height: 64em;
-margin-left: -51.2em;
-margin-top: -28.8em;
+/*top: 20em;*/
+width: 40em;
+height: 70em;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
 overflow: hidden;
 background-image: url('../Images/rayman-background.png');
 /*background: white;*/
