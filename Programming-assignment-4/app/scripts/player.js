@@ -29,6 +29,8 @@ window.Player = (function() {
 		this.lastFrameKeyPressed = false;
 		this.yb4 = this.pos.y;
 		this.continuousJump = false;
+
+		this.rotate = 15;
 	};
 
 	/**
@@ -74,12 +76,18 @@ window.Player = (function() {
 				else if(this.continuousJump) {
 					VERTSPEED = JUMPSPEED;
 				}
+				this.rotate = 15;
 			}
 
 			// Reset jump settings
 			else {
 				this.lastFrameKeyPressed = false;
 				this.continuousJump = false;
+
+				// Only start rotating when jump is finished and rayman starts descending
+				if (this.yB4 < this.pos.y) {
+					this.rotate = Math.max((this.rotate -5), -30);
+				}
 			}
 
 			/* Gravity */
@@ -92,19 +100,21 @@ window.Player = (function() {
 
 		// Update UI
 
-		var rotate;
+		// var rotate;
 
-		if(VERTSPEED < -60){
-			rotate = -60;
-		}
-		else if(VERTSPEED > 60){
-			rotate = 60;
-		}
-		else{
-			rotate = VERTSPEED;
-		}
+		// if(VERTSPEED < -60){
+		// 	rotate = -30;
+		// }
+		// else if(VERTSPEED < 0)
+		// {
+		// 	rotate = (VERTSPEED * 0.75);
+		// }
+		// else {
+		// 	rotate = 15;
+		// }
 
-		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-rotate) + 'deg)');
+
+		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-this.rotate) + 'deg)');
 
 		/*if(VERTSPEED > 0){
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
