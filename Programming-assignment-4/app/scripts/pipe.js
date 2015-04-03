@@ -19,18 +19,25 @@ window.Pipe = (function() {
 
 	
 
-	var Pipe = function(el, game) {
+	var Pipe = function(el, game, num) {
 		this.el = el;
 		this.game = game;
 		this.player = game.player;
 		this.pos = { x: 0, y: 0 };
+		this.num = num;
+		this.passedCanvas = false;
 	};
 
 	/*
 	 * Resets the state of the Pipe for a new game.
 	 */
 	Pipe.prototype.reset = function() {
-		this.pos.x = INITIAL_POSITION_X;
+		if(this.num === 1){
+			this.pos.x = INITIAL_POSITION_X;
+		}
+		else {
+			this.pos.x = INITIAL_POSITION_X + (2 * WIDTH);
+		}
 		this.pos.y = INITIAL_POSITION_Y;
 	};
 
@@ -41,14 +48,14 @@ window.Pipe = (function() {
 
 		// Checks if the element has passed the left side of the game screen completely and respawns it on the right
 		// side with a random y position from posArr
-		if(this.pos.x < -WIDTH ){
+		if(this.pos.x < -WIDTH){
 			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;
 		}
-		//this.checkCollisionWithPlayer();
+		this.checkCollisionWithPlayer();
 		this.updateScore();
 
 		// Update UI

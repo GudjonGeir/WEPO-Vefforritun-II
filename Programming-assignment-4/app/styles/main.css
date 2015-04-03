@@ -18,6 +18,16 @@
 	background-image: url('../Images/rayman-thickpipe.png');
 }
 
+.Pipe2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 12em;
+	height: 92em;
+	background-image: url('../Images/rayman-thickpipe.png');
+}
+
+
 .Ground {
 	position: absolute;
 	top: 90%;
@@ -28,12 +38,12 @@
 }
 .Cloud {
 	position: absolute;
-	top: 50%;
-	left: 0;
-	width: 55em;
-	height: 8em;
+	top: 30%;
+	right: 10;
+	width: 80em;
+	height: 19.7em;
     opacity: 0.4;
-	background-image: url('../Images/ground.png');
+	background-image: url('../Images/cloud.png');
 }
 
 .Scoreboard {

@@ -14,7 +14,7 @@ window.Player = (function() {
 	var JUMPSPEED = 60;
 	var GRAVITY = 250;
 	var yB4 = 0;
-	var jumps = 0;
+	var JUMPS = 0;
 
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
@@ -47,40 +47,31 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
-			/*if ((Controls.keys.up || Controls.keys.space) && Controls.didJump()) {
-				VERTSPEED = JUMPSPEED;
-			}*/
 			//We wanna finish one jump if user holds key and then let him fly. So the distance for one jump is measured
 			//in ca. 30 space messages from keyboard
-			if ((jumps === 0 || jumps > 30) && (Controls.keys.up || Controls.keys.space)) {
+			if ((JUMPS === 0 || JUMPS > 30) && (Controls.keys.up || Controls.keys.space)) {
 				VERTSPEED = JUMPSPEED;
 				yB4 = this.pos.y;
 			}
 
 			//if 
 			if ((Controls.keys.up || Controls.keys.space)) {
-				jumps++;
+				JUMPS++;
 			}
 
 			if(!Controls.keys.space){
-				jumps = 0;
+				JUMPS = 0;
 			}
 			/* Gravity */
 			this.pos.y -= delta * VERTSPEED;
 			if(VERTSPEED > -180){
 				VERTSPEED -= GRAVITY * delta;
 			}
-			console.log(VERTSPEED);
-			/*if(yB4 < this.pos.y){
-				console.log(jumps);
-				jumps = 0;
-				tmp = true;
-			}*/
+
 		}
 		this.checkCollisionWithBounds();
 
 		// Update UI
-		console.log(VERTSPEED);
 
 		var rotate;
 

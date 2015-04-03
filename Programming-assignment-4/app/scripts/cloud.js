@@ -14,7 +14,7 @@ window.Cloud = (function() {
 		if(hasStarted){
 			this.pos.x -= delta * SPEED;
 		}
-		if(this.pos.x <= -5.48){
+		if(this.pos.x <= -30){
 			this.pos.x = 0;
 		}
 		// Checks if the element has passed the left side of the game screen completely and respawns it on the right

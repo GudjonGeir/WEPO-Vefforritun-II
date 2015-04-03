@@ -13,7 +13,8 @@ window.Game = (function() {
 	var Game = function(el) {
 		this.el = el;
 		this.player = new window.Player(this.el.find('.Player'), this);
-		this.pipe = new window.Pipe(this.el.find('.Pipe'), this);
+		this.pipe = new window.Pipe(this.el.find('.Pipe'), this, 1);
+		this.pipe2 = new window.Pipe(this.el.find('.Pipe2'), this, 2);
 		this.ground = new window.Ground(this.el.find('.Ground'), this);
 		this.cloud = new window.Cloud(this.el.find('.Cloud'), this);
 		this.isPlaying = false;
@@ -51,9 +52,10 @@ window.Game = (function() {
 
 		// Update game entities.
 		this.player.onFrame(delta, this.hasStarted);
-		this.pipe.onFrame(delta, this.hasStarted);
 		this.ground.onFrame(delta, this.hasStarted);
 		this.cloud.onFrame(delta, this.hasStarted);
+		this.pipe.onFrame(delta, this.hasStarted);
+		this.pipe2.onFrame(delta, this.hasStarted);
 		// Request next frame.
 		window.requestAnimationFrame(this.onFrame);
 	};
@@ -76,6 +78,7 @@ window.Game = (function() {
 	Game.prototype.reset = function() {
 		this.player.reset(this);
 		this.pipe.reset();
+		this.pipe2.reset();
 
 		/* resets the start playing state */
 		this.hasStarted = false;
