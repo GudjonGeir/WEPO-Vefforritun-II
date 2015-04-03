@@ -4,16 +4,8 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
-
-        <!-- All audio for the game -->
-        <!-- <audio autoplay>
-            <source src="/audio/soundtrack.mp4" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio> -->
-        <!-- All audio for the game -->
-
         <meta charset="utf-8">
-        <title>html5 game new</title>
+        <title>Rayman Chronicles</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="shortcut icon" href="/favicon.ico">
@@ -33,6 +25,20 @@
         <![endif]-->
 
         <div class="GameCanvas">
+            <!-- All audio for the game -->
+            <audio class="Audio" autoplay loop>
+                <source src="/audio/soundtrack.ogg" type="audio/ogg">
+                <source src="/audio/soundtrack.mp4" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+        <!--<audio class="Audio" autoplay loop>
+            <source src="/audio/soundtrack.ogg" type="audio/ogg">
+            <source src="/audio/soundtrack.mp4" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>-->
+        <!-- All audio for the game -->
+        
             <div class="Cloud"></div>
             <div class="Player"></div>
             <div class="Pipe"></div>
@@ -45,6 +51,9 @@
                     <span class="Scoreboard-restartText">Restart</span>
                 </button>
             </div>
+        </div>
+        <div class="mute">
+            <button class = "mute-btn" type="button">Mute</button>
         </div>
 
         <!-- build:js scripts/vendor.js -->
@@ -62,6 +71,7 @@
         <script src="scripts/utils.js"></script>
         <script src="scripts/ground.js"></script>
         <script src="scripts/cloud.js"></script>
+        <script src="scripts/audio.js"></script>
         <!-- endbuild -->
 </body>
 </html>

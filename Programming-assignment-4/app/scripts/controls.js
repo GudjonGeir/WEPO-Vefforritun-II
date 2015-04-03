@@ -23,8 +23,8 @@ window.Controls = (function() {
 		$(window)
 			.on('keydown', this._onKeyDown.bind(this))
 			.on('keyup', this._onKeyUp.bind(this))
-			.on('mousedown', this._onMouseDown.bind(this))
-			.on('mouseup', this._onMouseUp.bind(this));
+			.on('touchstart mousedown', this._onMouseDown.bind(this))
+			.on('touchend mouseup', this._onMouseUp.bind(this));
 	};
 
 	Controls.prototype._onKeyDown = function(e) {

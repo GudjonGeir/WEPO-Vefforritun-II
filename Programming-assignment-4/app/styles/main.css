@@ -40,6 +40,15 @@
 	background-size: 55em 8em;
 }
 
+.Pipe2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 12em;
+	height: 92em;
+	background-image: url('../rayman-thickpipe.png');
+}
+
 .Scoreboard {
 	position: absolute;
 	left: 50%;
