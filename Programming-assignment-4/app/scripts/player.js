@@ -76,6 +76,8 @@ window.Player = (function() {
 				else if(this.continuousJump) {
 					VERTSPEED = JUMPSPEED;
 				}
+
+				// Upward motion, reset rotation
 				this.rotate = 15;
 			}
 
