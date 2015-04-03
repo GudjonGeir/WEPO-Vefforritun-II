@@ -27,6 +27,16 @@
 	background-image: url('../Images/rayman-thickpipe.png');
 }
 
+.Player-wings {
+	position: absolute;
+  	transition: 0.05s;
+	top: 0;
+	left: 0;
+	width: 2em;
+	height: 2em;
+  
+  	background: yellow;
+}
 
 .Ground {
 	position: absolute;
@@ -46,6 +56,7 @@
 	background-image: url('../Images/cloud.png');
 }
 
+
 .Scoreboard {
 	position: absolute;
 	left: 50%;
@@ -56,9 +67,9 @@
 	box-sizing: border-box;
 	background: purple;
 	text-align: center;
-	-webkit-transform: translate(0, -40em);
+	-webkit-transform: translateZ(0) translate(0, -40em);
 	-webkit-transition: -webkit-transform 0.5s;
-	transform: translate(0, -40em);
+	transform: translateZ(0) translate(0, -40em);
 	transition: transform 0.5s;
 }
 
@@ -68,6 +79,10 @@
 .Scoreboard.is-visible {
 	-webkit-transform: none;
 	transform: none;
+}
+
+.Scoreboard-Score {
+
 }
 
 .Scoreboard-restart {

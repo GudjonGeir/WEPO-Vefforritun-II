@@ -13,6 +13,7 @@ window.Game = (function() {
 	var Game = function(el) {
 		this.el = el;
 		this.player = new window.Player(this.el.find('.Player'), this);
+		this.player.wings = new window.Wings(this.el.find('.Wings'), this);
 		this.pipe = new window.Pipe(this.el.find('.Pipe'), this, 1);
 		this.pipe2 = new window.Pipe(this.el.find('.Pipe2'), this, 2);
 		this.ground = new window.Ground(this.el.find('.Ground'), this);
@@ -39,7 +40,7 @@ window.Game = (function() {
 		}
 
 		/* first jump initiates gravity */
-		if(Controls.keys.up || Controls.keys.space){
+		if(Controls.keys.up || Controls.keys.space || Controls.keys.click){
 			this.hasStarted = true;
 		}
 

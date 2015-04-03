@@ -11,10 +11,9 @@ window.Player = (function() {
 	var WIDTH = 5;
 	var HEIGHT = 5;
 	var VERTSPEED = 0;
-	var JUMPSPEED = 60;
+	var JUMPSPEED = 50;
 	var GRAVITY = 250;
-	var yB4 = 0;
-	var JUMPS = 0;
+
 
 	// var INITIAL_POSITION_X = 30;
 	// var INITIAL_POSITION_Y = 25;
@@ -25,6 +24,10 @@ window.Player = (function() {
 		this.game = game;
 		this.pos = { x: this.game.WORLD_WIDTH/2 - 8 , y: this.game.WORLD_HEIGHT/2 + 3};
 		this.score = 0;
+		// Contains number of jump events registered since the key was first pressed
+		this.lastFrameKeyPressed = false;
+		this.yb4 = this.pos.y;
+		this.continuousJump = false;
 	};
 
 	/**
@@ -47,27 +50,41 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
-			//We wanna finish one jump if user holds key and then let him fly. So the distance for one jump is measured
-			//in ca. 30 space messages from keyboard
-			if ((JUMPS === 0 || JUMPS > 30) && (Controls.keys.up || Controls.keys.space)) {
-				VERTSPEED = JUMPSPEED;
-				yB4 = this.pos.y;
+			// Check if the control keys or mouse is pressed
+			if (Controls.isKeyPressed()) {
+
+				// Check if the key was pressed in last frame
+				// Assume fresh jump if not
+				if(!this.lastFrameKeyPressed) {
+					VERTSPEED = JUMPSPEED;
+					this.lastFrameKeyPressed = true;
+					this.yB4 = this.pos.y;
+				}
+
+				// If the key was pressed in last frame, make sure it finishes 
+				// the first jump and set continous jump on
+				else if(this.yB4 < this.pos.y) {
+					VERTSPEED = JUMPSPEED;
+					this.continuousJump = true;
+				}
+
+				// If continous jump is on, go to the sky!
+				else if(this.continuousJump) {
+					VERTSPEED = JUMPSPEED;
+				}
 			}
 
-			//if 
-			if ((Controls.keys.up || Controls.keys.space)) {
-				JUMPS++;
+			// Reset jump settings
+			else {
+				this.lastFrameKeyPressed = false;
+				this.continuousJump = false;
 			}
 
-			if(!Controls.keys.space){
-				JUMPS = 0;
-			}
 			/* Gravity */
 			this.pos.y -= delta * VERTSPEED;
 			if(VERTSPEED > -180){
 				VERTSPEED -= GRAVITY * delta;
 			}
-
 		}
 		this.checkCollisionWithBounds();
 

@@ -5,7 +5,7 @@ window.Pipe = (function() {
 	// for 640x420px canvas.
 	var posArr = [-28.5, -24.85, -21.5, -17.85, -14.2, -10.55, -6.9, -3.25, 0.4];
 
-	var SPEED = 30;// * 10 pixels per second
+	var SPEED = 25;// * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
 
@@ -14,7 +14,6 @@ window.Pipe = (function() {
 
 	var INITIAL_POSITION_X = 51;
 	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
-
 	var pipePassed = false;
 
 	
