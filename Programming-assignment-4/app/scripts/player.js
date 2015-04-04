@@ -2,6 +2,11 @@ window.Player = (function() {
 	'use strict';
 
 	var Controls = window.Controls;
+	var Sfx = window.Sfx;
+	console.log('CONTROLS');
+	console.log(Controls);
+	console.log('Sfx');
+	console.log(Sfx);
 
 	// All these constants are in em's, multiply by 10 pixels
 	// for 640x420px canvas.
@@ -54,13 +59,13 @@ window.Player = (function() {
 
 			// Check if the control keys or mouse is pressed
 			if (Controls.isKeyPressed()) {
-
 				// Check if the key was pressed in last frame
 				// Assume fresh jump if not
 				if(!this.lastFrameKeyPressed) {
 					VERTSPEED = JUMPSPEED;
 					this.lastFrameKeyPressed = true;
 					this.yB4 = this.pos.y;
+					$('.Flap').trigger('play');
 				}
 
 				// If the key was pressed in last frame, make sure it finishes 
@@ -104,7 +109,7 @@ window.Player = (function() {
 			rotate = VERTSPEED;
 		}
 
-		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-rotate) + 'deg)');
+		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-rotate ) + 'deg)');
 
 		/*if(VERTSPEED > 0){
 			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');

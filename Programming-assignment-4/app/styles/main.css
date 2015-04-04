@@ -7,6 +7,7 @@
 	height: 8em;
 	/*background: blue;*/
 	background-image: url('../Images/rayman.png');
+
 }
 
 .Pipe {
@@ -16,6 +17,18 @@
 	width: 12em;
 	height: 92em;
 	background-image: url('../Images/rayman-thickpipe.png');
+}
+
+/*.Mute{
+	position: absolute;
+}*/
+
+.mute-btn{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 8em;
+	height: 8em;
 }
 
 .Ground {
@@ -43,6 +56,11 @@
 	width: 12em;
 	height: 92em;
 	background-image: url('../rayman-thickpipe.png');
+}
+
+@font-face {
+  font-family: 'Rayman';
+  src: url('../fonts/Rayman1.ttf');
 }
 
 .Scoreboard {
@@ -96,6 +114,7 @@ color: #000;
 padding: 0.2em 0;
 }
 .GameCanvas {
+font-family: 'Rayman';
 font-size: 10px;
 position: absolute;
 left: 50%;
@@ -121,3 +140,4 @@ background-image: url('../Images/rayman-background.png');
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
 }
+
