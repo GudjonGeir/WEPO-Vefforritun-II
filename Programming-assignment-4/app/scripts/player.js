@@ -65,7 +65,12 @@ window.Player = (function() {
 					VERTSPEED = JUMPSPEED;
 					this.lastFrameKeyPressed = true;
 					this.yB4 = this.pos.y;
-					$('.Flap').trigger('play');
+
+					//only play flap if sound is not muted
+					if(!Controls.getSoundMuted()){
+						$('.Flap').trigger('play');
+					}
+					
 				}
 
 				// If the key was pressed in last frame, make sure it finishes 
@@ -133,27 +138,11 @@ window.Player = (function() {
 		}*/
 	};
 
-/*method Update()
-{
-     if (PlayerTappedScreen)
-     {
-            vertSpeed = jumpSpeed;
-     }
-     Position.Y += vertSpeed * deltaTime;
-     vertSpeed -= fallingConstant * deltaTime;
-}*/
 	Player.prototype.checkCollisionWithBounds = function() {
 		/* We only have to end game if player hits ground */
 		if (this.pos.y + HEIGHT > this.game.WORLD_HEIGHT - 12) {
 			return this.game.gameover();
 		}
-		/* old block of code
-		if (this.pos.x < 0 ||
-			this.pos.x + WIDTH > this.game.WORLD_WIDTH ||
-			this.pos.y < 0 ||
-			this.pos.y + HEIGHT > this.game.WORLD_HEIGHT) {
-			return this.game.gameover();
-		}*/
 	};
 
 	return Player;

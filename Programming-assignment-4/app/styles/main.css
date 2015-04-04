@@ -10,7 +10,7 @@
 	background-size: 8em 8em;
 }
 
-.Pipe {
+.Pipe, .Pipe2 {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -18,15 +18,6 @@
 	height: 92em;
 	background-image: url('../Images/rayman-thickpipe.png');
 	background-size: 12em 92em;
-}
-
-.Pipe2 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 12em;
-	height: 92em;
-	background-image: url('../Images/rayman-thickpipe.png');
 }
 
 .Player-wings {
@@ -136,7 +127,7 @@
 	cursor: pointer;
 }
 .Scoreboard-restartText {
-font-family: 'Comic Sans MS', serif;
+font-family: 'Rayman';
 font-size: 2.4em;
 color: white;
 }
@@ -167,10 +158,10 @@ background-image: url('../Images/rayman-background.png');
 
 .Score {
 	position: absolute;
-	top: 0.7em;
-	left: 0.7em;
+	top: 4em;
+	left: 7em;
 	font-size: 2.7em;
-	color: white;
+	color: rgb(200,64,160);
 	text-shadow:
 		-1px -1px 0 #000,  
 		1px -1px 0 #000,

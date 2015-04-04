@@ -1,7 +1,7 @@
 window.Cloud = (function() {
 	'use strict';
 
-	var SPEED = 10;
+	var SPEED = 5;
 
 	var Cloud = function(el, game) {
 		this.el = el;
@@ -10,10 +10,10 @@ window.Cloud = (function() {
 		this.pos = { x: 0, y: 0 };
 	};
 
-	Cloud.prototype.onFrame = function(delta, hasStarted) {
-		if(hasStarted){
-			this.pos.x -= delta * SPEED;
-		}
+	Cloud.prototype.onFrame = function(delta) {
+		
+		this.pos.x -= delta * SPEED;
+		
 		if(this.pos.x <= -30){
 			this.pos.x = 0;
 		}

@@ -61,8 +61,8 @@ window.Game = (function() {
 
 		// Update game entities.
 		this.player.onFrame(delta, this.hasStarted);
-		this.ground.onFrame(delta, this.hasStarted);
-		this.cloud.onFrame(delta, this.hasStarted);
+		this.ground.onFrame(delta);
+		this.cloud.onFrame(delta);
 		this.pipe.onFrame(delta, this.hasStarted);
 		this.pipe2.onFrame(delta, this.hasStarted);
 		// Request next frame.
@@ -99,9 +99,10 @@ window.Game = (function() {
 	Game.prototype.gameover = function() {
 		this.isPlaying = false;
 
-		//TODO: Change sound to death
-		$('.Flap').trigger('play');
-
+		if(!Controls.getSoundMuted()){
+			$('.Death').trigger('play');
+		}
+		
 		// Should be refactored into a Scoreboard class.
 		var that = this;
 		var scoreboardEl = this.el.find('.Scoreboard');
