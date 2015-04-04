@@ -6,7 +6,7 @@
 	width: 8em;
 	height: 8em;
 	/*background: blue;*/
-	background-image: url('../Images/rayman.png');
+	background-image: url('../images/rayman.png');
 	background-size: 8em 8em;
 }
 
@@ -16,7 +16,7 @@
 	left: 0;
 	width: 12em;
 	height: 92em;
-	background-image: url('../Images/rayman-thickpipe.png');
+	background-image: url('../images/rayman-thickpipe.png');
 	background-size: 12em 92em;
 }
 
@@ -49,7 +49,7 @@
 	left: 0;
 	width: 55em;
 	height: 8em;
-	background-image: url('../Images/ground.png');
+	background-image: url('../images/ground.png');
 	background-size: 55em 8em;
 }
 .Cloud {
@@ -59,7 +59,7 @@
 	width: 80em;
 	height: 19.7em;
     opacity: 0.4;
-	background-image: url('../Images/cloud.png');
+	background-image: url('../images/cloud.png');
 }
 
 
@@ -152,7 +152,7 @@ margin-right: auto;
 left: 0;
 right: 0;
 overflow: hidden;
-background-image: url('../Images/rayman-background.png');
+background-image: url('../images/rayman-background.png');
 /*background: white;*/
 }
 

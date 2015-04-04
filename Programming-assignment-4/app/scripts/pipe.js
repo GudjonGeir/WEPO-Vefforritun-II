@@ -38,6 +38,7 @@ window.Pipe = (function() {
 			this.pos.x = INITIAL_POSITION_X + (2 * WIDTH);
 		}
 		this.pos.y = INITIAL_POSITION_Y;
+		pipePassed = false;
 	};
 
 	Pipe.prototype.onFrame = function(delta, hasStarted) {
