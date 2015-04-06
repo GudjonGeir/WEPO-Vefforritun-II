@@ -109,7 +109,7 @@ window.Game = (function() {
 		scoreboardEl
 			.addClass('is-visible')
 			.find('.Scoreboard-restart')
-				.one('click', function() {
+				.one('touchend click', function() {
 					scoreboardEl.removeClass('is-visible');
 					that.start();
 				});

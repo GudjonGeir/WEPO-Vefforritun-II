@@ -44,6 +44,7 @@ window.Player = (function() {
 		this.pos.x = game.WORLD_WIDTH/2 - 8;
 		this.pos.y = game.WORLD_HEIGHT/2 + 3;
 		this.score = 0;
+		this.rotate = 15;
 		$('.Score').html(this.score);
 	};
 
