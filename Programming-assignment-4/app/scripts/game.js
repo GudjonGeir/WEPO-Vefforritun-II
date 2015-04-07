@@ -122,6 +122,7 @@ window.Game = (function() {
 		}
 		$('.Scoreboard-Highscore>span').html(this.highScore);
 	};
+	
 
 	/**
 	 * Some shared constants.

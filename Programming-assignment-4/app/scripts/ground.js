@@ -14,7 +14,7 @@ window.Ground = (function() {
 		
 		this.pos.x -= delta * SPEED;
 
-		if(this.pos.x <= -5.48){
+		if(this.pos.x <= -13.44){
 			this.pos.x = 0;
 		}
 
