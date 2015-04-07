@@ -110,7 +110,7 @@ window.Player = (function() {
 				VERTSPEED -= GRAVITY * delta;
 			}
 		}else{
-			//this will make rayma float in the air if he has not started
+			//this will make rayman float in the air if he has not started
 
 			var start = this.game.WORLD_HEIGHT/2 + 3;
 
