@@ -48,9 +48,9 @@
 .mute-btn{
 	position: absolute;
 	top: 0;
-	right: 0;
-	width: 8em;
-	height: 8em;
+	left: 0;
+	width: 3.5em;
+	height: 1.8em;
 }
 
 .Ground {

@@ -4,19 +4,13 @@ window.Pipe = (function() {
 	// All these constants are in em's, multiply by 10 pixels
 	// for 640x420px canvas.
 	var posArr = [-28.5, -24.85, -21.5, -17.85, -14.2, -10.55, -6.9, -3.25, 0.4];
-
 	var SPEED = 20; // * 10 pixels per second
 	var WIDTH = 16;
-	//var HEIGHT = 30;
-
 	var DANGER_ZONE = 36;
 	var GAP = 20;
-
 	var INITIAL_POSITION_X = 51;
 	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
 	var pipePassed = false;
-
-	
 
 	var Pipe = function(el, game, num) {
 		this.el = el;

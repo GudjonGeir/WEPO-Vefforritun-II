@@ -2,27 +2,15 @@ window.Player = (function() {
 	'use strict';
 
 	var Controls = window.Controls;
-	var Sfx = window.Sfx;
-	console.log('CONTROLS');
-	console.log(Controls);
-	console.log('Sfx');
-	console.log(Sfx);
 
 	// All these constants are in em's, multiply by 10 pixels
 	// for 640x420px canvas.
-	//var SPEED = 30; // * 10 pixels per second
-	//var GRAVITY = 30;
-	//var JUMPHEIGHT = GRAVITY * 3;
 	var WIDTH = 5;
 	var HEIGHT = 5;
 	var VERTSPEED = 0;
 	var JUMPSPEED = 50;
 	var GRAVITY = 250;
 	var op = '+';
-
-
-	// var INITIAL_POSITION_X = 30;
-	// var INITIAL_POSITION_Y = 25;
 
 	var Player = function(el, game) {
 		console.log('player constructor');

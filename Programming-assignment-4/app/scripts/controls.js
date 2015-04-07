@@ -30,10 +30,6 @@ window.Controls = (function() {
 	};
 
 	Controls.prototype._onKeyDown = function(e) {
-		// Only jump if space wasn't pressed.
-        // if (e.keyCode === 32 && (!this.keys.space && !this.keys.up)) {
-        //     this._didJump = true;
-        // }
 		// Remember that this button is down.
 		if (e.keyCode in KEYS) {
 			this.keyPressed = true;
@@ -76,7 +72,7 @@ window.Controls = (function() {
 		return soundMuted;
 	};
 
-	$('.mute-btn').click(function(){
+	$('.mute-btn').on('touchstart click',function(){
 		if(soundMuted){
 			soundMuted = false;
 			$('.Audio').trigger('play');
@@ -87,8 +83,6 @@ window.Controls = (function() {
 		}
 	});
 
-
-	
 	// Export singleton.
 	return new Controls();
 })();

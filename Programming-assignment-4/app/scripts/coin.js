@@ -7,10 +7,10 @@ window.Coin = (function() {
 
 	var SPEED = 25;// * 10 pixels per second
 	var WIDTH = 16;
-	//var HEIGHT = 30;
-
 	var INITIAL_POSITION_X = 51;
 	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
+
+	var Controls = window.Controls;
 
 	
 
@@ -52,6 +52,10 @@ window.Coin = (function() {
 		var difx = Math.abs(this.player.pos.x - this.pos.x);
 		var dify = Math.abs(this.player.pos.y - this.pos.y);
 		if(difx < 4 && dify < 4) {
+			//only play coin if sound is not muted
+			if(!Controls.getSoundMuted()){
+				$('.Coin').trigger('play');
+			}
 			console.log('COINS');
 			this.player.score++;
 			$('.Score').html(this.player.score);
