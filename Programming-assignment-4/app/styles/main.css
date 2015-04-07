@@ -14,9 +14,10 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 4em;
-	height: 4em;
-	background-image: url('../Images/ground.png');
+	width: 3em;
+	height: 3em;
+	background-image: url('../Images/point.png');
+	background-size: 3em 3em;
 }
 
 
@@ -37,8 +38,7 @@
 	left: 0;
 	width: 2em;
 	height: 2em;
-  
-  	background: yellow;
+  	background-image: url('../Images/wing.png');
 }
 
 /*.Mute{
