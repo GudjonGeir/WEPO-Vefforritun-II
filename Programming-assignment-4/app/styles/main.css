@@ -32,15 +32,30 @@
 }
 
 .Player-wings {
+	-webkit-animation: 0.1s linear infinite;
+  	animation-name: flap;
 	position: absolute;
-  	transition: 0.05s;
-	top: 0;
+	top: 30%;
 	left: 0;
 	width: 2em;
 	height: 2em;
+	-webkit-transform-origin: bottom right;
   	background-image: url('../Images/wing.png');
 }
 
+@keyframes flap {
+  from {
+    -webkit-transform:  rotateX(0deg);
+  }
+
+  to {
+    -webkit-transform: rotateX(360deg);
+  }
+}
+
+.flap {
+    -webkit-animation: flap 2s linear infinite;
+}
 /*.Mute{
 	position: absolute;
 }*/
