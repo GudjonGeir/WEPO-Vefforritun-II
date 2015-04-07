@@ -2,11 +2,6 @@ window.Player = (function() {
 	'use strict';
 
 	var Controls = window.Controls;
-	var Sfx = window.Sfx;
-	console.log('CONTROLS');
-	console.log(Controls);
-	console.log('Sfx');
-	console.log(Sfx);
 
 	// All these constants are in em's, multiply by 10 pixels
 	// for 640x420px canvas.
@@ -20,9 +15,6 @@ window.Player = (function() {
 	var GRAVITY = 250;
 	var op = '+';
 
-
-	// var INITIAL_POSITION_X = 30;
-	// var INITIAL_POSITION_Y = 25;
 
 	var Player = function(el, game) {
 		console.log('player constructor');

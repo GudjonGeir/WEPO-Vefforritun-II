@@ -13,7 +13,7 @@ window.Game = (function() {
 	var Game = function(el) {
 		this.el = el;
 		this.player = new window.Player(this.el.find('.Player'), this);
-		this.player.wings = new window.Wings(this.el.find('.Wings'), this);
+		this.wings = new window.Wings(this.el.find('.Player-wings'), this);
 		this.pipe = new window.Pipe(this.el.find('.Pipe'), this, 1);
 		this.pipe2 = new window.Pipe(this.el.find('.Pipe2'), this, 2);
 		this.ground = new window.Ground(this.el.find('.Ground'), this);
@@ -62,6 +62,7 @@ window.Game = (function() {
 
 		// Update game entities.
 		this.player.onFrame(delta, this.hasStarted);
+		//this.wings.onFrame(delta, this.hasStarted);
 		this.ground.onFrame(delta);
 		this.cloud.onFrame(delta);
 		this.pipe.onFrame(delta, this.hasStarted);

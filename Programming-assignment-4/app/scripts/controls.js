@@ -53,7 +53,6 @@ window.Controls = (function() {
 	};
 
 	Controls.prototype._onMouseDown = function() {
-		console.log('mousedown');
 		this.keyPressed = true;
 		this.keys.click = true;
 		return false;

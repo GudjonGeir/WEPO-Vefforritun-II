@@ -7,7 +7,6 @@ window.Coin = (function() {
 
 	var SPEED = 25;// * 10 pixels per second
 	var WIDTH = 16;
-	//var HEIGHT = 30;
 
 	var INITIAL_POSITION_X = 51;
 	var INITIAL_POSITION_Y = posArr[Math.floor(Math.random() * posArr.length)];
@@ -37,7 +36,6 @@ window.Coin = (function() {
 		// Checks if the element has passed the left side of the game screen completely and respawns it on the right
 		// side with a random y position from posArr
 		if(this.pos.x < -WIDTH){
-			//var newY = Math.floor(Math.random() * (this.game.WORLD_HEIGHT));
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
 			this.pos.y = newY;
 			this.pos.x = INITIAL_POSITION_X;
@@ -48,11 +46,12 @@ window.Coin = (function() {
 		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
 	};
 
+	//Player collects coin by crashing it... and poof u got point and
+	//coin disappears
 	Coin.prototype.updateScore = function() {
 		var difx = Math.abs(this.player.pos.x - this.pos.x);
 		var dify = Math.abs(this.player.pos.y - this.pos.y);
 		if(difx < 4 && dify < 4) {
-			console.log('COINS');
 			this.player.score++;
 			$('.Score').html(this.player.score);
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];

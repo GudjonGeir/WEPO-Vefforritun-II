@@ -7,7 +7,6 @@ window.Pipe = (function() {
 
 	var SPEED = 20; // * 10 pixels per second
 	var WIDTH = 16;
-	//var HEIGHT = 30;
 
 	var DANGER_ZONE = 36;
 	var GAP = 20;

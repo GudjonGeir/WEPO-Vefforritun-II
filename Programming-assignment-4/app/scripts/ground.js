@@ -17,8 +17,6 @@ window.Ground = (function() {
 		if(this.pos.x <= -5.48){
 			this.pos.x = 0;
 		}
-		// Checks if the element has passed the left side of the game screen completely and respawns it on the right
-		// side with a random y position from posArr
 
 		// Update UI
 		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
