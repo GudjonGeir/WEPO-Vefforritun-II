@@ -49,7 +49,10 @@ window.Coin = (function() {
 	};
 
 	Coin.prototype.updateScore = function() {
-		if((this.player.pos.x - 4) < this.pos.x < (this.player.pos.x + 4) && (this.player.pos.y - 4) < this.pos.y < (this.player.pos.y + 4)) {
+		var difx = Math.abs(this.player.pos.x - this.pos.x);
+		var dify = Math.abs(this.player.pos.y - this.pos.y);
+		if(difx < 1 && dify < 1) {
+			console.log('COINS');
 			this.player.score++;
 			$('.Score').html(this.player.score);
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
