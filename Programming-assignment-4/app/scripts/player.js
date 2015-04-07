@@ -18,6 +18,7 @@ window.Player = (function() {
 	var VERTSPEED = 0;
 	var JUMPSPEED = 50;
 	var GRAVITY = 250;
+	var op = '+';
 
 
 	// var INITIAL_POSITION_X = 30;
@@ -58,6 +59,8 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta, hasStarted) {
 		if(hasStarted){
+			//reset css transition to 0 to make rayman move fluidly
+			this.el.css('transition', '0s');
 			// Check if the control keys or mouse is pressed
 			if (Controls.isKeyPressed()) {
 				// Check if the key was pressed in last frame
@@ -106,37 +109,33 @@ window.Player = (function() {
 			if(VERTSPEED > -180){
 				VERTSPEED -= GRAVITY * delta;
 			}
+		}else{
+			//this will make rayma float in the air if he has not started
+
+			var start = this.game.WORLD_HEIGHT/2 + 3;
+
+			if(this.pos.y < (start - 1.5)){
+				op = '+';
+			}
+
+			if(this.pos.y > (start + 1.5)){
+				op = '-';
+			}
+
+			if(op === '+'){
+				this.pos.y += 0.05;
+			}
+
+			if(op === '-'){
+				this.pos.y -= 0.05;
+			}
+
+			this.el.css('transition', '0.2s');
+			
 		}
 		this.checkCollisionWithBounds();
 
-		// Update UI
-
-		// var rotate;
-
-		// if(VERTSPEED < -60){
-		// 	rotate = -30;
-		// }
-		// else if(VERTSPEED < 0)
-		// {
-		// 	rotate = (VERTSPEED * 0.75);
-		// }
-		// else {
-		// 	rotate = 15;
-		// }
-
-
 		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-this.rotate) + 'deg)');
-
-
-		/*if(VERTSPEED > 0){
-			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(-10deg)');
-		}
-		else if(VERTSPEED < 0){
-			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(10deg)');
-		}
-		else{
-			this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em)');
-		}*/
 	};
 
 	Player.prototype.checkCollisionWithBounds = function() {
