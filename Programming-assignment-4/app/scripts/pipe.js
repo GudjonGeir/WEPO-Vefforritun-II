@@ -55,7 +55,7 @@ window.Pipe = (function() {
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;
 		}
-		//this.checkCollisionWithPlayer();
+		this.checkCollisionWithPlayer();
 		this.updateScore();
 
 		// Update UI
