@@ -5,7 +5,7 @@ window.Pipe = (function() {
 	// for 640x420px canvas.
 	var posArr = [-28.5, -24.85, -21.5, -17.85, -14.2, -10.55, -6.9, -3.25, 0.4];
 
-	var SPEED = 25;// * 10 pixels per second
+	var SPEED = 20; // * 10 pixels per second
 	var WIDTH = 16;
 	//var HEIGHT = 30;
 
@@ -38,6 +38,7 @@ window.Pipe = (function() {
 			this.pos.x = INITIAL_POSITION_X + (2 * WIDTH);
 		}
 		this.pos.y = INITIAL_POSITION_Y;
+		pipePassed = false;
 	};
 
 	Pipe.prototype.onFrame = function(delta, hasStarted) {
@@ -54,7 +55,7 @@ window.Pipe = (function() {
 			this.pos.x = INITIAL_POSITION_X;
 			pipePassed = false;
 		}
-		this.checkCollisionWithPlayer();
+		//this.checkCollisionWithPlayer();
 		this.updateScore();
 
 		// Update UI

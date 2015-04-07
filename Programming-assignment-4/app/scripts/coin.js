@@ -51,7 +51,7 @@ window.Coin = (function() {
 	Coin.prototype.updateScore = function() {
 		var difx = Math.abs(this.player.pos.x - this.pos.x);
 		var dify = Math.abs(this.player.pos.y - this.pos.y);
-		if(difx < 1 && dify < 1) {
+		if(difx < 4 && dify < 4) {
 			console.log('COINS');
 			this.player.score++;
 			$('.Score').html(this.player.score);

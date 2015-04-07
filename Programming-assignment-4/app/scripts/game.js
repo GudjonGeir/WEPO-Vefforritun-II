@@ -62,8 +62,8 @@ window.Game = (function() {
 
 		// Update game entities.
 		this.player.onFrame(delta, this.hasStarted);
-		this.ground.onFrame(delta, this.hasStarted);
-		this.cloud.onFrame(delta, this.hasStarted);
+		this.ground.onFrame(delta);
+		this.cloud.onFrame(delta);
 		this.pipe.onFrame(delta, this.hasStarted);
 		this.pipe2.onFrame(delta, this.hasStarted);
 		this.coin.onFrame(delta, this.hasStarted);
@@ -101,13 +101,17 @@ window.Game = (function() {
 	Game.prototype.gameover = function() {
 		this.isPlaying = false;
 
+		if(!Controls.getSoundMuted()){
+			$('.Death').trigger('play');
+		}
+		
 		// Should be refactored into a Scoreboard class.
 		var that = this;
 		var scoreboardEl = this.el.find('.Scoreboard');
 		scoreboardEl
 			.addClass('is-visible')
 			.find('.Scoreboard-restart')
-				.one('click', function() {
+				.one('touchend click', function() {
 					scoreboardEl.removeClass('is-visible');
 					that.start();
 				});

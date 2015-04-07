@@ -5,6 +5,8 @@ window.Controls = (function() {
 	/**
 	 * Key codes we're interested in.
 	 */
+	var soundMuted = false;
+
 	var KEYS = {
 		32: 'space',
 		38: 'up'
@@ -69,6 +71,22 @@ window.Controls = (function() {
 	Controls.prototype.isKeyPressed = function() {
 		return this.keyPressed;
 	};
+
+	Controls.prototype.getSoundMuted = function() {
+		return soundMuted;
+	};
+
+	$('.mute-btn').click(function(){
+		if(soundMuted){
+			soundMuted = false;
+			$('.Audio').trigger('play');
+		}
+		else{
+			soundMuted = true;
+			$('.Audio').trigger('pause');
+		}
+	});
+
 
 	
 	// Export singleton.
