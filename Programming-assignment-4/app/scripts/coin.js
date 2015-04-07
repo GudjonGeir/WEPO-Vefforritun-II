@@ -53,14 +53,10 @@ window.Coin = (function() {
 		var difx = Math.abs(this.player.pos.x - this.pos.x);
 		var dify = Math.abs(this.player.pos.y - this.pos.y);
 		if(difx < 4 && dify < 4) {
-<<<<<<< HEAD
 			//only play coin if sound is not muted
 			if(!Controls.getSoundMuted()){
 				$('.Coin').trigger('play');
 			}
-			console.log('COINS');
-=======
->>>>>>> 3bbf0369c362e27f514172dbeb94299caa9b2ed7
 			this.player.score++;
 			$('.Score').html(this.player.score);
 			var newY = posArr[Math.floor(Math.random() * posArr.length)];
