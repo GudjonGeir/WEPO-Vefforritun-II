@@ -74,11 +74,11 @@ window.Controls = (function() {
 	$('.mute-btn').on('touchstart click',function(){
 		if(soundMuted){
 			soundMuted = false;
-			$('.Audio').trigger('play');
+			$('#Audio').trigger('play');
 		}
 		else{
 			soundMuted = true;
-			$('.Audio').trigger('pause');
+			$('#Audio').trigger('pause');
 		}
 	});
 

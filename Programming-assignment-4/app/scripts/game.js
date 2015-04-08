@@ -103,7 +103,9 @@ window.Game = (function() {
 		this.isPlaying = false;
 
 		if(!Controls.getSoundMuted()){
-			$('.Death').trigger('play');
+			var death = document.getElementById('Death');
+			death.volume = 0.4;
+			$('#Death').trigger('play');
 		}
 		
 		// Should be refactored into a Scoreboard class.

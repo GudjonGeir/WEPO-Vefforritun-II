@@ -26,24 +26,24 @@
 
         <div class="GameCanvas">
             <!-- All audio for the game -->
-            <audio class="Audio" autoplay loop>
-                <source src="/audio/soundtrack.ogg" type="audio/ogg">
-                <source src="/audio/soundtrack.mp4" type="audio/mpeg">
+            <audio id='Audio'  autoplay loop>
+                <source src="audio/soundtrack.ogg" type="audio/ogg">
+                <source src="audio/soundtrack.mp4" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
-            <audio class="Flap">
-                <source src="/audio/raymanUp.ogg" type="audio/ogg">
-                <source src="/audio/raymanUp.mp3" type="audio/mpeg">
+            <audio id='Flap'>
+                <source src="audio/raymanUp.ogg" type="audio/ogg">
+                <source src="audio/raymanUp.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
-            <audio class="Death">
-                <source src="/audio/raymanDeath.ogg" type="audio/ogg">
-                <source src="/audio/raymanDeath.mp3" type="audio/mpeg">
+            <audio id='Death'>
+                <source src="audio/raymanDeath.ogg" type="audio/ogg">
+                <source src="audio/raymanDeath.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
-            <audio class="Coin">
-                <source src="/audio/coin.ogg" type="audio/ogg">
-                <source src="/audio/coin.mp3" type="audio/mpeg">
+            <audio id='Coin'>
+                <source src="audio/coin.ogg" type="audio/ogg">
+                <source src="audio/coin.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
 
@@ -62,6 +62,7 @@
             <div class="Pipe2"></div>
             <div class="Score">0</div>
             <div class="Ground"></div>
+            <div class="Overlay"></div>
             <div class="Scoreboard">
                 <div class="Scoreboard-Score">Score: <span></span></div>
                 <div class="Scoreboard-Highscore">Highscore: <span></span></div>
@@ -71,6 +72,7 @@
                 <!--<button type='button' class='mute-btn' >Mute</button>-->
                 <img src='images/mute.png' class='mute-btn'></img>
             </div>
+
             
         </div>
 

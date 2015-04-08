@@ -191,3 +191,19 @@ background-image: url('../images/rayman-background.png');
 		1px 1px 0 #000;
 }
 
+.Overlay {
+	position: absolute;
+	/*top: 20em;*/
+	width: 40em;
+	height: 70em;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	background-image: url('../images/overlay.png');
+	background-size: 40em 70em;
+	/*background: white;*/
+
+}
+

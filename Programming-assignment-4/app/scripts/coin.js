@@ -55,7 +55,7 @@ window.Coin = (function() {
 		if(difx < 4 && dify < 4) {
 			//only play coin if sound is not muted
 			if(!Controls.getSoundMuted()){
-				$('.Coin').trigger('play');
+				$('#Coin').trigger('play');
 			}
 			this.player.score++;
 			$('.Score').html(this.player.score);

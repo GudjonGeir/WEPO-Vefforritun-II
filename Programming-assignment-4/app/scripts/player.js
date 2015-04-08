@@ -4,7 +4,7 @@ window.Player = (function() {
 	var Controls = window.Controls;
 
 	// All these constants are in em's, multiply by 10 pixels
-	// for 640x420px canvas.
+	// for canvas.
 	var WIDTH = 5;
 	var HEIGHT = 5;
 	var VERTSPEED = 0;
@@ -13,7 +13,6 @@ window.Player = (function() {
 	var op = '+';
 
 	var Player = function(el, game) {
-		console.log('player constructor');
 		this.el = el;
 		this.game = game;
 		this.pos = { x: this.game.WORLD_WIDTH/2 - 8 , y: this.game.WORLD_HEIGHT/2 + 3};
@@ -60,7 +59,9 @@ window.Player = (function() {
 
 					//only play flap if sound is not muted
 					if(!Controls.getSoundMuted()){
-						$('.Flap').trigger('play');
+						var flap = document.getElementById('Flap');
+						flap.volume = 0.1;
+						$('#Flap').trigger('play');
 					}
 					
 				}
@@ -121,6 +122,7 @@ window.Player = (function() {
 			this.el.css('transition', '0.2s');
 			
 		}
+		
 		this.checkCollisionWithBounds();
 
 		this.el.css('transform', 'translateZ(0) translate(' + this.pos.x + 'em, ' + this.pos.y + 'em) rotate(' + (-this.rotate) + 'deg)');
